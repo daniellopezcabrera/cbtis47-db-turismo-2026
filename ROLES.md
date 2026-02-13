@@ -1,4 +1,5 @@
 | Integrante | Ocupación |
+| ---------- | --------- |
 | Johana | The QA / Tester |
 | Michelle | The Query Master |
 | Germán | The SQL Developer |
