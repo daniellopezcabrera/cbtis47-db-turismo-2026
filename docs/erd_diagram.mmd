@@ -1,1 +1,55 @@
 
+erDiagram
+    User ||--o{ Booking : "makes"
+    User {
+        int id_user PK
+        string email
+        string password
+        string role
+    }
+
+    Fligth ||--o{ Booking : "reserved_in"
+    Fligth {
+        int id_flight PK
+        int origin_id FK
+        int dest_id FK
+        float price
+    }
+
+    Trolley ||--o{ Trolley_Schedule : "assigned_to"
+    Trolley {
+        int id_trolley PK
+        string plate_number
+        int capacity
+    }
+
+    Trolley_Schedule }o--|| Trolley_Stop : "stops_at"
+    Trolley_Schedule {
+        int id_schedule PK
+        int id_trolley FK
+        datetime departure_time
+    }
+
+    Trolley_Stop {
+        int id_stop PK
+        int id_route FK
+        string name
+        int order
+    }
+
+    Booking ||--o{ Ticket : "generates"
+    Booking {
+        int id_booking PK
+        int id_user FK
+        float total_price
+        date date
+    }
+
+    Ticket {
+        int id_ticket PK
+        int id_booking FK
+        string Qr_code
+    }
+    
+    %% Relación cruzada entre Booking y Trolley_Schedule observada en el diagrama
+    Booking }o--o{ Trolley_Schedule : "connects"
