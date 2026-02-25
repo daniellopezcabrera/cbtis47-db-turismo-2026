@@ -6,6 +6,7 @@ As a traveler, I want to search, select, and purchase flight tickets for differe
 The system must allow the user to search for flights filtering by origin, destination, dates, and number of passengers. It must display a list of options with updated schedules and prices. Once a flight is selected, the system must facilitate a secure payment process and issue a digital receipt or boarding pass that is automatically sent to the user's email.
 * Priority: 100 *
 * Dependency: None * |
+
 2.- User Story - Tourist (Trolley)
 Story:
 As a tourist, I want to reserve a seat on a specific trolley and at a specific time so that I can ensure my participation in the local sightseeing tour.
