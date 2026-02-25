@@ -15,14 +15,16 @@ As a tourist, I want to reserve a seat on a specific trolley and at a specific t
 The system must display the availability of the different trolleys and their routes. The user must be able to view a seat map of the selected unit and choose their seat. After booking, the system must generate a ticket with a QR code for boarding and allow the visualization of the itinerary with scheduled stops.
  * Priority: 90
  * Dependency: User Registration |
+
 | User Story - Customer (Packages) |
-| -------------------------------|
+| --------------------------------|
 | Story:
 As a customer, I want to purchase packages that combine flights and trolley passes so that I can obtain financial benefits and an integrated travel experience. |
 | Description:
 The system must offer a "Combos" or "Packages" section where, upon purchasing a flight to a specific destination, the reservation of the local tourist trolley is suggested with a discount applied. The system must validate that the trolley dates coincide with the flight stay and allow the management of both services in a single shopping cart.
  * Priority: 80
  * Dependency: 1, 2 |
+
 | User Story - Administrator (Trolley Fleet) |
 |--------------------------|
 | Story:
@@ -31,6 +33,7 @@ As an agency administrator, I want to manage the trolley fleet, their drivers, a
 The system must have a panel where new trolley units can be registered, assigned a maximum passenger capacity, and a driver. It must also allow for the modification or cancellation of departure times in case of maintenance, sending automatic notifications to users who already had a reservation for that specific unit.
  * Priority: 100
  * Dependency: None |
+
 | User Story - Customer Support |
 | ------------------------------|
 Story:
