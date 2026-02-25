@@ -1,4 +1,5 @@
 | User Story - Traveler (Flights) |
+| --------------------------------|
 | Story:
 As a traveler, I want to search, select, and purchase flight tickets for different destinations so that I can organize my transportation efficiently. |
 | Description: 
