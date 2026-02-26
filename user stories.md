@@ -31,7 +31,7 @@ The system must offer a "Combos" or "Packages" section where, upon purchasing a 
 As an agency administrator, I want to manage the trolley fleet, their drivers, and schedules to optimize daily operations and avoid overbooking. |
 | Description:
 The system must have a panel where new trolley units can be registered, assigned a maximum passenger capacity, and a driver. It must also allow for the modification or cancellation of departure times in case of maintenance, sending automatic notifications to users who already had a reservation for that specific unit.
- * Priority: 100
+| * Priority: 100
  * Dependency: None |
 
 | User Story - Customer Support |
