@@ -1,0 +1,77 @@
+erDiagram
+    USER ||--o{ BOOKING : makes
+    USER {
+        int id_user PK
+        string email
+        string password
+        int id_role FK
+    }
+
+    ROLE ||--o{ USER : defines
+    ROLE {
+        int id_role PK
+        string role_name
+    }
+
+    FLIGHT ||--o{ BOOKING : included_in
+    FLIGHT {
+        int id_flight PK
+        int origin_id FK
+        int dest_id FK
+        float price
+    }
+
+    BOOKING ||--|{ TICKET : generates
+    BOOKING {
+        int id_booking PK
+        int id_user FK
+        datetime date
+        string status
+    }
+
+    TICKET {
+        int id_ticket PK
+        int id_booking FK
+        string qr_code
+    }
+
+    TROLLEY ||--o{ TROLLEY_SCHEDULE : assigned_to
+    TROLLEY {
+        int id_trolley PK
+        string plate_number
+        int id_model FK
+    }
+
+    TROLLEY_MODEL ||--o{ TROLLEY : specifies
+    TROLLEY_MODEL {
+        int id_model PK
+        int capacity
+        string model_name
+    }
+
+    TROLLEY_STOP ||--o{ ROUTE_STOP : location
+    TROLLEY_STOP {
+        int id_stop PK
+        string name
+        string coordinates
+    }
+
+    ROUTE ||--|{ ROUTE_STOP : contains
+    ROUTE {
+        int id_route PK
+        string route_name
+    }
+
+    ROUTE_STOP {
+        int id_route FK
+        int id_stop FK
+        int stop_order
+    }
+
+    TROLLEY_SCHEDULE ||--o{ BOOKING : linked_to
+    TROLLEY_SCHEDULE {
+        int id_schedule PK
+        int id_trolley FK
+        int id_route FK
+        datetime departure_time
+    }
