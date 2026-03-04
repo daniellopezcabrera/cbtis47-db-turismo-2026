@@ -1,6 +1,6 @@
 # Data Dictionary
 
-| Category           | Field             | Data Type        | Definition |
+| Table           | Column             | Type        | Description |
 |--------------------|------------------|------------------|------------|
 | Role               | id_role          | int (PK)         | Unique identifier of the role. |
 | Role               | role_name        | string           | Name of the role (e.g., administrator, customer, employee). |
