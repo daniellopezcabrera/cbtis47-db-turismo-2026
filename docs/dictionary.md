@@ -1,9 +1,6 @@
 | Table | Column | Type | Description |
 |-------|--------|------|------------|
-| Role | id_role | INT (PK) | Unique identifier of the role. |
-| Role | role_name | VARCHAR(50) UNIQUE NOT NULL | Name of the role (administrator, customer, employee). |
 | User | id_user | INT (PK) | Unique identifier of the user. |
-| User | email | VARCHAR(100) UNIQUE NOT NULL | User email address (must be unique). |
 | User | password | VARCHAR(255) NOT NULL | Encrypted (hashed) user password. |
 | User | id_role | INT (FK) NOT NULL | Role assigned to the user (references Role.id_role). |
 | Location | id_location | INT (PK) | Unique identifier of the location. |
