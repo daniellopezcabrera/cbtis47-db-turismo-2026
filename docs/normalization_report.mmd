@@ -2,15 +2,8 @@ erDiagram
     USER ||--o{ BOOKING : makes
     USER {
         int id_user PK
-        string email
         string password
         int id_role FK
-    }
-
-    ROLE ||--o{ USER : defines
-    ROLE {
-        int id_role PK
-        string role_name
     }
 
     FLIGHT ||--o{ BOOKING : included_in
