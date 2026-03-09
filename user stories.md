@@ -43,7 +43,7 @@ The system must send push alerts or emails if there are flight delays or changes
 | * Priority: 70 |
 | * Dependency: 1, 2, 4 |
 
-| Category | User Story & Acceptance Criteria: Flight & Tram Booking System |
+| Category | Acceptance Criteria |
 | :--- | :--- |
 | **User Story** | **As a traveler,** I want to search, select, and purchase flight tickets and reserve tram transfers **so that** I can organize my transportation efficiently. |
 | **Acceptance Criteria (Flights)** | • **Search:** Allow input of origin, destination, dates, and passengers; results must include schedules, airline, duration, and prices. <br> • **Selection:** Display a detailed summary (flight, date, price) and require confirmation before payment. <br> • **Payment & Issuance:** Offer secure payment methods (Credit/Debit) and generate a digital receipt with a reservation code. <br> • **Seat Selection:** Enable choosing a specific seat with real-time availability. |
