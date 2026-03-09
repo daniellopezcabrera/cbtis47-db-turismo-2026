@@ -1,22 +1,37 @@
 erDiagram
+
     USER ||--o{ BOOKING : makes
+
     USER {
         int id_user PK
+        string email
         string password
+        int id_role FK
+    }
+
+    LOCATION ||--o{ FLIGHT : origin
+    LOCATION ||--o{ FLIGHT : destination
+
+    LOCATION {
+        int id_location PK
+        string location_name
     }
 
     FLIGHT ||--o{ BOOKING : included_in
+
     FLIGHT {
         int id_flight PK
         int origin_id FK
         int dest_id FK
-        float price
+        decimal price
     }
 
     BOOKING ||--|{ TICKET : generates
+
     BOOKING {
         int id_booking PK
         int id_user FK
+        int id_flight FK
         datetime date
         string status
     }
@@ -27,31 +42,35 @@ erDiagram
         string qr_code
     }
 
-    TROLLEY ||--o{ TROLLEY_SCHEDULE : assigned_to
-    TROLLEY {
-        int id_trolley PK
-        string plate_number
-        int id_model FK
-    }
-
     TROLLEY_MODEL ||--o{ TROLLEY : specifies
+
     TROLLEY_MODEL {
         int id_model PK
         int capacity
         string model_name
     }
 
+    TROLLEY ||--o{ TROLLEY_SCHEDULE : assigned_to
+
+    TROLLEY {
+        int id_trolley PK
+        string plate_number
+        int id_model FK
+    }
+
+    ROUTE ||--|{ ROUTE_STOP : contains
+
+    ROUTE {
+        int id_route PK
+        string route_name
+    }
+
     TROLLEY_STOP ||--o{ ROUTE_STOP : location
+
     TROLLEY_STOP {
         int id_stop PK
         string name
         string coordinates
-    }
-
-    ROUTE ||--|{ ROUTE_STOP : contains
-    ROUTE {
-        int id_route PK
-        string route_name
     }
 
     ROUTE_STOP {
@@ -60,7 +79,6 @@ erDiagram
         int stop_order
     }
 
-    TROLLEY_SCHEDULE ||--o{ BOOKING : linked_to
     TROLLEY_SCHEDULE {
         int id_schedule PK
         int id_trolley FK
