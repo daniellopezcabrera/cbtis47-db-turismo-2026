@@ -43,7 +43,7 @@ The system must send push alerts or emails if there are flight delays or changes
 | * Priority: 70 |
 | * Dependency: 1, 2, 4 |
 
-| Category | Acceptance Criteria (User Story: Flight & Tram Booking) |
+| Category | Acceptance Criteria |
 | :--- | :--- |
 | **Flight Search & Selection** | • **Search:** Allow input of origin, destination, dates, and number of passengers. <br> • **Results:** Must display updated schedules, airline, duration, and current prices. <br> • **Summary:** Show a full summary (route, date, price, pax) and require user confirmation before payment. |
 | **Tram Services** | • **Routes:** Display a list of available trams with full itineraries and scheduled stops. <br> • **Availability:** Show a clear "Not Available" message if the date/time is full or unavailable. <br> • **Booking:** Register the reservation in the DB and generate a digital ticket with a reserved seat. |
