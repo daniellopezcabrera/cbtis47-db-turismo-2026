@@ -42,3 +42,11 @@ As a user, I want to receive real-time notifications about changes to my flight 
 The system must send push alerts or emails if there are flight delays or changes to the trolley departure point. Additionally, it must allow the user to check the status of their reservation at any time from their personal profile.
 | * Priority: 70 |
 | * Dependency: 1, 2, 4 |
+
+| Category | User Story & Acceptance Criteria: Flight & Tram Booking System |
+| :--- | :--- |
+| **User Story** | **As a traveler,** I want to search, select, and purchase flight tickets and reserve tram transfers **so that** I can organize my transportation efficiently. |
+| **Acceptance Criteria (Flights)** | • **Search:** Allow input of origin, destination, dates, and passengers; results must include schedules, airline, duration, and prices. <br> • **Selection:** Display a detailed summary (flight, date, price) and require confirmation before payment. <br> • **Payment & Issuance:** Offer secure payment methods (Credit/Debit) and generate a digital receipt with a reservation code. <br> • **Seat Selection:** Enable choosing a specific seat with real-time availability. |
+| **Acceptance Criteria (Tram)** | • **Routes:** Display a list of available trams, schedules, routes, and full itineraries with scheduled stops. <br> • **Availability:** Block reservations if the unit's maximum capacity is reached; show a "Not Available" message. <br> • **Booking:** Register the reservation in the database and generate a digital ticket for immediate download. |
+| **Validations & Integration** | • **Integrated Cart:** Manage both flight and tram services in a single shopping cart; allow modifications/removals before checkout. <br> • **Date Sync:** System must verify that tram dates align with the flight stay; show error or adjustment suggestion if they don't. <br> • **Admin Management:** Allow admins to register units (ID and capacity) and manage schedules without overbooking. |
+| **Status Inquiry** | • **User Profile:** Users must be able to access their profile to see updated status (Gate for flights, Meeting Point for trams). <br> • **Updates:** If no changes occur, display a "No modifications" message. |
