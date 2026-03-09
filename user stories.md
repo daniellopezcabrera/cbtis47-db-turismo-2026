@@ -42,13 +42,3 @@ As a user, I want to receive real-time notifications about changes to my flight 
 The system must send push alerts or emails if there are flight delays or changes to the trolley departure point. Additionally, it must allow the user to check the status of their reservation at any time from their personal profile.
 | * Priority: 70 |
 | * Dependency: 1, 2, 4 |
-
-| Category | Acceptance Criteria |
-| :--- | :--- |
-| **Flight Search & Selection** | • **Search:** Allow input of origin, destination, dates, and number of passengers. <br> • **Results:** Must display updated schedules, airline, duration, and current prices. <br> • **Summary:** Show a full summary (route, date, price, pax) and require user confirmation before payment. |
-| **Tram Services** | • **Routes:** Display a list of available trams with full itineraries and scheduled stops. <br> • **Availability:** Show a clear "Not Available" message if the date/time is full or unavailable. <br> • **Booking:** Register the reservation in the DB and generate a digital ticket with a reserved seat. |
-| **Seats & Cart** | • **Seat Selection:** Users must be able to pick a specific seat and see real-time availability. <br> • **Integrated Cart:** Manage both flight and tram services in a single cart; allow modifying or deleting items before checkout. |
-| **Payment & Issuance** | • **Secure Payment:** Offer Credit/Debit card options and other secure methods. <br> • **Confirmation:** Issue a digital receipt/boarding pass immediately after payment. <br> • **Details:** Documents must include reservation code, flight/tram data, and payment details. |
-| **Admin & Management** | • **Units:** Admin can register new trams with ID and maximum capacity. <br> • **Schedules:** Admin can create, modify, or cancel departure times. <br> • **Overbooking:** System must block new reservations if capacity is reached or if a unit is in maintenance. |
-| **Validations & Status** | • **Date Sync:** System must verify that tram dates match the flight stay; otherwise, show an error or suggestion. <br> • **User Profile:** Users can check real-time status (Gate for flights, Meeting Point for trams) in their profile. |
-
