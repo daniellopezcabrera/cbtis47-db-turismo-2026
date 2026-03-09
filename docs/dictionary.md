@@ -2,7 +2,6 @@
 |-------|--------|------|------------|
 | User | id_user | INT (PK) | Unique identifier of the user. |
 | User | password | VARCHAR(255) NOT NULL | Encrypted (hashed) user password. |
-| User | id_role | INT (FK) NOT NULL | Role assigned to the user (references Role.id_role). |
 | Location | id_location | INT (PK) | Unique identifier of the location. |
 | Location | location_name | VARCHAR(100) NOT NULL | Name of the city or airport. |
 | Flight | id_flight | INT (PK) | Unique identifier of the flight. |
