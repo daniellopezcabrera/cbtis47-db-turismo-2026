@@ -4,15 +4,6 @@ This document describes the relational database structure with integrity constra
 
 ---
 
-## ROLE
-
-| Table | Column     | Type            | Description |
-|-------|------------|----------------|------------|
-| Role  | id_role    | INT (PK)       | Unique identifier of the role. |
-| Role  | role_name  | VARCHAR(50) UNIQUE NOT NULL | Name of the role (administrator, customer, employee). |
-
----
-
 ## USER
 
 | Table | Column    | Type | Description |
@@ -20,7 +11,6 @@ This document describes the relational database structure with integrity constra
 | User  | id_user  | INT (PK) | Unique identifier of the user. |
 | User  | email    | VARCHAR(100) UNIQUE NOT NULL | User email address (must be unique). |
 | User  | password | VARCHAR(255) NOT NULL | Encrypted user password (hashed). |
-| User  | id_role  | INT (FK) NOT NULL | Role assigned to the user (references Role.id_role). |
 
 ---
 
