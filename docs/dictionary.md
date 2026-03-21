@@ -10,7 +10,7 @@ This document describes the relational database structure with integrity constra
 |-------|----------|------|------------|
 | User  | id_user  | INT (PK) | Unique identifier of the user. |
 | User  | email    | VARCHAR(100) UNIQUE NOT NULL | User email address (must be unique). |
-| User  | password | VARCHAR(255) NOT NULL | Encrypted user password (hashed). |
+| User  | password | VARCHAR(15) NOT NULL | Encrypted user password (hashed). |
 
 ---
 
