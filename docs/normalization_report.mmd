@@ -2,16 +2,28 @@ erDiagram
 
     USER ||--o{ BOOKING : makes
 
+
     USER {
         int id_user PK
         string email
+        stirng user_name
         string password
     }
+%% One PERSON  can have a one user
+   PERSON ||--|| USER  : register
 
-    LOCATION ||--o{ FLIGHT : origin
-    LOCATION ||--o{ FLIGHT : destination
+    PERSON{
+        int id_user PK,FK
+        string NAME(S)
+        string LAST_NAMES
+        varchar CURP
+        string birth_date
+            }
 
-    LOCATION {
+   DATA_FLIGHT ||--o{ FLIGHT : origin
+    DATA_FLIGHT||--o{ FLIGHT : destination
+
+    DATA_FLIGHT {
         int id_location PK
         string location_name
     }
