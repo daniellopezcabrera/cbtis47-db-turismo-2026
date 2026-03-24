@@ -1,15 +1,15 @@
 erDiagram
-
     USER ||--o{ BOOKING : makes
 
-
+%% A user can have many reservations
+%% Many reservation are of the user
     USER {
         int id_user PK
         string email
         stirng user_name
         string password
     }
-%% One PERSON  can have a one user
+%% One PERSON can have a one user
    PERSON ||--|| USER  : register
 
     PERSON{
@@ -20,23 +20,41 @@ erDiagram
         string birth_date
             }
 
-   DATA_FLIGHT ||--o{ FLIGHT : origin
-    DATA_FLIGHT||--o{ FLIGHT : destination
+   LOCATION ||--o{ FLIGHT : origin
+    LOCATION||--o{ FLIGHT : destination
 
-    DATA_FLIGHT {
+    LOCATION {
         int id_location PK
-        string location_name
+        string  city_name
+        string  airport_name
+        string  airport_code
     }
-
+    
     FLIGHT ||--o{ BOOKING : included_in
-
+%%int origin_id FK --> location.id_location -- departure place
+ %%int origin_id FK --> location.id_location -- arrival place   
     FLIGHT {
         int id_flight PK
+        varchar flight_name
         int origin_id FK
         int dest_id FK
-        decimal price
+     detame departure_time
+     detame arrival_time
+     int total_seats
+     int base_prices
     }
-
+    
+    SEATS_RESERVATION }o--||FLIGHT:seats_in
+%% satus (confirmed, pending, expired, cancelled)
+SEATS_RESERVATION{
+     int id_seat PK
+     int id_flight FK
+     int id_booking FK
+     varchar seat_number
+     string expires_at
+     string selected_at
+     int status 
+}
     BOOKING ||--|{ TICKET : generates
 
     BOOKING {
