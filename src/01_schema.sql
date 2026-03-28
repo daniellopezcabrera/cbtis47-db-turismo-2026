@@ -1,49 +1,49 @@
 CREATE TABLE user (
-          id_user INT PRIMARY KEY AUTO_INCREMENT,
-          password VARCHAR(255) NOT NULL
+          id_user SERIAL PRIMARY KEY,
+          password VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE location (
-          id_location INT PRIMARY KEY AUTO_INCREMENT,
-          location_name VARCHAR(100) NOT NULL
+          id_location SERIAL PRIMARY KEY,
+          location_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE flight (
-          id_flight INT PRIMARY KEY AUTO_INCREMENT,
-          origin_id INT NOT NULL,
-          dest_id INT NOT NULL,
+          id_flight SERIAL PRIMARY KEY,
+          origin_id INTEGER NOT NULL,
+          dest_id INTEGER NOT NULL,
           price DECIMAL(10,2) NOT NULL CHECK (price > 0),
           FOREIGN KEY (origin_id) REFERENCES location(id_location),
           FOREIGN KEY (dest_id) REFERENCES location(id_location)
 );
 
 CREATE TABLE booking (
-          id_booking INT PRIMARY KEY AUTO_INCREMENT,
-          id_user INT NOT NULL,
-          id_flight INT NOT NULL,
-          date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          status VARCHAR(20) NOT NULL CHECK (status IN ('confirmed', 'canceled', 'pending')),
-          FOREIGN KEY (id_user) REFERENCES location (id_location),
+          id_booking SERIAL PRIMARY KEY,
+          id_user INTEGER NOT NULL,
+          id_flight INTEGER NOT NULL,
+          date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          status VARCHAR(10) NOT NULL CHECK (status IN ('confirmed', 'canceled', 'pending')),
+          FOREIGN KEY (id_user) REFERENCES users (id_user),
           FOREIGN KEY (id_flight) REFERENCES flight (id_flight)
 );
 
 CREATE TABLE ticket (
-          id_ticket INT PRIMARY KEY AUTO_INCREMENT,
-          id_booking INT NOT NULL,
-          qr_code VARCHAR(255) UNIQUE NOT NULL,
+          id_ticket SERIAL PRIMARY KEY,
+          id_booking INTEGER NOT NULL,
+          qr_code VARCHAR(100) UNIQUE NOT NULL,
           FOREIGN KEY (id_booking) REFERENCES booking (id_booking)
 );
 
 CREATE TABLE trolley_model (
-          id_model INT PRIMARY KEY AUTO_INCREMENT,
-          capacity INT NOT NULL CHECK (capacity > 0),
-          model_name VARCHAR(100) NOT NULL
+          id_model SERIAL PRIMARY KEY,
+          capacity SMALLINT NOT NULL CHECK (capacity > 0),
+          model_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE trolley (
-          id_trolley INT PRIMARY KEY AUTO_INCREMENT,
-          plate_number VARCHAR(20) UNIQUE NOT NULL,
-          id_model INT NOT NULL,
+          id_trolley SERIAL PRIMARY KEY,
+          plate_number VARCHAR(12) UNIQUE NOT NULL,
+          id_model INTEGER NOT NULL,
           FOREIGN KEY (id_model) REFERENCES trolley_model (id_model)
 );
 
