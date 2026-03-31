@@ -6,7 +6,7 @@ erDiagram
     USER {
         int id_user PK
         string email
-        stirng user_name
+        string user_name
         string password
     }
 %% One PERSON can have a one user
@@ -38,8 +38,8 @@ erDiagram
         varchar flight_name
         int origin_id FK
         int dest_id FK
-     detame departure_time
-     detame arrival_time
+     datetime departure_time
+     datetime arrival_time
      int total_seats
      int base_prices
     }
