@@ -1,68 +1,60 @@
 erDiagram
-    USER ||--o{ BOOKING : makes
+    USER ||--o{ FLIGHT_BOOKING : makes
+    USER ||--o{ TROLLEY_BOOKING : makes
 
-%% A user can have many reservations
-%% Many reservation are of the user
     USER {
         int id_user PK
         string email
         string user_name
         string password
     }
-%% One PERSON can have a one user
-   PERSON ||--|| USER  : register
 
-    PERSON{
-        int id_user PK,FK
-        string NAME(S)
-        string LAST_NAMES
-        varchar CURP
+    PERSON ||--|| USER : register
+
+    PERSON {
+        int id_user PK, FK
+        string name
+        string last_names
+        varchar curp
         string birth_date
-            }
-
-   LOCATION ||--o{ FLIGHT : origin
-    LOCATION||--o{ FLIGHT : destination
-
-    LOCATION {
-        int id_location PK
-        string  city_name
-        string  airport_name
-        string  airport_code
     }
-    
-    FLIGHT ||--o{ BOOKING : included_in
-%%int origin_id FK --> location.id_location -- departure place
- %%int origin_id FK --> location.id_location -- arrival place   
+
+    %% AIRPORT replaces LOCATION
+    AIRPORT ||--o{ FLIGHT : origin
+    AIRPORT ||--o{ FLIGHT : destination
+
+    AIRPORT {
+        int id_airport PK
+        varchar city_name
+        varchar airport_name
+        varchar airport_code
+    }
+
     FLIGHT {
         int id_flight PK
+        varchar flight_number
         varchar flight_name
-        int origin_id FK
-        int dest_id FK
-     datetime departure_time
-     datetime arrival_time
-     decimal base_price
+        int origin_airport_id FK
+        int dest_airport_id FK
+        date flight_date
+        time departure_time
+        time arrival_time
+        decimal base_price
+        enum status
     }
-    
-    SEATS_RESERVATION }o--||FLIGHT:seats_in
-%% satus (confirmed, pending, expired, cancelled)
-SEATS_RESERVATION{
-     int id_seat PK
-     int id_flight FK
-     int id_booking FK
-     varchar seat_number
-     string expires_at
-     string selected_at
-     int status 
-}
-    BOOKING ||--|{ TICKET : generates
 
-    BOOKING {
+    FLIGHT ||--o{ FLIGHT_BOOKING : booked_in
+
+    FLIGHT_BOOKING {
         int id_booking PK
         int id_user FK
         int id_flight FK
-        datetime date
-        string status
+        datetime booking_date
+        enum status
     }
+
+    %% Tickets now linked to flight booking
+    FLIGHT_BOOKING ||--|{ TICKET : generates
 
     TICKET {
         int id_ticket PK
@@ -70,7 +62,9 @@ SEATS_RESERVATION{
         string qr_code
     }
 
-    TROLLEY ||--o{ TROLLEY_SCHEDULE : assigned_to
+    %% -------- TROLLEY SYSTEM --------
+
+    TROLLEY ||--o{ TROLLEY_TRIP : assigned_to
 
     TROLLEY {
         int id_trolley PK
@@ -79,6 +73,7 @@ SEATS_RESERVATION{
     }
 
     ROUTE ||--|{ ROUTE_STOP : contains
+    ROUTE ||--o{ TROLLEY_ROUTE_SCHEDULE : has
 
     ROUTE {
         int id_route PK
@@ -100,9 +95,39 @@ SEATS_RESERVATION{
         int stop_order
     }
 
-    TROLLEY_SCHEDULE {
-        int id_schedule PK
-        int id_trolley FK
+    %% New schedule tables
+    TROLLEY_ROUTE_SCHEDULE ||--o{ SCHEDULE_DAY : occurs_on
+    TROLLEY_ROUTE_SCHEDULE ||--o{ TROLLEY_TRIP : generates
+
+    TROLLEY_ROUTE_SCHEDULE {
+        int id_route_schedule PK
         int id_route FK
-        datetime departure_time
+        time departure_time
+        time arrival_time
+    }
+
+    SCHEDULE_DAY {
+        int id_schedule_day PK
+        int id_route_schedule FK
+        enum day_of_week
+    }
+
+    TROLLEY_TRIP ||--o{ TROLLEY_BOOKING : reserved_in
+
+    TROLLEY_TRIP {
+        int id_trip PK
+        int id_route_schedule FK
+        int id_trolley FK
+        date trip_date
+        enum status
+    }
+
+    TROLLEY_BOOKING {
+        int id_booking PK
+        int id_user FK
+        int id_trip FK
+        int boarding_stop_id FK
+        int alighting_stop_id FK
+        datetime booking_date
+        enum status
     }
