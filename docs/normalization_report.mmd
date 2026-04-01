@@ -70,6 +70,13 @@ SEATS_RESERVATION{
         string qr_code
     }
 
+    TROLLEY_MODEL ||--o{ TROLLEY: specifies
+
+    TROLLEY_MODEL{
+        int id_model PK
+        int capacity
+        string model_name
+
     TROLLEY ||--o{ TROLLEY_SCHEDULE : assigned_to
 
     TROLLEY {
