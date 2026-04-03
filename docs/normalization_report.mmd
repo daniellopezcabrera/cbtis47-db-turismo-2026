@@ -1,4 +1,4 @@
-erDiagram
+    erDiagram
     USER ||--o{ FLIGHT_BOOKING : makes
     USER ||--o{ TROLLEY_BOOKING : makes
 
@@ -19,7 +19,8 @@ erDiagram
         string birth_date
     }
 
-    %% AIRPORT replaces LOCATION
+    %% -------- AIRPORT / FLIGHTS --------
+
     AIRPORT ||--o{ FLIGHT : origin
     AIRPORT ||--o{ FLIGHT : destination
 
@@ -53,7 +54,6 @@ erDiagram
         enum status
     }
 
-    %% Tickets now linked to flight booking
     FLIGHT_BOOKING ||--|{ TICKET : generates
 
     TICKET {
@@ -80,22 +80,26 @@ erDiagram
         string route_name
     }
 
-    TROLLEY_STOP ||--o{ ROUTE_STOP : location
+    %% BUS_STATION replaces TROLLEY_STOP
+    BUS_STATION ||--o{ ROUTE_STOP : part_of
 
-    TROLLEY_STOP {
-        int id_stop PK
-        string name
+    BUS_STATION {
+        int id_station PK
+        varchar city_name
+        varchar station_name
+        varchar station_code
         string coordinates
     }
 
     ROUTE_STOP {
         int id_route_stop PK
         int id_route FK
-        int id_stop FK
+        int id_station FK
         int stop_order
     }
 
-    %% New schedule tables
+    %% -------- SCHEDULE --------
+
     TROLLEY_ROUTE_SCHEDULE ||--o{ SCHEDULE_DAY : occurs_on
     TROLLEY_ROUTE_SCHEDULE ||--o{ TROLLEY_TRIP : generates
 
@@ -111,6 +115,8 @@ erDiagram
         int id_route_schedule FK
         enum day_of_week
     }
+
+    %% -------- TRIPS & BOOKINGS --------
 
     TROLLEY_TRIP ||--o{ TROLLEY_BOOKING : reserved_in
 
