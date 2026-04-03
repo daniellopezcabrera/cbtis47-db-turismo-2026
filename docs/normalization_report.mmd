@@ -4,19 +4,19 @@
 
     USER {
         int id_user PK
-        string email
-        string user_name
-        string password
+        varchar email
+        varchar user_name
+        varchar password
     }
 
     PERSON ||--|| USER : register
 
     PERSON {
         int id_user PK, FK
-        string name
-        string last_names
+        varchar name
+        varchar last_names
         varchar curp
-        string birth_date
+        date birth_date
     }
 
     %% -------- AIRPORT / FLIGHTS --------
@@ -69,14 +69,14 @@
     TROLLEY_MODEL{
         int id_model PK
         int capacity
-        string model_name
+        varchar model_name
     }
 
     TROLLEY ||--o{ TROLLEY_TRIP : assigned_to
 
     TROLLEY {
         int id_trolley PK
-        string plate_number
+        varchar plate_number
         int id_model FK
     }
 
@@ -85,7 +85,7 @@
 
     ROUTE {
         int id_route PK
-        string route_name
+        varchar route_name
     }
 
     %% BUS_STATION replaces TROLLEY_STOP
@@ -96,7 +96,7 @@
         varchar city_name
         varchar station_name
         varchar station_code
-        string coordinates
+        varchar coordinates
     }
 
     ROUTE_STOP {
