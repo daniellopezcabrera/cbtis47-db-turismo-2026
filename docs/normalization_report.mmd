@@ -46,15 +46,15 @@
         enum status
     }
 
-SEATS_RESERVATION }o--||FLIGHT:seats_in
+BOOKING_SEAT }o--||FLIGHT:seats_in
 %% status (confirmed, pending, expired, cancelled)
-SEATS_RESERVATION{
+BOOKING_SEAT{
      int id_seat PK
      int id_flight FK
      int id_booking FK
      varchar seat_number
-     string expires_at
-     string selected_at
+     varchar expires_at
+     varchar selected_at
      int status 
 }
 
