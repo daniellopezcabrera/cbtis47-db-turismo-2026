@@ -135,6 +135,8 @@
         enum status
     }
 
+    TROLLEY_BOOKING ||--|{ TICKET : generates
+
     TROLLEY_BOOKING {
         int id_booking PK
         int id_user FK
