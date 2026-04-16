@@ -4,7 +4,6 @@
 
     USER {
         int id_user PK
-        varchar email
         varchar user_name
         varchar password
     }
@@ -17,6 +16,7 @@
         varchar last_names
         varchar curp
         date birth_date
+        varchar email
     }
 
     %% -------- AIRPORT / FLIGHTS --------
@@ -37,6 +37,8 @@
         varchar flight_name
         int origin_airport_id FK
         int dest_airport_id FK
+        varchar origin_city
+        varchar destination_city
         date flight_date
         time departure_time
         time arrival_time
@@ -50,6 +52,7 @@
         int id_booking PK
         int id_user FK
         int id_flight FK
+        int number_of_seats
         datetime booking_date
         enum status
     }
@@ -59,6 +62,9 @@
     TICKET {
         int id_ticket PK
         int id_booking FK
+        datetime booking_date
+        varchar passenger_full_name
+        decimal ticket_price
     }
 
     %% -------- TROLLEY SYSTEM --------
@@ -131,7 +137,12 @@
         int id_trip PK
         int id_route_schedule FK
         int id_trolley FK
+        int origin_station_id FK
+        int dest_station_id FK
         date trip_date
+        time departure_time
+        time arrival_time
+        decimal base_price
         enum status
     }
 
@@ -143,6 +154,7 @@
         int id_trip FK
         int boarding_stop_id FK
         int alighting_stop_id FK
+        int number_of_seats
         datetime booking_date
         enum status
     }
