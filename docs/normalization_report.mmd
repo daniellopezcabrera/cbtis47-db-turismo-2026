@@ -1,29 +1,23 @@
     erDiagram
-    USER ||--o{ FLIGHT_BOOKING : makes
-    USER ||--o{ TROLLEY_BOOKING : makes
-
-    USER {
-        int id_user PK
-        varchar user_name
-        varchar password
-    }
-
     PERSON ||--|| USER : register
 
     PERSON {
-        int id_person PK, FK
+        int id_person PK
         varchar name
         varchar last_names
         varchar curp
         date birth_date
         varchar email
     }
-%% --- SECCIÓN DE TRABAJADORES ---
 
-OCCUPATION {
-    int id_occupation PK
-    varchar name
-}
+USER ||--o{ FLIGHT_BOOKING : makes
+    USER ||--o{ TROLLEY_BOOKING : makes
+
+    USER {
+        int id_person PK, FK
+        varchar user_name
+        varchar password
+    }
 
 EMPLOYEE {
     int id_person PK, FK
@@ -31,10 +25,15 @@ EMPLOYEE {
     int id_occupation FK
 }
 
-%% Relación: Una persona "es" un empleado (1 a 1)
+OCCUPATION {
+    int id_occupation PK
+    varchar name
+}
+
+%% Relation: A person "is" an employee
 PERSON ||--|| EMPLOYEE : is
 
-%% Relación: Una ocupación es "llenada" por muchos empleados (1 a N)
+%% Relación: An ocupetion is "filled" by many employees
 OCCUPATION ||--o{ EMPLOYEE : fills
 
     %% -------- AIRPORT / FLIGHTS --------
