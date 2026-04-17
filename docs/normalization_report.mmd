@@ -31,20 +31,38 @@
         varchar airport_code
     }
 
-    FLIGHT {
-        int id_flight PK
-        varchar flight_number
-        varchar flight_name
-        int origin_airport_id FK
-        int dest_airport_id FK
-        varchar origin_city
-        varchar destination_city
-        date flight_date
-        time departure_time
-        time arrival_time
-        decimal base_price
-        enum status
-    }
+    AIRPLANE_MODEL {
+    int id_airplane_model PK
+    int capacity
+    varchar model_name
+}
+
+AIRPLANE_MODEL ||--o{ AIRPLANE : "specifies"
+
+AIRPLANE {
+    int id_airplane PK
+    varchar registration_number
+    int id_airplane_model FK
+    enum status
+}
+
+FLIGHT {
+    int id_flight PK
+    varchar flight_number
+    varchar flight_name
+    int origin_airport_id FK
+    int dest_airport_id FK
+    varchar origin_city
+    varchar destination_city
+    int id_airplane FK
+    date flight_date
+    time departure_time
+    time arrival_time
+    decimal base_price
+    enum status
+}
+
+AIRPLANE ||--o{ FLIGHT : "assigned to"
 
 BOOKING_SEAT }o--||FLIGHT:seats_in
 %% status (confirmed, pending, expired, cancelled)
