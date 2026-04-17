@@ -18,6 +18,24 @@
         date birth_date
         varchar email
     }
+%% --- SECCIÓN DE TRABAJADORES ---
+
+OCCUPATION {
+    int id_occupation PK
+    varchar name
+}
+
+EMPLOYEE {
+    int id_person PK, FK
+    varchar rfc
+    int id_occupation FK
+}
+
+%% Relación: Una persona "es" un empleado (1 a 1)
+PERSON ||--|| EMPLOYEE : is
+
+%% Relación: Una ocupación es "llenada" por muchos empleados (1 a N)
+OCCUPATION ||--o{ EMPLOYEE : fills
 
     %% -------- AIRPORT / FLIGHTS --------
 
