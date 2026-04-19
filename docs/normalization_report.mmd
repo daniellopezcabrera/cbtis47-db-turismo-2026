@@ -84,12 +84,12 @@ AIRPLANE ||--o{ FLIGHT : "assigned to"
 BOOKING_SEAT }o--||FLIGHT:seats_in
 %% status (confirmed, pending, expired, cancelled)
 BOOKING_SEAT{
-     int id_seat PK
-     int id_flight FK
+     int id_booking_seat PK
      int id_booking FK
+     int id_flight FK
      varchar seat_number
-     datetime expires_at
      datetime selected_at
+     datetime expires_at
      enum status 
 }
 
