@@ -25,7 +25,7 @@ To develop a functional web application that automates the process of booking to
 | Database and authentication | Supabase (PostgreSQL) |
 | Frontend | HTML5, CSS3, JavaScript |
 | PDF generation | JS library (e.g. jsPDF) |
-| Version control | To be defined (e.g. GitHub) |
+| Version control |  GitHub |
 
 ---
 
