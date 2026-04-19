@@ -52,11 +52,11 @@ After payment is confirmed, the system will allow the user to download a PDF tic
 
 | Name | Role |
 |---|---|
-| López Cabrera Daniel | [Role] |
-| García Sánchez German | [Role] |
-| Cueto Madrigal Michelle | [Role] |
-| Cruz Estrada Johana Elena | [Role] |
-| Roldan Barrera Edson Yalan | [Role] |
+| López Cabrera Daniel | Analist & Designer |
+| García Sánchez German | SQL Developer |
+| Cueto Madrigal Michelle | Query Master  |
+| Cruz Estrada Johana Elena | SQL Tester |
+| Roldan Barrera Edson Yalan | DBA (database administrator |
 
 ---
 
