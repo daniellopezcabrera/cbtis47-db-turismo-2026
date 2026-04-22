@@ -206,4 +206,23 @@ BOOKING_SEAT{
         datetime booking_date
         enum status
     }
-  
+
+    USER ||--o{ PAYMENT : "makes"
+    FLIGHT_BOOKING ||--o| PAYMENT : "paid with"
+    TROLLEY_BOOKING ||--o| PAYMENT : "paid with"
+    
+    PAYMENT {
+        int id_payment PK
+        int id_user FK
+        int id_flight_booking FK
+        int id_trolley_booking FK
+        enum payment_method
+        decimal amount
+        decimal amount_received
+        decimal change_given
+        enum payment_status
+        datetime payment_date
+        varchar reference_number
+        varchar card_last_four
+        text notes
+    }
