@@ -254,7 +254,7 @@ Non-functional requirements define **how well the system must perform** — qual
  
 **NFR-23.** The system is designed and tested for use on modern Chromium-based browsers (Google Chrome, Microsoft Edge). Compatibility with other browsers such as Firefox or Safari is not guaranteed in this version.
 
-**NFR-24.**The system will not allow flights or trolleybuses to be registered on past dates or times; it will send an error message.
+**NFR-24.** The system will not allow flights or trolleybuses to be registered on past dates or times; it will send an error message.
 ---
 
 ## 3. General Description
@@ -724,8 +724,7 @@ The application name is defined in the `<title>` tag inside the `<head>`
 section of each HTML file. This name appears in the browser tab and in 
 the browser history.
 
-```html
----
+
 
 ## 9. Data Structure (Entity-Relationship Diagram)
 
