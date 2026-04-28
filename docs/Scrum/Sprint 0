@@ -1,0 +1,120 @@
+# Sprint 0 — Flygth With You
+**Período:** Febrero 2026
+**Institución:** CBTis 47
+**Metodología:** Scrum
+
+---
+
+## 1. Objetivo del Sprint 0
+
+Definir el alcance general del proyecto, formar el equipo de trabajo, establecer los primeros acuerdos de colaboración e identificar las áreas funcionales que se desarrollarán a lo largo del proyecto.
+
+Este sprint es exclusivamente de **planeación**. No se escribe código ni se realizan pruebas. El entregable es un equipo alineado con una visión clara de lo que se va a construir.
+
+---
+
+## 2. Equipo de trabajo
+
+| Nombre | Rol |
+|---|---|
+| López Cabrera Daniel | Product Owner / Analista & Diseñador |
+| García Sánchez German | Scrum Master / SQL Developer |
+| Cueto Madrigal Michelle | Developer — Query Master |
+| Cruz Estrada Johana Elena | Developer — SQL Tester |
+| Roldan Barrera Edson Yalan | Developer — DBA |
+
+---
+
+## 3. Descripción general del proyecto
+
+### Nombre
+**Flygth With You**
+
+### ¿Qué es?
+Un sistema web de reservación turística desarrollado para una agencia. Permitirá a los usuarios registrarse, buscar y reservar vuelos o rutas de trolebús turístico, realizar un pago simulado y obtener un ticket descargable en PDF.
+
+### ¿Para quién?
+Usuarios de una agencia de turismo que actualmente realizan sus reservaciones de forma manual. El sistema busca automatizar ese proceso y mejorar la experiencia del usuario final.
+
+### Objetivo del producto
+Desarrollar una aplicación web funcional que automatice el proceso de reservación de servicios turísticos, desde el registro del usuario hasta la emisión del comprobante de pago, asegurando una experiencia simple y accesible.
+
+---
+
+## 4. Tecnologías seleccionadas
+
+| Componente | Tecnología | Razón |
+|---|---|---|
+| Frontend | HTML5, CSS3, JavaScript | Sin frameworks — compatibilidad con el entorno del plantel |
+| Base de datos y autenticación | Supabase (PostgreSQL + Auth) | Gestión de datos y sesiones sin backend propio |
+| Generación de PDF | jsPDF (vía CDN) | Descarga de ticket directamente desde el navegador |
+| Control de versiones | Git + GitHub | Colaboración y registro del trabajo individual |
+
+> No se utilizará ningún framework de frontend ni package manager. Todas las dependencias externas se cargarán mediante CDN directamente en los archivos HTML.
+
+---
+
+## 5. Épicas identificadas
+
+Las siguientes áreas funcionales fueron identificadas en la sesión de planeación inicial. Cada épica agrupa un conjunto de funcionalidades relacionadas que se desarrollarán en sprints posteriores.
+
+| ID | Épica | Descripción general | Prioridad |
+|---|---|---|---|
+| EP-01 | Autenticación | Registro, login y logout de usuarios | Alta |
+| EP-02 | Reservación de vuelos | Búsqueda, selección de asiento y confirmación | Alta |
+| EP-03 | Reservación de trolebús | Exploración de rutas y creación de reservación | Alta |
+| EP-04 | Procesamiento de pagos | Flujo de pago simulado con actualización de estado | Alta |
+| EP-05 | Ticket PDF | Acumulación de reservaciones y descarga de comprobante | Media |
+
+> Las historias de usuario específicas de cada épica se definirán y estimarán en el Sprint 1.
+
+---
+
+## 6. Alcance del proyecto
+
+### En alcance (v1.0)
+- Registro e inicio y cierre de sesión de usuarios
+- Búsqueda y reservación de vuelos con selección visual de asiento
+- Reservación de rutas de trolebús turístico
+- Pago simulado con cambio de estado de la reservación
+- Descarga de ticket PDF (una sola vez por ticket)
+
+### Fuera de alcance (v1.0)
+- Pasarela de pago real
+- Aplicación móvil nativa
+- Panel administrativo para la agencia
+- Sistema de notificaciones por correo electrónico
+- Sincronización en tiempo real del mapa de asientos
+
+---
+
+## 7. Acuerdos iniciales del equipo
+
+Estos acuerdos se establecieron al inicio del Sprint 0 y rigen para toda la duración del proyecto:
+
+- Todo el código vive en GitHub. No se hacen commits directamente a la rama `main`.
+- Cada integrante realiza commits con su propia cuenta de GitHub. No se acepta un repositorio con un solo autor.
+- Las ramas de trabajo siguen el formato: `feature/nombre-funcionalidad`.
+- El Product Backlog es responsabilidad del Product Owner y debe estar actualizado antes de cada Sprint Planning.
+- Si alguien detecta un impedimento técnico u organizativo, lo comunica el mismo día al equipo.
+
+---
+
+## 8. Preguntas abiertas al cierre del Sprint 0
+
+Durante la planeación surgieron algunos puntos que el equipo aún no tenía del todo definidos y que se resolverán en el Sprint 1:
+
+- ¿Cómo se estructuran exactamente las tablas de vuelos y asientos en la base de datos?
+- ¿El temporizador de 10 minutos para la reservación se controla solo en el navegador o también en la base de datos?
+- ¿Cómo se maneja el caso en que dos usuarios intenten reservar el mismo asiento al mismo tiempo?
+- ¿Cuántos escenarios de prueba necesita cada historia de usuario?
+
+---
+
+## 9. Siguiente paso
+
+El **Sprint 1** tomará como base lo definido en este sprint y avanzará en dos frentes: la normalización del esquema de base de datos y la redacción de las historias de usuario con sus criterios de aceptación.
+
+---
+
+*Flygth With You — CBTis 47 · Febrero 2026*
