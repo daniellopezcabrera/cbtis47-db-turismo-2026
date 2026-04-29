@@ -48,30 +48,30 @@ CREATE TABLE trolley (
 );
 
 CREATE TABLE route (
-          id_route INT PRIMARY KEY AUTO_INCREMENT,
-          route_name VARCHAR(100) UNIQUE NOT NULL
+    id_route SERIAL PRIMARY KEY,
+    route_name VARCHAR(100) UNIQUE NOT NULL
 );
 
 CREATE TABLE trolley_stop (
-          id_stop INT PRIMARY KEY AUTO_INCREMENT,
-          name VARCHAR(100) NOT NULL,
-          coordinates VARCHAR(100) NOT NULL
+    id_stop SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    coordinates VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE route_stop (
-          id_route INT,
-          id_stop INT,
-          stop_order INT NOT NULL CHECK (stop_order > 0),
-          PRIMARY KEY (id_route, id_stop),
-          FOREIGN KEY (id_route) REFERENCES route (id_route),
-          FOREIGN KEY (id_stop) REFERENCES trolley_stop (id_stop)
+    id_route INTEGER,
+    id_stop INTEGER,
+    stop_order INT NOT NULL CHECK (stop_order > 0),
+    PRIMARY KEY (id_route, id_stop),
+    FOREIGN KEY (id_route) REFERENCES route (id_route),
+    FOREIGN KEY (id_stop) REFERENCES trolley_stop (id_stop)
 );
 
 CREATE TABLE trolley_schedule (
-          id_shedule INT PRIMARY KEY AUTO_INCREMENT,
-          id_trolley INT NOT NULL,
-          id_route INT NOT NULL,
-          departure_time DATETIME NOT NULL,
-          FOREIGN KEY (id_trolley) REFERENCES trolley (id_trolley),
-          FOREIGN KEY (id_route) REFERENCES route (id_route)
+    id_schedule SERIAL PRIMARY KEY,
+    id_trolley INTEGER NOT NULL,
+    id_route INTEGER NOT NULL,
+    departure_time TIMESTAMP NOT NULL,
+    FOREIGN KEY (id_trolley) REFERENCES trolley (id_trolley),
+    FOREIGN KEY (id_route) REFERENCES route (id_route)
 );
