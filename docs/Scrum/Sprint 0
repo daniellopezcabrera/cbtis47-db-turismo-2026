@@ -1,23 +1,23 @@
 # Sprint 0 — Flygth With You
-**Período:** Febrero 2026
-**Institución:** CBTis 47
-**Metodología:** Scrum
+**Period:** February 2026
+**Institution:** CBTis 47
+**Methodology:** Scrum
 
 ---
 
-## 1. Objetivo del Sprint 0
+## 1. Sprint 0 Goal
 
-Definir el alcance general del proyecto, formar el equipo de trabajo, establecer los primeros acuerdos de colaboración e identificar las áreas funcionales que se desarrollarán a lo largo del proyecto.
+Define the overall project scope, form the work team, establish the first collaboration agreements, and identify the functional areas that will be developed throughout the project.
 
-Este sprint es exclusivamente de **planeación**. No se escribe código ni se realizan pruebas. El entregable es un equipo alineado con una visión clara de lo que se va a construir.
+This sprint is exclusively dedicated to **planning**. No code is written and no testing is performed. The deliverable is an aligned team with a clear vision of what is going to be built.
 
 ---
 
-## 2. Equipo de trabajo
+## 2. Team
 
-| Nombre | Rol |
+| Name | Role |
 |---|---|
-| López Cabrera Daniel | Product Owner / Analista & Diseñador |
+| López Cabrera Daniel | Product Owner / Analyst & Designer |
 | García Sánchez German | Scrum Master / SQL Developer |
 | Cueto Madrigal Michelle | Developer — Query Master |
 | Cruz Estrada Johana Elena | Developer — SQL Tester |
@@ -25,96 +25,94 @@ Este sprint es exclusivamente de **planeación**. No se escribe código ni se re
 
 ---
 
-## 3. Descripción general del proyecto
+## 3. Project Overview
 
-### Nombre
+### Name
 **Flygth With You**
 
-### ¿Qué es?
-Un sistema web de reservación turística desarrollado para una agencia. Permitirá a los usuarios registrarse, buscar y reservar vuelos o rutas de trolebús turístico, realizar un pago simulado y obtener un ticket descargable en PDF.
+### What is it?
+A web-based tourism reservation system developed for a travel agency. It will allow users to register, search and book flights or tourist trolleybus routes, complete a simulated payment, and obtain a downloadable PDF ticket.
 
-### ¿Para quién?
-Usuarios de una agencia de turismo que actualmente realizan sus reservaciones de forma manual. El sistema busca automatizar ese proceso y mejorar la experiencia del usuario final.
+### Who is it for?
+Users of a travel agency who currently handle their reservations manually. The system aims to automate that process and improve the end-user experience.
 
-### Objetivo del producto
-Desarrollar una aplicación web funcional que automatice el proceso de reservación de servicios turísticos, desde el registro del usuario hasta la emisión del comprobante de pago, asegurando una experiencia simple y accesible.
+### Product Goal
+To develop a functional web application that automates the tourism service reservation process — from user registration to the issuance of a payment receipt — ensuring a simple and accessible experience.
 
 ---
 
-## 4. Tecnologías seleccionadas
+## 4. Selected Technologies
 
-| Componente | Tecnología | Razón |
+| Component | Technology | Reason |
 |---|---|---|
-| Frontend | HTML5, CSS3, JavaScript | Sin frameworks — compatibilidad con el entorno del plantel |
-| Base de datos y autenticación | Supabase (PostgreSQL + Auth) | Gestión de datos y sesiones sin backend propio |
-| Generación de PDF | jsPDF (vía CDN) | Descarga de ticket directamente desde el navegador |
-| Control de versiones | Git + GitHub | Colaboración y registro del trabajo individual |
+| Frontend | HTML5, CSS3, JavaScript | No frameworks — compatible with the school's environment |
+| Database & Authentication | Supabase (PostgreSQL + Auth) | Data and session management without a custom backend |
+| PDF Generation | jsPDF (via CDN) | Ticket download directly from the browser |
+| Version Control | Git + GitHub | Collaboration and individual contribution tracking |
 
-> No se utilizará ningún framework de frontend ni package manager. Todas las dependencias externas se cargarán mediante CDN directamente en los archivos HTML.
+> No frontend framework or package manager will be used. All external dependencies will be loaded via CDN directly inside the HTML files.
 
 ---
 
-## 5. Épicas identificadas
+## 5. Identified Epics
 
-Las siguientes áreas funcionales fueron identificadas en la sesión de planeación inicial. Cada épica agrupa un conjunto de funcionalidades relacionadas que se desarrollarán en sprints posteriores.
+The following functional areas were identified during the initial planning session. Each epic groups a set of related features that will be developed in upcoming sprints.
 
-| ID | Épica | Descripción general | Prioridad |
+| ID | Epic | General Description | Priority |
 |---|---|---|---|
-| EP-01 | Autenticación | Registro, login y logout de usuarios | Alta |
-| EP-02 | Reservación de vuelos | Búsqueda, selección de asiento y confirmación | Alta |
-| EP-03 | Reservación de trolebús | Exploración de rutas y creación de reservación | Alta |
-| EP-04 | Procesamiento de pagos | Flujo de pago simulado con actualización de estado | Alta |
-| EP-05 | Ticket PDF | Acumulación de reservaciones y descarga de comprobante | Media |
+| EP-01 | Authentication | User registration, login, and logout | High |
+| EP-02 | Flight Reservation | Flight search, seat selection, and confirmation | High |
+| EP-03 | Trolleybus Reservation | Route browsing and reservation creation | High |
+| EP-04 | Payment Processing | Simulated payment flow with status update | High |
+| EP-05 | PDF Ticket | Reservation accumulation and receipt download | Medium |
 
-> Las historias de usuario específicas de cada épica se definirán y estimarán en el Sprint 1.
-
----
-
-## 6. Alcance del proyecto
-
-### En alcance (v1.0)
-- Registro e inicio y cierre de sesión de usuarios
-- Búsqueda y reservación de vuelos con selección visual de asiento
-- Reservación de rutas de trolebús turístico
-- Pago simulado con cambio de estado de la reservación
-- Descarga de ticket PDF (una sola vez por ticket)
-
-### Fuera de alcance (v1.0)
-- Pasarela de pago real
-- Aplicación móvil nativa
-- Panel administrativo para la agencia
-- Sistema de notificaciones por correo electrónico
-- Sincronización en tiempo real del mapa de asientos
+> The specific user stories for each epic will be defined and estimated in Sprint 1.
 
 ---
 
-## 7. Acuerdos iniciales del equipo
+## 6. Project Scope
 
-Estos acuerdos se establecieron al inicio del Sprint 0 y rigen para toda la duración del proyecto:
+### In Scope (v1.0)
+- User registration, login, and logout
+- Flight search and reservation with visual seat selection
+- Tourist trolleybus route reservation
+- Simulated payment with reservation status update
+- PDF ticket download (one time per ticket)
 
-- Todo el código vive en GitHub. No se hacen commits directamente a la rama `main`.
-- Cada integrante realiza commits con su propia cuenta de GitHub. No se acepta un repositorio con un solo autor.
-- Las ramas de trabajo siguen el formato: `feature/nombre-funcionalidad`.
-- El Product Backlog es responsabilidad del Product Owner y debe estar actualizado antes de cada Sprint Planning.
-- Si alguien detecta un impedimento técnico u organizativo, lo comunica el mismo día al equipo.
-
----
-
-## 8. Preguntas abiertas al cierre del Sprint 0
-
-Durante la planeación surgieron algunos puntos que el equipo aún no tenía del todo definidos y que se resolverán en el Sprint 1:
-
-- ¿Cómo se estructuran exactamente las tablas de vuelos y asientos en la base de datos?
-- ¿El temporizador de 10 minutos para la reservación se controla solo en el navegador o también en la base de datos?
-- ¿Cómo se maneja el caso en que dos usuarios intenten reservar el mismo asiento al mismo tiempo?
-- ¿Cuántos escenarios de prueba necesita cada historia de usuario?
+### Out of Scope (v1.0)
+- Real payment gateway integration
+- Native mobile application
+- Agency admin panel
+- Email notification system
+- Real-time seat map synchronization between simultaneous sessions
 
 ---
 
-## 9. Siguiente paso
+## 7. Initial Team Agreements
 
-El **Sprint 1** tomará como base lo definido en este sprint y avanzará en dos frentes: la normalización del esquema de base de datos y la redacción de las historias de usuario con sus criterios de aceptación.
+These agreements were established at the beginning of Sprint 0 and apply for the entire duration of the project:
+
+- All code lives in GitHub. No direct commits to the `main` branch.
+- Each team member commits under their own GitHub account. A repository with a single author is not acceptable.
+- Working branches follow the format: `feature/feature-name`.
+- The Product Backlog is the Product Owner's responsibility and must be updated before each Sprint Planning.
+- If anyone detects a technical or organizational impediment, they communicate it to the team the same day.
 
 ---
 
-*Flygth With You — CBTis 47 · Febrero 2026*
+## 8. Open Questions at the Close of Sprint 0
+
+During planning, several points came up that the team had not yet fully resolved. These will be addressed in Sprint 1:
+
+- How exactly are the flight and seat tables structured in the database?
+- Is the 10-minute reservation timer controlled only in the browser, or also in the database?
+- How is the case handled where two users try to book the same seat at the same time?
+- How many test scenarios does each user story need?
+
+---
+
+## 9. Next Step
+
+**Sprint 1** will build on what was defined in this sprint and move forward on two fronts: normalizing the database schema and drafting the user stories with their initial acceptance criteria.
+
+---
