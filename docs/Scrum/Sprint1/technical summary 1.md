@@ -1,4 +1,4 @@
-# Technical Summary — Flygth With You
+# Technical Summary — Flying With You
 **Version:** 1.0 (Sprint 1)
 **Period:** February – March 2026
 **Institution:** CBTis 47
@@ -7,7 +7,7 @@
 
 ## 1. General Description
 
-**Flygth With You** is a web-based tourism reservation system developed for a travel agency. It allows users to register, search and book flights or tourist trolleybus routes, complete a simulated payment, and download a PDF ticket as proof of their confirmed reservations.
+**Flying With You** is a web-based tourism reservation system developed for a travel agency. It allows users to register, search and book flights or tourist trolleybus routes, complete a simulated payment, and download a PDF ticket as proof of their confirmed reservations.
 
 ---
 
