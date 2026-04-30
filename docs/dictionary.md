@@ -11,7 +11,7 @@ This document describes the relational database structure with integrity constra
 | Person | id_person | INT (PK, AUTO_INCREMENT) | Unique identifier assigned to each individual registered in the system. |
 | Person | name | VARCHAR(100) NOT NULL | Given name(s) of the person as they appear in official identification. |
 | Person | last_names | VARCHAR(100) NOT NULL | Family names (paternal and maternal surnames). |
-| Person | curp | CHAR(18) UNIQUE NOT NULL | Mexican CURP, used as a unique national identity code. |
+| Person | curp | VARCHAR(18) UNIQUE NOT NULL | Mexican CURP, used as a unique national identity code. |
 | Person | birth_date | DATE NOT NULL | Date of birth used for age validation and identification. |
 | Person | email | VARCHAR(100) UNIQUE NOT NULL | Personal email address used for communication and account recovery. |
 
@@ -22,8 +22,8 @@ This document describes the relational database structure with integrity constra
 | Table | Column | Type | Description |
 |-------|--------|------|------------|
 | User | id_person | INT (PK, FK) | Links the user account to a specific person (1:1 relationship). |
-| User | user_name | VARCHAR(100) NOT NULL | Unique username used to log into the system. |
-| User | password | VARCHAR(255) NOT NULL | Securely hashed password (e.g., bcrypt or argon2). |
+| User | user_name | VARCHAR(16) NOT NULL | Unique username used to log into the system. |
+| User | password | VARCHAR(15) NOT NULL | Securely hashed password (e.g., bcrypt or argon2). |
 
 ---
 
