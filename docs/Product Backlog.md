@@ -18,15 +18,13 @@
 
 ---
 
-### EP-01 · User Authentication
-
 #### US-01 — User Registration
 
 **As a** new visitor,
 **I want to** create an account with my personal data and credentials,
 **So that** I can access the reservation system securely.
 
-**Priority:** High | **Story Points:** 3
+**Priority:** High | **Story Points:** 5
 
 ##### Acceptance Criteria
 
@@ -35,9 +33,13 @@ Feature: User Registration
 
   Scenario: Successful registration with valid data
     Given the user is on the registration page
-    When the user enters a valid name, email, and password
+    When the user enters a valid name, last names, CURP, date of birth,
+         email address, username, and password
     And the user submits the registration form
     Then the system creates a new account via Supabase Auth
+    And the personal data (name, last names, CURP, date of birth, and email)
+        are stored in the PERSON table
+    And the username and password are stored in the USER table
     And the user is redirected to the login page
     And a confirmation message is displayed
 
@@ -46,6 +48,20 @@ Feature: User Registration
     When the user enters an email that is already registered
     And the user submits the registration form
     Then the system displays an error message indicating the email is already in use
+    And no new account is created
+
+  Scenario: Registration fails with an existing username
+    Given the user is on the registration page
+    When the user enters a username that is already taken
+    And the user submits the registration form
+    Then the system displays an error message indicating the username is already in use
+    And no new account is created
+
+  Scenario: Registration fails with an existing CURP
+    Given the user is on the registration page
+    When the user enters a CURP that is already registered
+    And the user submits the registration form
+    Then the system displays an error message indicating the CURP is already in use
     And no new account is created
 
   Scenario: Registration fails with incomplete fields
@@ -61,7 +77,7 @@ Feature: User Registration
 #### US-02 — User Login
 
 **As a** registered user,
-**I want to** log in with my email and password,
+**I want to** log in with my username and password,
 **So that** I can access my account and manage my reservations.
 
 **Priority:** High | **Story Points:** 2
@@ -73,14 +89,15 @@ Feature: User Login
 
   Scenario: Successful login with valid credentials
     Given the user is on the login page
-    When the user enters a registered email and correct password
+    When the user enters a registered username and correct password
     And the user clicks the login button
-    Then the system authenticates the user through Supabase Auth
+    Then the system resolves the username to its associated account
+         and authenticates via Supabase Auth
     And the user is redirected to the home dashboard
 
   Scenario: Login fails with incorrect credentials
     Given the user is on the login page
-    When the user enters an incorrect email or password
+    When the user enters an incorrect username or password
     And the user clicks the login button
     Then the system displays an authentication error message
     And the user remains on the login page
