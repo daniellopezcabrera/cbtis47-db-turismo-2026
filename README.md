@@ -33,6 +33,31 @@
 - [Alcance y limitaciones](#️-alcance-y-limitaciones)
 - [Equipo de desarrollo](#-equipo-de-desarrollo)
 - [Licencia](#-licencia)
+---
+
+## 🛡️ Data Security Protocol (DML Operations)
+
+To prevent accidental data loss, this project follows a strict transaction protocol when executing destructive statements (`DELETE` or `UPDATE`).
+
+### Safe Deletion Workflow
+Every deletion must be wrapped in a transaction to allow for manual verification before making changes permanent.
+
+```sql
+-- 1. Start the transaction context
+BEGIN;
+
+-- 2. Execute the filtered delete
+-- ALWAYS use a WHERE clause with a Primary Key
+DELETE FROM "USER" 
+WHERE id_person = 5;
+
+-- 3. Verification Step
+-- Run a SELECT to ensure only the intended record was affected.
+-- If the row count is incorrect or you made a mistake:
+ROLLBACK;
+
+-- 4. If everything is correct, commit the changes:
+COMMIT;
 
 ---
 
