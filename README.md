@@ -1,7 +1,7 @@
 # ✈️ Flying With You
 
-> Sistema web de gestión de reservaciones para una agencia de turismo.  
-> Permite a los usuarios registrarse, buscar y reservar vuelos o viajes en trolebús turístico, realizar pagos simulados y descargar su boleto en PDF — sin instalaciones, directamente desde el navegador.
+> Web-based reservation management system for a travel agency.  
+> Allows users to register, search and book flights or tourist trolleybus trips, make simulated payments and download their ticket as a PDF — no installation required, directly from the browser.
 
 ---
 
@@ -10,31 +10,31 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![jsPDF](https://img.shields.io/badge/jsPDF-FF0000?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)
-![Status](https://img.shields.io/badge/Status-En%20Desarrollo-orange?style=for-the-badge)
-![Version](https://img.shields.io/badge/Versión-1.0.0-blue?style=for-the-badge)
-![Académico](https://img.shields.io/badge/Uso-Académico%20CBTis%2047-purple?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
+![Academic](https://img.shields.io/badge/Use-Academic%20CBTis%2047-purple?style=for-the-badge)
 
 ---
 
-## 📋 Tabla de Contenidos
+## 📋 Table of Contents
 
-- [Sobre el proyecto](#-sobre-el-proyecto)
-- [Funcionalidades principales](#-funcionalidades-principales)
-- [Capturas de pantalla](#-capturas-de-pantalla)
-- [Tecnologías utilizadas](#-tecnologías-utilizadas)
-- [Requisitos previos](#-requisitos-previos)
-- [Instalación y configuración](#-instalación-y-configuración)
-- [Estructura del proyecto](#-estructura-del-proyecto)
-- [Flujo general del sistema](#-flujo-general-del-sistema)
-- [Estados de una reservación](#-estados-de-una-reservación)
-- [Diagrama Entidad-Relación](#️-diagrama-entidad-relación)
-- [Metodología de trabajo](#-metodología-de-trabajo)
+- [About the project](#-about-the-project)
+- [Key features](#-key-features)
+- [Screenshots](#-screenshots)
+- [Technologies used](#-technologies-used)
+- [Prerequisites](#-prerequisites)
+- [Installation and setup](#-installation-and-setup)
+- [Project structure](#-project-structure)
+- [System general flow](#-system-general-flow)
+- [Reservation states](#-reservation-states)
+- [Entity-Relationship Diagram](#️-entity-relationship-diagram)
+- [Work methodology](#-work-methodology)
 - [Product Backlog](#-product-backlog)
-- [Pruebas](#-pruebas)
-- [Cómo contribuir](#-cómo-contribuir)
-- [Alcance y limitaciones](#️-alcance-y-limitaciones)
-- [Equipo de desarrollo](#-equipo-de-desarrollo)
-- [Licencia](#-licencia)
+- [Testing](#-testing)
+- [How to contribute](#-how-to-contribute)
+- [Scope and limitations](#️-scope-and-limitations)
+- [Development team](#-development-team)
+- [License](#-license)
 
 ---
 
@@ -65,267 +65,267 @@ COMMIT;
 
 ---
 
-## 📖 Sobre el proyecto
+## 📖 About the project
 
-**Flygth With You** es una aplicación web desarrollada para una agencia de turismo que automatiza el proceso de reservación de servicios turísticos. El sistema cubre el ciclo completo: desde el registro del usuario hasta la emisión de un comprobante de pago descargable en PDF, reduciendo la carga manual de la agencia y mejorando la experiencia del viajero.
+**Flying With You** is a web application developed for a travel agency that automates the tourist service reservation process. The system covers the complete cycle: from user registration to the issuance of a downloadable PDF payment receipt, reducing the agency's manual workload and improving the traveler's experience.
 
-El sistema no requiere instalación de software adicional — corre completamente en un navegador moderno basado en Chromium y se conecta a Supabase como backend en la nube.
+The system requires no additional software installation — it runs entirely in a modern Chromium-based browser and connects to Supabase as a cloud backend.
 
-> 📌 Proyecto desarrollado exclusivamente para uso académico en **CBTis 47 · Abril 2026**.  
-> Los precios del sistema están denominados en **Pesos Mexicanos (MXN)**.
-
----
-
-## ✨ Funcionalidades principales
-
-### 🔐 Autenticación
-- Registro de nuevos usuarios (nombre completo, correo, contraseña)
-- Inicio y cierre de sesión mediante Supabase Auth
-- Validación de campos con mensajes de error por campo individual
-- Protección de rutas: las páginas protegidas no son accesibles sin sesión activa
-
-### ✈️ Reservación de vuelos
-- Búsqueda de vuelos por origen, destino y fecha
-- Mapa visual de asientos: 🟢 disponible · 🔴 ocupado · 🔵 seleccionado
-- Leyenda de colores visible junto al mapa en todo momento
-- Creación de reservación con estado `pending` y temporizador de 10 minutos
-- Cancelación automática server-side si el pago no se completa a tiempo
-- Prevención de reservaciones duplicadas para el mismo vuelo y usuario
-
-### 🚎 Reservación de trolebús turístico
-- Visualización de rutas disponibles con nombre, descripción y punto de salida
-- Reservación por ruta, fecha y parada de abordaje
-- Temporizador de 10 minutos con cancelación automática y liberación del lugar
-
-### 💳 Pago simulado
-- Procesamiento de pago para reservaciones en estado `pending`
-- Cambio de estado de `pending` a `confirmed` al completar el pago exitosamente
-- Rechazo automático del pago si el temporizador ya expiró
-- La reservación permanece en `pending` si ocurre un error de procesamiento
-
-### 🎫 Generación de boleto PDF
-- Acumulación de una o más reservaciones confirmadas en un solo boleto
-- Solo se pueden agregar reservaciones con estado `confirmed`
-- El PDF incluye: nombre del pasajero, vuelo o ruta, número de asiento, fecha y precio
-- Descarga única por boleto — intentos posteriores quedan bloqueados permanentemente, incluso desde otro dispositivo o sesión
+> 📌 Project developed exclusively for academic use at **CBTis 47 · April 2026**.  
+> All prices in the system are denominated in **Mexican Pesos (MXN)**.
 
 ---
 
-## 📸 Capturas de pantalla
+## ✨ Key features
 
-> 🚧 **Sección pendiente** — Las capturas de pantalla se agregarán una vez que el sistema esté completado.  
-> Se documentarán las siguientes vistas:
+### 🔐 Authentication
+- New user registration (full name, email, password)
+- Sign in and sign out via Supabase Auth
+- Field validation with individual error messages per field
+- Route protection: protected pages are not accessible without an active session
 
-| Vista | Descripción |
+### ✈️ Flight reservation
+- Flight search by origin, destination and date
+- Visual seat map: 🟢 available · 🔴 occupied · 🔵 selected
+- Color legend always visible next to the seat map
+- Reservation created with `pending` status and a 10-minute countdown timer
+- Automatic server-side cancellation if payment is not completed in time
+- Prevention of duplicate reservations for the same flight and user
+
+### 🚎 Tourist trolleybus reservation
+- View available routes with name, description and departure point
+- Book by route, date and boarding stop
+- 10-minute timer with automatic cancellation and seat release
+
+### 💳 Simulated payment
+- Payment processing for reservations in `pending` status
+- Status changes from `pending` to `confirmed` upon successful payment
+- Payment automatically rejected if the timer has already expired
+- Reservation stays in `pending` if a processing error occurs
+
+### 🎫 PDF ticket generation
+- Accumulate one or more confirmed reservations into a single ticket
+- Only reservations with `confirmed` status can be added
+- The PDF includes: passenger name, flight or route, seat number, date and price
+- Single download per ticket — further attempts are permanently blocked, even from another device or session
+
+---
+
+## 📸 Screenshots
+
+> 🚧 **Pending section** — Screenshots will be added once the system is complete.  
+> The following views will be documented:
+
+| View | Description |
 |---|---|
-| `login.png` | Pantalla de inicio de sesión |
-| `dashboard.png` | Panel principal post-login |
-| `seat-map.png` | Mapa visual de asientos con leyenda de colores |
-| `checkout.png` | Flujo de pago con temporizador activo |
-| `ticket-pdf.png` | Boleto PDF generado y descargado |
+| `login.png` | Login screen |
+| `dashboard.png` | Main dashboard after login |
+| `seat-map.png` | Visual seat map with color legend |
+| `checkout.png` | Payment flow with active countdown timer |
+| `ticket-pdf.png` | Generated and downloaded PDF ticket |
 
-<!-- Una vez que el sistema esté listo, reemplaza esta sección con:
+<!-- Once the system is ready, replace this section with:
 ![Login](docs/screenshots/login.png)
 ![Dashboard](docs/screenshots/dashboard.png)
-![Mapa de asientos](docs/screenshots/seat-map.png)
+![Seat map](docs/screenshots/seat-map.png)
 -->
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## 🛠️ Technologies used
 
-| Componente | Tecnología | Notas |
+| Component | Technology | Notes |
 |---|---|---|
-| Base de datos | Supabase (PostgreSQL) | Tablas, relaciones y lógica de expiración |
-| Autenticación | Supabase Auth | Manejo seguro de sesiones y contraseñas |
-| Frontend | HTML5, CSS3, JavaScript | Sin frameworks adicionales |
-| Generación de PDF | jsPDF | Cargado vía CDN |
-| Control de versiones | Git / GitHub | Un commit por miembro bajo su propia cuenta |
+| Database | Supabase (PostgreSQL) | Tables, relationships and expiration logic |
+| Authentication | Supabase Auth | Secure session and password management |
+| Frontend | HTML5, CSS3, JavaScript | No additional frameworks |
+| PDF generation | jsPDF | Loaded via CDN |
+| Version control | Git / GitHub | One commit per member under their own account |
 
-> ⚠️ El proyecto **no utiliza frameworks de backend ni gestor de paquetes** (npm, pip, etc.).  
-> Todas las dependencias externas se cargan directamente mediante CDN.
-
----
-
-## 📋 Requisitos previos
-
-Antes de ejecutar el proyecto, asegúrate de tener lo siguiente:
-
-- Navegador basado en Chromium actualizado: **Google Chrome** o **Microsoft Edge**
-- Cuenta activa en [Supabase](https://supabase.com) con un proyecto creado
-- El esquema SQL del sistema aplicado en ese proyecto de Supabase
-- Conexión a internet activa (requerida para CDN y conexión con Supabase)
-
-> ℹ️ No se necesita instalar Node.js, Python, ni ningún otro entorno de ejecución local.
+> ⚠️ The project **does not use backend frameworks or package managers** (npm, pip, etc.).  
+> All external dependencies are loaded directly via CDN.
 
 ---
 
-## 🚀 Instalación y configuración
+## 📋 Prerequisites
 
-### 1. Clona el repositorio
+Before running the project, make sure you have the following:
+
+- Updated Chromium-based browser: **Google Chrome** or **Microsoft Edge**
+- Active account on [Supabase](https://supabase.com) with a project created
+- The system SQL schema applied to that Supabase project
+- Active internet connection (required for CDN and Supabase connection)
+
+> ℹ️ No need to install Node.js, Python, or any other local runtime environment.
+
+---
+
+## 🚀 Installation and setup
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/daniellopezcabrera/cbtis47-db-turismo-2026.git
 cd cbtis47-db-turismo-2026
 ```
 
-### 2. Aplica el esquema de la base de datos
+### 2. Apply the database schema
 
-Abre el editor SQL de tu proyecto en Supabase y ejecuta el script `database/schema.sql` del repositorio. Esto creará todas las tablas necesarias: `PERSON`, `USER`, `FLIGHT`, `BOOKING_SEAT`, `TICKET`, `PAYMENT`, entre otras.
+Open the SQL editor of your Supabase project and run the `database/schema.sql` script from the repository. This will create all the necessary tables: `PERSON`, `USER`, `FLIGHT`, `BOOKING_SEAT`, `TICKET`, `PAYMENT`, among others.
 
-### 3. Configura las credenciales de Supabase
+### 3. Configure Supabase credentials
 
-Abre el archivo `config/supabase.js` y reemplaza los valores con los de tu proyecto:
+Open the `config/supabase.js` file and replace the values with those from your project:
 
 ```javascript
-const SUPABASE_URL = "https://tu-proyecto.supabase.co";
-const SUPABASE_KEY = "tu-anon-public-key";
+const SUPABASE_URL = "https://your-project.supabase.co";
+const SUPABASE_KEY = "your-anon-public-key";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 ```
 
-> 🔐 Usa únicamente la `anon key` (clave pública) de Supabase.  
-> **Nunca subas una clave de servicio (`service_role`) al repositorio.**
+> 🔐 Use only the `anon key` (public key) from Supabase.  
+> **Never push a service key (`service_role`) to the repository.**
 
-### 4. Incluye las dependencias CDN en tus archivos HTML
+### 4. Include CDN dependencies in your HTML files
 
-Agrega estas etiquetas en el `<head>` de cada HTML que las requiera:
+Add these tags in the `<head>` of each HTML file that requires them:
 
 ```html
-<!-- Supabase: base de datos y autenticación -->
+<!-- Supabase: database and authentication -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- jsPDF: generación de boleto en PDF -->
+<!-- jsPDF: PDF ticket generation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 ```
 
-### 5. Abre el proyecto en el navegador
+### 5. Open the project in the browser
 
-Abre `index.html` directamente en tu navegador, o usa la extensión **Live Server** de VS Code para un servidor local con recarga automática.
+Open `index.html` directly in your browser, or use the **Live Server** extension for VS Code for a local server with automatic reload.
 
 ---
 
-## 📁 Estructura del proyecto
+## 📁 Project structure
 
 ```
 flygth-with-you/
 │
-├── index.html                  # Login / página de entrada
-├── register.html               # Registro de nuevo usuario
-├── dashboard.html              # Panel principal post-login
+├── index.html                  # Login / entry page
+├── register.html               # New user registration
+├── dashboard.html              # Main dashboard after login
 │
 ├── flights/
-│   ├── search.html             # Búsqueda de vuelos
-│   ├── seat-map.html           # Mapa visual de asientos
-│   └── reservation.html        # Confirmación y creación de reservación
+│   ├── search.html             # Flight search
+│   ├── seat-map.html           # Visual seat map
+│   └── reservation.html        # Reservation confirmation and creation
 │
 ├── trolleybus/
-│   ├── routes.html             # Listado de rutas disponibles
-│   └── reservation.html        # Reservación de trolebús
+│   ├── routes.html             # Available routes listing
+│   └── reservation.html        # Trolleybus reservation
 │
 ├── payment/
-│   └── checkout.html           # Flujo de pago simulado con temporizador
+│   └── checkout.html           # Simulated payment flow with timer
 │
 ├── tickets/
-│   └── download.html           # Acumulación y descarga única del boleto PDF
+│   └── download.html           # PDF ticket accumulation and single download
 │
 ├── css/
-│   └── styles.css              # Estilos globales del sistema
+│   └── styles.css              # Global system styles
 │
 ├── js/
-│   ├── auth.js                 # Módulo: registro, login, logout
-│   ├── reservations.js         # Módulo: vuelos y trolebús
-│   ├── payment.js              # Módulo: procesamiento de pago
-│   └── tickets.js              # Módulo: generación de PDF
+│   ├── auth.js                 # Module: registration, login, logout
+│   ├── reservations.js         # Module: flights and trolleybus
+│   ├── payment.js              # Module: payment processing
+│   └── tickets.js              # Module: PDF generation
 │
 ├── config/
-│   └── supabase.js             # Inicialización del cliente Supabase
+│   └── supabase.js             # Supabase client initialization
 │
 └── database/
-    └── schema.sql              # Script SQL con todas las tablas del sistema
+    └── schema.sql              # SQL script with all system tables
 ```
 
 ---
 
-## 🔄 Flujo general del sistema
+## 🔄 System general flow
 
 ```
 ┌──────────────────────────────────────────────┐
-│            REGISTRO / LOGIN                  │
+│            REGISTER / LOGIN                  │
 └──────────────────┬───────────────────────────┘
-                   │ Autenticación exitosa
+                   │ Successful authentication
                    ▼
 ┌──────────────────────────────────────────────┐
-│           DASHBOARD PRINCIPAL                │
-│        [Vuelos]      [Trolebús]              │
+│             MAIN DASHBOARD                   │
+│        [Flights]     [Trolleybus]            │
 └──────────┬───────────────────┬───────────────┘
            │                   │
            ▼                   ▼
-    Búsqueda de vuelo    Rutas disponibles
-    por origen/destino   de trolebús
+    Flight search by     Available trolleybus
+    origin/destination   routes
            │                   │
            ▼                   ▼
-    Selección de         Selección de ruta,
-    asiento en mapa      fecha y parada
+    Seat selection       Route, date and
+    on visual map        boarding stop selection
            │                   │
            └─────────┬─────────┘
                      ▼
      ┌───────────────────────────────┐
-     │     Reservación creada        │
-     │     Estado: PENDING           │
-     │     ⏱ Temporizador: 10 min   │
+     │      Reservation created      │
+     │      Status: PENDING          │
+     │      ⏱ Timer: 10 min         │
      └───────────────┬───────────────┘
                      │
         ┌────────────┴─────────────┐
         │                          │
         ▼                          ▼
- Pago completado          Temporizador expira
- dentro del tiempo        sin pago
+ Payment completed         Timer expires
+ within time limit         without payment
         │                          │
         ▼                          ▼
- Estado: CONFIRMED         Estado: EXPIRED
-        │                  Asiento liberado
-        ▼                  Usuario notificado
- Pantalla de boleto               │
+ Status: CONFIRMED         Status: EXPIRED
+        │                  Seat released
+        ▼                  User notified
+ Ticket screen                    │
         │                          ▼
-        ▼                   Nueva búsqueda
- Agregar al ticket
+        ▼                   New search
+ Add to ticket
         │
         ▼
- Generar y descargar PDF
- (una única vez)
+ Generate and download PDF
+ (one time only)
         │
         ▼
- Ticket marcado como DOWNLOADED
- Botón bloqueado permanentemente
+ Ticket marked as DOWNLOADED
+ Button permanently blocked
 ```
 
 ---
 
-## 🔁 Estados de una reservación
+## 🔁 Reservation states
 
-El sistema maneja cuatro estados posibles para cada reservación. Comprender este ciclo de vida es clave para el desarrollo:
+The system handles four possible states for each reservation. Understanding this lifecycle is key for development:
 
-| Estado | Descripción | Quién lo activa |
+| State | Description | Triggered by |
 |---|---|---|
-| `pending` | Reservación creada. Asiento bloqueado. Temporizador activo. | Sistema al confirmar selección |
-| `confirmed` | Pago completado con éxito dentro del tiempo límite. | Sistema al procesar el pago |
-| `expired` | El temporizador llegó a cero sin que se completara el pago. | Server-side vía `expires_at` en BD |
-| `cancelled` | Reservación anulada manualmente o por error del sistema. | Sistema en caso de fallo |
+| `pending` | Reservation created. Seat blocked. Timer active. | System upon selection confirmation |
+| `confirmed` | Payment successfully completed within the time limit. | System upon payment processing |
+| `expired` | Timer reached zero without payment being completed. | Server-side via `expires_at` in DB |
+| `cancelled` | Reservation manually cancelled or due to a system error. | System in case of failure |
 
-> ⚙️ **Importante:** El temporizador se gestiona **server-side** mediante los campos `selected_at` y `expires_at` en la tabla `BOOKING_SEAT`. El frontend solo muestra la cuenta regresiva visual; la lógica real de expiración vive en la base de datos.
+> ⚙️ **Important:** The timer is managed **server-side** through the `selected_at` and `expires_at` fields in the `BOOKING_SEAT` table. The frontend only displays the visual countdown; the actual expiration logic lives in the database.
 
 ---
 
-## 🗄️ Diagrama Entidad-Relación
+## 🗄️ Entity-Relationship Diagram
 
 ```mermaid
 erDiagram
 
-    %% SECTION 1 — PERSONAS Y CUENTAS
-    PERSON ||--|| USER : "registra como"
-    PERSON ||--|| EMPLOYEE : "es"
-    OCCUPATION ||--o{ EMPLOYEE : "ocupa"
+    %% SECTION 1 — PEOPLE AND ACCOUNTS
+    PERSON ||--|| USER : "registers as"
+    PERSON ||--|| EMPLOYEE : "is"
+    OCCUPATION ||--o{ EMPLOYEE : "holds"
 
     PERSON {
         int id_person PK
@@ -336,12 +336,12 @@ erDiagram
         varchar email
     }
     USER {
-        int id_person PK "FK compartida con PERSON"
+        int id_person PK "FK shared with PERSON"
         varchar user_name
         varchar password
     }
     EMPLOYEE {
-        int id_person PK "FK compartida con PERSON"
+        int id_person PK "FK shared with PERSON"
         varchar rfc
         int id_occupation FK
     }
@@ -350,11 +350,11 @@ erDiagram
         varchar name
     }
 
-    %% SECTION 2 — AEROPUERTOS Y VUELOS
-    AIRPORT ||--o{ FLIGHT : "origen de"
-    AIRPORT ||--o{ FLIGHT : "destino de"
-    AIRPLANE_MODEL ||--o{ AIRPLANE : "especifica"
-    AIRPLANE ||--o{ FLIGHT : "asignado a"
+    %% SECTION 2 — AIRPORTS AND FLIGHTS
+    AIRPORT ||--o{ FLIGHT : "origin of"
+    AIRPORT ||--o{ FLIGHT : "destination of"
+    AIRPLANE_MODEL ||--o{ AIRPLANE : "specifies"
+    AIRPLANE ||--o{ FLIGHT : "assigned to"
 
     AIRPORT {
         int id_airport PK
@@ -387,10 +387,10 @@ erDiagram
         enum status "scheduled | departed | cancelled"
     }
 
-    %% SECTION 3 — RESERVACIONES DE VUELO
-    USER ||--o{ FLIGHT_BOOKING : "realiza"
-    FLIGHT ||--o{ FLIGHT_BOOKING : "reservado en"
-    FLIGHT_BOOKING ||--o{ BOOKING_SEAT : "incluye"
+    %% SECTION 3 — FLIGHT RESERVATIONS
+    USER ||--o{ FLIGHT_BOOKING : "makes"
+    FLIGHT ||--o{ FLIGHT_BOOKING : "booked on"
+    FLIGHT_BOOKING ||--o{ BOOKING_SEAT : "includes"
 
     FLIGHT_BOOKING {
         int id_booking PK
@@ -406,18 +406,18 @@ erDiagram
         int id_flight FK
         varchar seat_number
         datetime selected_at
-        datetime expires_at "= selected_at + 10 minutos"
+        datetime expires_at "= selected_at + 10 minutes"
         enum status "pending | confirmed | expired | cancelled"
     }
 
-    %% SECTION 4 — TROLEBÚS
-    TROLLEY_MODEL ||--o{ TROLLEY : "especifica"
-    ROUTE ||--|{ ROUTE_STOP : "contiene"
-    BUS_STATION ||--o{ ROUTE_STOP : "es parada en"
-    ROUTE ||--o{ TROLLEY_ROUTE_SCHEDULE : "tiene"
-    TROLLEY_ROUTE_SCHEDULE ||--o{ SCHEDULE_DAY : "ocurre en"
-    TROLLEY_ROUTE_SCHEDULE ||--o{ TROLLEY_TRIP : "genera"
-    TROLLEY ||--o{ TROLLEY_TRIP : "asignado a"
+    %% SECTION 4 — TROLLEYBUS
+    TROLLEY_MODEL ||--o{ TROLLEY : "specifies"
+    ROUTE ||--|{ ROUTE_STOP : "contains"
+    BUS_STATION ||--o{ ROUTE_STOP : "is a stop on"
+    ROUTE ||--o{ TROLLEY_ROUTE_SCHEDULE : "has"
+    TROLLEY_ROUTE_SCHEDULE ||--o{ SCHEDULE_DAY : "occurs on"
+    TROLLEY_ROUTE_SCHEDULE ||--o{ TROLLEY_TRIP : "generates"
+    TROLLEY ||--o{ TROLLEY_TRIP : "assigned to"
 
     TROLLEY_MODEL {
         int id_model PK
@@ -470,9 +470,9 @@ erDiagram
         enum status "scheduled | in_progress | completed | cancelled"
     }
 
-    %% SECTION 5 — RESERVACIONES DE TROLEBÚS
-    USER ||--o{ TROLLEY_BOOKING : "realiza"
-    TROLLEY_TRIP ||--o{ TROLLEY_BOOKING : "reservado en"
+    %% SECTION 5 — TROLLEYBUS RESERVATIONS
+    USER ||--o{ TROLLEY_BOOKING : "makes"
+    TROLLEY_TRIP ||--o{ TROLLEY_BOOKING : "booked on"
 
     TROLLEY_BOOKING {
         int id_booking PK
@@ -485,12 +485,12 @@ erDiagram
         enum status "pending | confirmed | expired | cancelled"
     }
 
-    %% SECTION 6 — BOLETOS Y PAGOS
-    FLIGHT_BOOKING ||--|{ TICKET : "genera"
-    TROLLEY_BOOKING ||--|{ TICKET : "genera"
-    USER ||--o{ PAYMENT : "realiza"
-    FLIGHT_BOOKING ||--o| PAYMENT : "pagado con"
-    TROLLEY_BOOKING ||--o| PAYMENT : "pagado con"
+    %% SECTION 6 — TICKETS AND PAYMENTS
+    FLIGHT_BOOKING ||--|{ TICKET : "generates"
+    TROLLEY_BOOKING ||--|{ TICKET : "generates"
+    USER ||--o{ PAYMENT : "makes"
+    FLIGHT_BOOKING ||--o| PAYMENT : "paid with"
+    TROLLEY_BOOKING ||--o| PAYMENT : "paid with"
 
     TICKET {
         int id_ticket PK
@@ -502,190 +502,190 @@ erDiagram
     PAYMENT {
         int id_payment PK
         int id_user FK
-        int id_flight_booking FK "NULL si es pago de trolebús"
-        int id_trolley_booking FK "NULL si es pago de vuelo"
+        int id_flight_booking FK "NULL if trolleybus payment"
+        int id_trolley_booking FK "NULL if flight payment"
         enum payment_method "cash | card | transfer"
         decimal amount
         enum payment_status "pending | completed | failed | refunded"
         datetime payment_date
         datetime completed_at
         varchar reference_number
-        varchar card_last_four "solo últimos 4 dígitos"
+        varchar card_last_four "last 4 digits only"
     }
 ```
 
 ---
 
-## 🏃 Metodología de trabajo
+## 🏃 Work methodology
 
-El proyecto se desarrolla bajo la metodología **Scrum**, con las siguientes convenciones:
+The project is developed under the **Scrum** methodology, with the following conventions:
 
-- El desarrollo está organizado en **Sprints de duración fija**, cada uno con un objetivo claro y alcanzable.
-- Cada Sprint comienza con una **sesión de planeación** donde el equipo selecciona User Stories del Product Backlog.
-- Cada User Story sigue el formato: *Como [tipo de usuario], quiero [acción], para que [beneficio]*.
-- Los criterios de aceptación están escritos en formato **Gherkin** (Given / When / Then).
-- Cada User Story tiene un valor de **Story Points** asignado antes del desarrollo.
-- El Product Backlog se mantiene ordenado por prioridad: **Alta / Media / Baja**.
-- Al final de cada Sprint se realiza un **Sprint Review** demostrando la funcionalidad completada.
+- Development is organized into **fixed-duration Sprints**, each with a clear and achievable goal.
+- Each Sprint begins with a **planning session** where the team selects User Stories from the Product Backlog.
+- Each User Story follows the format: *As a [type of user], I want [action], so that [benefit]*.
+- Acceptance criteria are written in **Gherkin** format (Given / When / Then).
+- Each User Story has a **Story Points** value assigned before development.
+- The Product Backlog is kept ordered by priority: **High / Medium / Low**.
+- At the end of each Sprint a **Sprint Review** is held demonstrating the completed functionality.
 
-### Reglas de control de versiones
+### Version control rules
 
-- Todo el código está versionado con **Git** y alojado en **GitHub**.
-- Cada miembro del equipo debe realizar commits bajo **su propia cuenta de GitHub**.
-- No se aceptan repositorios con un único autor.
-- La documentación (Resumen Técnico, Backlog, Requisitos) debe mantenerse actualizada en el repositorio.
+- All code is versioned with **Git** and hosted on **GitHub**.
+- Each team member must make commits under **their own GitHub account**.
+- Repositories with a single author are not accepted.
+- Documentation (Technical Summary, Backlog, Requirements) must be kept up to date in the repository.
 
 ---
 
 ## 📦 Product Backlog
 
-### 🎯 Objetivo del producto
+### 🎯 Product goal
 
-> Permitir a los usuarios de una agencia de turismo registrarse, buscar, reservar y pagar vuelos o viajes en trolebús de forma autónoma a través de una aplicación web, recibiendo un boleto PDF descargable como comprobante de su reservación confirmada.
+> Allow users of a travel agency to independently register, search, book and pay for flights or trolleybus trips through a web application, receiving a downloadable PDF ticket as proof of their confirmed reservation.
 
-### Épicas
+### Epics
 
-| ID | Épica | Prioridad |
+| ID | Epic | Priority |
 |---|---|---|
-| EP-01 | Autenticación de usuarios | Alta |
-| EP-02 | Reservación de vuelos | Alta |
-| EP-03 | Reservación de trolebús turístico | Alta |
-| EP-04 | Procesamiento de pagos | Alta |
-| EP-05 | Generación de boleto PDF | Media |
+| EP-01 | User authentication | High |
+| EP-02 | Flight reservation | High |
+| EP-03 | Tourist trolleybus reservation | High |
+| EP-04 | Payment processing | High |
+| EP-05 | PDF ticket generation | Medium |
 
 ### User Stories
 
-| ID | User Story | Épica | Prioridad | Puntos |
+| ID | User Story | Epic | Priority | Points |
 |---|---|---|---|---|
-| US-01 | Registro de usuario | EP-01 | Alta | 3 |
-| US-02 | Login de usuario | EP-01 | Alta | 2 |
-| US-03 | Logout de usuario | EP-01 | Media | 1 |
-| US-04 | Búsqueda de vuelos | EP-02 | Alta | 5 |
-| US-05 | Selección de asiento en mapa visual | EP-02 | Alta | 5 |
-| US-06 | Confirmación de reservación de vuelo | EP-02 | Alta | 3 |
-| US-07 | Explorar rutas de trolebús | EP-03 | Alta | 3 |
-| US-08 | Reservación de trolebús | EP-03 | Alta | 5 |
-| US-09 | Completar pago de reservación | EP-04 | Alta | 5 |
-| US-10 | Agregar reservaciones al boleto | EP-05 | Media | 3 |
-| US-11 | Descargar boleto PDF | EP-05 | Media | 5 |
+| US-01 | User registration | EP-01 | High | 3 |
+| US-02 | User login | EP-01 | High | 2 |
+| US-03 | User logout | EP-01 | Medium | 1 |
+| US-04 | Flight search | EP-02 | High | 5 |
+| US-05 | Seat selection on visual map | EP-02 | High | 5 |
+| US-06 | Flight reservation confirmation | EP-02 | High | 3 |
+| US-07 | Explore trolleybus routes | EP-03 | High | 3 |
+| US-08 | Trolleybus reservation | EP-03 | High | 5 |
+| US-09 | Complete reservation payment | EP-04 | High | 5 |
+| US-10 | Add reservations to ticket | EP-05 | Medium | 3 |
+| US-11 | Download PDF ticket | EP-05 | Medium | 5 |
 | **Total** | | | | **40 pts** |
 
 ---
 
-## 🧪 Pruebas
+## 🧪 Testing
 
-Este proyecto no cuenta con pruebas automatizadas en la versión 1.0 — las validaciones se realizan de forma **manual** siguiendo el flujo completo del sistema.
+This project does not include automated tests in version 1.0 — validations are performed **manually** following the complete system flow.
 
-### Flujo de verificación manual
+### Manual verification flow
 
-Para confirmar que el sistema funciona correctamente, ejecuta las siguientes pruebas en orden:
+To confirm the system is working correctly, run the following tests in order:
 
-| # | Módulo | Acción a verificar | Resultado esperado |
+| # | Module | Action to verify | Expected result |
 |---|---|---|---|
-| 1 | Autenticación | Registrar un usuario nuevo | Redirección al dashboard sin errores |
-| 2 | Autenticación | Iniciar sesión con credenciales correctas | Sesión activa, acceso al dashboard |
-| 3 | Autenticación | Acceder a una ruta protegida sin sesión | Redirección al login |
-| 4 | Vuelos | Buscar vuelo por origen, destino y fecha | Lista de vuelos disponibles |
-| 5 | Vuelos | Seleccionar un asiento disponible | Asiento marcado en azul 🔵 |
-| 6 | Reservación | Confirmar reservación de vuelo | Estado `pending`, temporizador iniciado |
-| 7 | Pago | Completar pago dentro de los 10 minutos | Estado cambia a `confirmed` |
-| 8 | Pago | Intentar pagar con el temporizador expirado | Pago rechazado, estado `expired` |
-| 9 | Trolebús | Reservar un viaje en trolebús | Estado `pending`, temporizador iniciado |
-| 10 | Boleto | Agregar reservación confirmada al ticket | Reservación aparece en el resumen |
-| 11 | Boleto | Descargar el boleto PDF | PDF generado y descargado correctamente |
-| 12 | Boleto | Intentar descargar el mismo boleto de nuevo | Botón bloqueado permanentemente |
+| 1 | Authentication | Register a new user | Redirect to dashboard without errors |
+| 2 | Authentication | Log in with correct credentials | Active session, dashboard access |
+| 3 | Authentication | Access a protected route without a session | Redirect to login |
+| 4 | Flights | Search for a flight by origin, destination and date | List of available flights |
+| 5 | Flights | Select an available seat | Seat marked in blue 🔵 |
+| 6 | Reservation | Confirm a flight reservation | `pending` status, timer started |
+| 7 | Payment | Complete payment within 10 minutes | Status changes to `confirmed` |
+| 8 | Payment | Attempt to pay after the timer has expired | Payment rejected, `expired` status |
+| 9 | Trolleybus | Book a trolleybus trip | `pending` status, timer started |
+| 10 | Ticket | Add a confirmed reservation to the ticket | Reservation appears in the summary |
+| 11 | Ticket | Download the PDF ticket | PDF generated and downloaded correctly |
+| 12 | Ticket | Attempt to download the same ticket again | Button permanently blocked |
 
-> 🔮 Las pruebas automatizadas (unitarias o de integración) están consideradas como mejora futura para versiones posteriores del sistema.
+> 🔮 Automated tests (unit or integration) are considered a future improvement for later versions of the system.
 
 ---
 
-## 🤝 Cómo contribuir
+## 🤝 How to contribute
 
-Este es un proyecto académico de equipo. Sigue estas reglas para mantener el historial limpio y cumplir con los requisitos del proyecto.
+This is an academic team project. Follow these rules to keep the history clean and meet the project requirements.
 
-### Flujo de trabajo con Git
+### Git workflow
 
-**1. Siempre trabaja en tu propia rama**
+**1. Always work on your own branch**
 ```bash
-# Nombra tu rama con tu nombre o la funcionalidad que desarrollas
-git checkout -b feature/nombre-de-la-funcionalidad
+# Name your branch with your name or the feature you are developing
+git checkout -b feature/feature-name
 
-# Ejemplo:
+# Example:
 git checkout -b feature/daniel-seat-map
 ```
 
-**2. Haz commits pequeños y descriptivos**
+**2. Make small, descriptive commits**
 ```bash
 git add .
-git commit -m "feat: agrega mapa visual de asientos con colores por estado"
+git commit -m "feat: add visual seat map with status colors"
 ```
 
-**3. Sube tu rama y abre un Pull Request hacia `main`**
+**3. Push your branch and open a Pull Request to `main`**
 ```bash
 git push origin feature/daniel-seat-map
-# Luego abre un Pull Request en GitHub
+# Then open a Pull Request on GitHub
 ```
 
-### Convención de commits
+### Commit convention
 
-| Prefijo | Cuándo usarlo |
+| Prefix | When to use it |
 |---|---|
-| `feat:` | Nueva funcionalidad |
-| `fix:` | Corrección de un bug |
-| `style:` | Cambios de CSS o UI sin lógica |
-| `refactor:` | Restructuración de código sin cambiar comportamiento |
-| `docs:` | Cambios en documentación |
-| `db:` | Cambios en esquema SQL o queries |
+| `feat:` | New feature |
+| `fix:` | Bug fix |
+| `style:` | CSS or UI changes without logic |
+| `refactor:` | Code restructuring without changing behavior |
+| `docs:` | Documentation changes |
+| `db:` | SQL schema or query changes |
 
-> ⚠️ **Regla obligatoria (AG-09):** Cada miembro del equipo debe hacer commits desde su propia cuenta de GitHub. Los repositorios con un único autor no son aceptables.
-
----
-
-## ⚠️ Alcance y limitaciones (v1.0)
-
-### Dentro del alcance
-- Registro e inicio de sesión de usuarios
-- Reservación y pago simulado de vuelos y trolebús
-- Descarga única de boleto PDF por reservación confirmada
-
-### Fuera del alcance (v1.0)
-- Integración con pasarela de pago real — el pago es completamente simulado
-- Aplicación móvil nativa
-- Panel administrativo avanzado para la agencia
-- Notificaciones por correo electrónico
-- Sincronización en tiempo real del mapa de asientos entre sesiones simultáneas
-
-### Restricciones técnicas
-- Compatible únicamente con navegadores **Chromium** (Chrome, Edge) — Firefox y Safari no están garantizados
-- Diseñado y probado para **escritorio** — el soporte móvil está fuera del alcance en v1.0
-- No se pueden registrar vuelos o trolebuses con **fechas u horas pasadas**
-- Si dos usuarios abren el mismo vuelo simultáneamente, un asiento puede aparecer disponible para ambos hasta que uno lo confirme primero — no hay sincronización en tiempo real
+> ⚠️ **Mandatory rule (AG-09):** Each team member must make commits from their own GitHub account. Repositories with a single author are not acceptable.
 
 ---
 
-## 👥 Equipo de desarrollo
+## ⚠️ Scope and limitations (v1.0)
 
-| Nombre | Rol | GitHub |
+### Within scope
+- User registration and login
+- Simulated reservation and payment for flights and trolleybus
+- Single PDF ticket download per confirmed reservation
+
+### Out of scope (v1.0)
+- Integration with a real payment gateway — payment is completely simulated
+- Native mobile application
+- Advanced administrative panel for the agency
+- Email notifications
+- Real-time seat map synchronization between simultaneous sessions
+
+### Technical restrictions
+- Compatible only with **Chromium** browsers (Chrome, Edge) — Firefox and Safari are not guaranteed
+- Designed and tested for **desktop** — mobile support is out of scope in v1.0
+- Flights or trolleybuses cannot be registered with **past dates or times**
+- If two users open the same flight simultaneously, a seat may appear available to both until one confirms it first — there is no real-time synchronization
+
+---
+
+## 👥 Development team
+
+| Name | Role | GitHub |
 |---|---|---|
-| López Cabrera Daniel | Analista y Diseñador | [@Daniellopezcabrera](https://github.com/Daniellopezcabrera) |
-| García Sánchez German | Desarrollador SQL | [@garciasanchezgermanm3s1-maker](https://github.com/garciasanchezgermanm3s1-maker) |
+| López Cabrera Daniel | Analyst and Designer | [@Daniellopezcabrera](https://github.com/Daniellopezcabrera) |
+| García Sánchez German | SQL Developer | [@garciasanchezgermanm3s1-maker](https://github.com/garciasanchezgermanm3s1-maker) |
 | Cueto Madrigal Michelle | Query Master | [@michellecuetomadrigal](https://github.com/michellecuetomadrigal) |
 | Cruz Estrada Johana Elena | SQL Tester | [@cruzestradajohanaelenam351-collab](https://github.com/cruzestradajohanaelenam351-collab) |
-| Roldan Barrera Edson Yalan | DBA (Administrador de Base de Datos) | [@roldan-barrera-edson-yalan-m3s1-wq](https://github.com/roldan-barrera-edson-yalan-m3s1-wq) |
+| Roldan Barrera Edson Yalan | DBA (Database Administrator) | [@roldan-barrera-edson-yalan-m3s1-wq](https://github.com/roldan-barrera-edson-yalan-m3s1-wq) |
 
 ---
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto fue desarrollado con fines exclusivamente académicos como parte del plan de estudios del **CBTis 47 (Centro de Bachillerato Tecnológico industrial y de servicios No. 47)**.
+This project was developed exclusively for academic purposes as part of the curriculum of **CBTis 47 (Centro de Bachillerato Tecnológico industrial y de servicios No. 47)**.
 
-**No está permitido:**
-- Usar este sistema en un entorno de producción real
-- Redistribuirlo con fines comerciales
-- Publicarlo como trabajo propio sin atribuir al equipo original
+**Not permitted:**
+- Using this system in a real production environment
+- Redistributing it for commercial purposes
+- Publishing it as your own work without crediting the original team
 
-© 2026 Flying With You — CBTis 47. Todos los derechos reservados.
+© 2026 Flying With You — CBTis 47. All rights reserved.
 
 ---
 
-*Flying With You — CBTis 47 · Abril 2026*
+*Flying With You — CBTis 47 · April 2026*
