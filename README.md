@@ -1,4 +1,4 @@
-# ✈️ Flygth With You
+# ✈️ Flying With You
 
 > Sistema web de gestión de reservaciones para una agencia de turismo.  
 > Permite a los usuarios registrarse, buscar y reservar vuelos o viajes en trolebús turístico, realizar pagos simulados y descargar su boleto en PDF — sin instalaciones, directamente desde el navegador.
