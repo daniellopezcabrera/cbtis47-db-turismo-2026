@@ -98,6 +98,23 @@ This document describes the relational database structure with integrity constra
 
 ---
 
+## FLIGHT_INCIDENT
+
+| Table | Column | Type | Description |
+|-------|--------|------|------------|
+| Flight_incident | id_incident | INT (PK) | Unique identifier assigned to each incident report related to a flight. |
+| Flight_incident | id_flight | INT (FK) NOT NULL | Flight where the incident occurred or was detected. |
+| Flight_incident | id_employee | INT (FK) NOT NULL | Employee responsible for reporting or registering the incident. |
+| Flight_incident | incident_type | ENUM | Category of the incident (technical, operational, medical, weather, etc.). |
+| Flight_incident | severity | ENUM | Severity level of the incident (low, medium, high, critical). |
+| Flight_incident | description | TEXT | Detailed explanation of the incident and the events that occurred. |
+| Flight_incident | status | ENUM | Current status of the incident (open, investigating, resolved, closed). |
+| Flight_incident | resolution_notes | TEXT | Notes describing how the incident was resolved or handled. |
+| Flight_incident | recorded_at | DATETIME | Date and time when the incident was officially recorded. |
+| Flight_incident | resolved_at | DATETIME | Date and time when the incident was resolved or closed. |
+
+---
+
 ## FLIGHT_BOOKING
 
 | Table | Column | Type | Description |
