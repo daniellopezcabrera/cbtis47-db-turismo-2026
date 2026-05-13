@@ -621,8 +621,8 @@ Este proyecto fue desarrollado con fines exclusivamente académicos como parte d
 - Redistribuirlo con fines comerciales
 - Publicarlo como trabajo propio sin atribuir al equipo original
 
-© 2026 Flygth With You — CBTis 47. Todos los derechos reservados.
+© 2026 Flying With You — CBTis 47. Todos los derechos reservados.
 
 ---
 
-*Flygth With You — CBTis 47 · Abril 2026*
+*Flying With You — CBTis 47 · Abril 2026*
