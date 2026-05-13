@@ -79,6 +79,22 @@ FLIGHT {
     enum status
 }
 
+FLIGHT ||--o{ FLIGHT_INCIDENT : "has"
+    EMPLOYEE ||--o{ FLIGHT_INCIDENT : "reports"
+    
+    FLIGHT_INCIDENT {
+        int id_incident PK
+        int id_flight FK
+        int id_employee FK
+        enum incident_type
+        enum severity
+        text description
+        enum status
+        text resolution_notes
+        datetime recorded_at
+        datetime resolved_at
+    }
+
 AIRPLANE ||--o{ FLIGHT : "assigned to"
 
 BOOKING_SEAT }o--||FLIGHT:seats_in
