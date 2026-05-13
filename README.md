@@ -20,6 +20,7 @@
 
 - [Sobre el proyecto](#-sobre-el-proyecto)
 - [Funcionalidades principales](#-funcionalidades-principales)
+- [Capturas de pantalla](#-capturas-de-pantalla)
 - [Tecnologías utilizadas](#-tecnologías-utilizadas)
 - [Requisitos previos](#-requisitos-previos)
 - [Instalación y configuración](#-instalación-y-configuración)
@@ -29,10 +30,12 @@
 - [Diagrama Entidad-Relación](#️-diagrama-entidad-relación)
 - [Metodología de trabajo](#-metodología-de-trabajo)
 - [Product Backlog](#-product-backlog)
+- [Pruebas](#-pruebas)
 - [Cómo contribuir](#-cómo-contribuir)
 - [Alcance y limitaciones](#️-alcance-y-limitaciones)
 - [Equipo de desarrollo](#-equipo-de-desarrollo)
 - [Licencia](#-licencia)
+
 ---
 
 ## 🛡️ Data Security Protocol (DML Operations)
@@ -58,6 +61,7 @@ ROLLBACK;
 
 -- 4. If everything is correct, commit the changes:
 COMMIT;
+```
 
 ---
 
@@ -107,6 +111,27 @@ El sistema no requiere instalación de software adicional — corre completament
 
 ---
 
+## 📸 Capturas de pantalla
+
+> 🚧 **Sección pendiente** — Las capturas de pantalla se agregarán una vez que el sistema esté completado.  
+> Se documentarán las siguientes vistas:
+
+| Vista | Descripción |
+|---|---|
+| `login.png` | Pantalla de inicio de sesión |
+| `dashboard.png` | Panel principal post-login |
+| `seat-map.png` | Mapa visual de asientos con leyenda de colores |
+| `checkout.png` | Flujo de pago con temporizador activo |
+| `ticket-pdf.png` | Boleto PDF generado y descargado |
+
+<!-- Una vez que el sistema esté listo, reemplaza esta sección con:
+![Login](docs/screenshots/login.png)
+![Dashboard](docs/screenshots/dashboard.png)
+![Mapa de asientos](docs/screenshots/seat-map.png)
+-->
+
+---
+
 ## 🛠️ Tecnologías utilizadas
 
 | Componente | Tecnología | Notas |
@@ -140,8 +165,8 @@ Antes de ejecutar el proyecto, asegúrate de tener lo siguiente:
 ### 1. Clona el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/flygth-with-you.git
-cd flygth-with-you
+git clone https://github.com/daniellopezcabrera/cbtis47-db-turismo-2026.git
+cd cbtis47-db-turismo-2026
 ```
 
 ### 2. Aplica el esquema de la base de datos
@@ -156,7 +181,7 @@ Abre el archivo `config/supabase.js` y reemplaza los valores con los de tu proye
 const SUPABASE_URL = "https://tu-proyecto.supabase.co";
 const SUPABASE_KEY = "tu-anon-public-key";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 ```
 
 > 🔐 Usa únicamente la `anon key` (clave pública) de Supabase.  
@@ -394,9 +419,20 @@ erDiagram
     TROLLEY_ROUTE_SCHEDULE ||--o{ TROLLEY_TRIP : "genera"
     TROLLEY ||--o{ TROLLEY_TRIP : "asignado a"
 
-    TROLLEY_MODEL { int id_model PK; int capacity; varchar model_name }
-    TROLLEY { int id_trolley PK; varchar plate_number; int id_model FK }
-    ROUTE { int id_route PK; varchar route_name }
+    TROLLEY_MODEL {
+        int id_model PK
+        int capacity
+        varchar model_name
+    }
+    TROLLEY {
+        int id_trolley PK
+        varchar plate_number
+        int id_model FK
+    }
+    ROUTE {
+        int id_route PK
+        varchar route_name
+    }
     BUS_STATION {
         int id_station PK
         varchar city_name
@@ -536,6 +572,33 @@ El proyecto se desarrolla bajo la metodología **Scrum**, con las siguientes con
 
 ---
 
+## 🧪 Pruebas
+
+Este proyecto no cuenta con pruebas automatizadas en la versión 1.0 — las validaciones se realizan de forma **manual** siguiendo el flujo completo del sistema.
+
+### Flujo de verificación manual
+
+Para confirmar que el sistema funciona correctamente, ejecuta las siguientes pruebas en orden:
+
+| # | Módulo | Acción a verificar | Resultado esperado |
+|---|---|---|---|
+| 1 | Autenticación | Registrar un usuario nuevo | Redirección al dashboard sin errores |
+| 2 | Autenticación | Iniciar sesión con credenciales correctas | Sesión activa, acceso al dashboard |
+| 3 | Autenticación | Acceder a una ruta protegida sin sesión | Redirección al login |
+| 4 | Vuelos | Buscar vuelo por origen, destino y fecha | Lista de vuelos disponibles |
+| 5 | Vuelos | Seleccionar un asiento disponible | Asiento marcado en azul 🔵 |
+| 6 | Reservación | Confirmar reservación de vuelo | Estado `pending`, temporizador iniciado |
+| 7 | Pago | Completar pago dentro de los 10 minutos | Estado cambia a `confirmed` |
+| 8 | Pago | Intentar pagar con el temporizador expirado | Pago rechazado, estado `expired` |
+| 9 | Trolebús | Reservar un viaje en trolebús | Estado `pending`, temporizador iniciado |
+| 10 | Boleto | Agregar reservación confirmada al ticket | Reservación aparece en el resumen |
+| 11 | Boleto | Descargar el boleto PDF | PDF generado y descargado correctamente |
+| 12 | Boleto | Intentar descargar el mismo boleto de nuevo | Botón bloqueado permanentemente |
+
+> 🔮 Las pruebas automatizadas (unitarias o de integración) están consideradas como mejora futura para versiones posteriores del sistema.
+
+---
+
 ## 🤝 Cómo contribuir
 
 Este es un proyecto académico de equipo. Sigue estas reglas para mantener el historial limpio y cumplir con los requisitos del proyecto.
@@ -602,13 +665,13 @@ git push origin feature/daniel-seat-map
 
 ## 👥 Equipo de desarrollo
 
-| Nombre | Rol |
-|---|---|
-| López Cabrera Daniel | Analista y Diseñador |
-| García Sánchez German | Desarrollador SQL |
-| Cueto Madrigal Michelle | Query Master |
-| Cruz Estrada Johana Elena | SQL Tester |
-| Roldan Barrera Edson Yalan | DBA (Administrador de Base de Datos) |
+| Nombre | Rol | GitHub |
+|---|---|---|
+| López Cabrera Daniel | Analista y Diseñador | [@Daniellopezcabrera](https://github.com/Daniellopezcabrera) |
+| García Sánchez German | Desarrollador SQL | [@garciasanchezgermanm3s1-maker](https://github.com/garciasanchezgermanm3s1-maker) |
+| Cueto Madrigal Michelle | Query Master | [@michellecuetomadrigal](https://github.com/michellecuetomadrigal) |
+| Cruz Estrada Johana Elena | SQL Tester | [@cruzestradajohanaelenam351-collab](https://github.com/cruzestradajohanaelenam351-collab) |
+| Roldan Barrera Edson Yalan | DBA (Administrador de Base de Datos) | [@roldan-barrera-edson-yalan-m3s1-wq](https://github.com/roldan-barrera-edson-yalan-m3s1-wq) |
 
 ---
 
