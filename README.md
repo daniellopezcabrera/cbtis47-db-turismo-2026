@@ -387,6 +387,22 @@ erDiagram
         enum status "scheduled | departed | cancelled"
     }
 
+FLIGHT ||--o{ FLIGHT_INCIDENT : "has"
+    EMPLOYEE ||--o{ FLIGHT_INCIDENT : "reports"
+    
+    FLIGHT_INCIDENT {
+        int id_incident PK
+        int id_flight FK
+        int id_employee FK
+        enum incident_type
+        enum severity
+        text description
+        enum status
+        text resolution_notes
+        datetime recorded_at
+        datetime resolved_at
+    }
+
     %% SECTION 3 — FLIGHT RESERVATIONS
     USER ||--o{ FLIGHT_BOOKING : "makes"
     FLIGHT ||--o{ FLIGHT_BOOKING : "booked on"
