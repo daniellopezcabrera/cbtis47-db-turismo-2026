@@ -1,4 +1,4 @@
-# Product Backlog — Flygth With You
+# Product Backlog — Flying With You
 > **Flight & Tourism Agency** · CBTis 47  
 > **Stack:** HTML5 · CSS3 · JavaScript · Supabase (PostgreSQL) · jsPDF · GitHub
 
