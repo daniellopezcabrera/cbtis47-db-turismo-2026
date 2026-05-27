@@ -269,3 +269,6 @@ Habilitación de Supabase Auth utilizando el proveedor de Email/Contraseña. Con
 * El documento PDF estructurado contiene: Encabezado institucional, desglose pormenorizado de reservas agregadas, código alfanumérico único de verificación y la leyenda de advertencia de descarga única.
 * Control del flujo mediante la bandera booleana `ticket_downloaded` mapeada directamente en la tabla `TICKET` (para persistencia absoluta).
 * **Pruebas de flujo:** Descarga inicial perfecta; los reintentos posteriores se bloquearon mostrando la validación.
+### Duració del sprint: 13 de febrero 2026 - 11 marzo 2026
+### Product owner: Jose Octavio Sánchez Contreras
+### Tareas: 11 entregadas / 11 planeadas (80% de velocity)
