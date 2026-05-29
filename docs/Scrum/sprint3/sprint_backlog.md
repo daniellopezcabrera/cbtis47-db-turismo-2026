@@ -100,81 +100,158 @@ Las 12 nuevas historias corresponden a los epics:
 
 ## 6. Tareas del Sprint 3 por Epic
 
-### EP-01 · User Authentication (Daniel)
-
-| Tarea | Descripción |
-|-------|-------------|
-| INT-01 completar | Conexión registro → Supabase Auth + inserción en PERSON y USER |
-| INT-02 completar | Conexión login → resolución username a email → autenticación |
-| US-01 finalizar | Validaciones CURP, email duplicado, formatos, manejo de errores |
-| US-02 finalizar | Bloqueo tras intentos fallidos, manejo de cuenta deshabilitada |
-| US-03 implementar | Cierre de sesión + expiración por inactividad |
-
-### EP-02 · Flight Reservation (Michelle)
-
-| Tarea | Descripción |
-|-------|-------------|
-| INT-03 completar | Cargar vuelos desde FLIGHT al buscador HTML |
-| US-04 finalizar | Filtros, validaciones (fecha pasada, mismo origen/destino) |
-| US-05 finalizar | Mapa de asientos desde AIRPLANE_MODEL, colores según BOOKING_SEAT |
-| US-06 finalizar | Creación de FLIGHT_BOOKING + BOOKING_SEAT, timer de 10 min, expiración |
-
-### EP-03 · Tourist Trolleybus Reservation (Johana)
-
-| Tarea | Descripción |
-|-------|-------------|
-| DATA-04 completar | Insertar rutas restantes en ROUTE y ROUTE_STOP |
-| US-07 finalizar | Listado de rutas con parada de salida desde ROUTE_STOP |
-| US-08 finalizar | Reserva con boarding_stop, TROLLEY_BOOKING, timer de 10 min |
-
-### EP-04 · Payment Processing (Edson)
-
-| Tarea | Descripción |
-|-------|-------------|
-| US-09 finalizar | Pago simulado, inserción en PAYMENT, cambio de status a confirmed |
-| Validar | Rechazo de pago si expires_at ya pasó, manejo de pago fallido |
-| Cash payment | Cálculo de cambio, validación de monto insuficiente |
-
-### EP-05 · PDF Ticket Generation (Edson)
-
-| Tarea | Descripción |
-|-------|-------------|
-| US-10 finalizar | Acumular reservas confirmadas en ticket, evitar duplicados, límite |
-| US-11 finalizar | Generación PDF con jsPDF, bloqueo de segunda descarga (TICKET table) |
-
-### EP-06 · Assigned Flight Management (German)
-
-| Tarea | Descripción |
-|-------|-------------|
-| US-12 finalizar | Mostrar vuelos asignados al piloto/co-piloto logueado |
-| US-13 finalizar | Mostrar manifiesto de pasajeros (FLIGHT_BOOKING + BOOKING_SEAT + PERSON) |
-| US-14 finalizar | Actualizar status: scheduled → departed → cancelled (solo piloto) |
-
-### EP-07 · In-Flight Service Management (Michelle)
-
-| Tarea | Descripción |
-|-------|-------------|
-| US-15 finalizar | Mostrar pasajeros + asientos para vuelo asignado (solo flight attendant) |
-| US-16 finalizar | Crear tabla INCIDENT, registrar incidentes solo en vuelos departed |
-
-### EP-08 · Trolleybus Route Management (Johana)
-
-| Tarea | Descripción |
-|-------|-------------|
-| US-17 finalizar | Mostrar trips del día para el driver logueado + pasajeros por trip |
-| US-18 finalizar | Actualizar status: scheduled → in_progress → completed |
-
-### EP-09 · System Administration (Edson, Daniel, German)
-
-| Tarea | Descripción | Responsable |
-|-------|-------------|-------------|
-| US-19 | CRUD de FLIGHT (crear, editar, eliminar con validaciones) | Edson |
-| US-20 | CRUD de ROUTE, TROLLEY_ROUTE_SCHEDULE, TROLLEY_TRIP | Edson |
-| US-21 | CRUD de EMPLOYEE + PERSON + USER + Supabase Auth | Daniel |
-| US-22 | Reportes de reservas y pagos con filtros | German |
-| US-23 | Cancelar o modificar reservas (cambiar status) | German |
+> **Distribución de horas totales:** 300 horas  
+> **Criterio de asignación:** Las tareas High reciben ~60-70% del tiempo, Medium ~30-40%.  
+> **Base por hora:** 1 SP ≈ 3.6 horas (300h / 83 SP)
 
 ---
+
+### EP-01 · User Authentication 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| INT-01 completar | Conexión registro → Supabase Auth + inserción en PERSON y USER | 3 | 11 h |
+| INT-02 completar | Conexión login → resolución username a email → autenticación | 2 | 7 h |
+| US-01 finalizar | Validaciones CURP, email duplicado, formatos, manejo de errores | 5 | 18 h |
+| US-02 finalizar | Bloqueo tras intentos fallidos, manejo de cuenta deshabilitada | 2 | 7 h |
+| US-03 implementar | Cierre de sesión + expiración por inactividad | 1 | 4 h |
+| **Subtotal EP-01** | | **13 SP** | **47 horas** |
+
+---
+
+### EP-02 · Flight Reservation 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| INT-03 completar | Cargar vuelos desde FLIGHT al buscador HTML | 3 | 11 h |
+| US-04 finalizar | Filtros, validaciones (fecha pasada, mismo origen/destino) | 5 | 18 h |
+| US-05 finalizar | Mapa de asientos desde AIRPLANE_MODEL, colores según BOOKING_SEAT | 5 | 18 h |
+| US-06 finalizar | Creación de FLIGHT_BOOKING + BOOKING_SEAT, timer de 10 min, expiración | 3 | 11 h |
+| **Subtotal EP-02** | | **16 SP** | **58 horas** |
+
+---
+
+### EP-03 · Tourist Trolleybus Reservation 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| DATA-04 completar | Insertar rutas restantes en ROUTE y ROUTE_STOP | 2 | 7 h |
+| US-07 finalizar | Listado de rutas con parada de salida desde ROUTE_STOP | 3 | 11 h |
+| US-08 finalizar | Reserva con boarding_stop, TROLLEY_BOOKING, timer de 10 min | 5 | 18 h |
+| **Subtotal EP-03** | | **10 SP** | **36 horas** |
+
+---
+
+### EP-04 · Payment Processing 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| US-09 finalizar | Pago simulado, inserción en PAYMENT, cambio de status a confirmed | 5 | 18 h |
+| Validar | Rechazo de pago si expires_at ya pasó, manejo de pago fallido | — | 4 h |
+| Cash payment | Cálculo de cambio, validación de monto insuficiente | — | 3 h |
+| **Subtotal EP-04** | | **5 SP** | **25 horas** |
+
+---
+
+### EP-05 · PDF Ticket Generation 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| US-10 finalizar | Acumular reservas confirmadas en ticket, evitar duplicados, límite | 3 | 11 h |
+| US-11 finalizar | Generación PDF con jsPDF, bloqueo de segunda descarga (TICKET table) | 5 | 18 h |
+| **Subtotal EP-05** | | **8 SP** | **29 horas** |
+
+---
+
+### EP-06 · Assigned Flight Management 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| US-12 finalizar | Mostrar vuelos asignados al piloto/co-piloto logueado | 3 | 11 h |
+| US-13 finalizar | Mostrar manifiesto de pasajeros (FLIGHT_BOOKING + BOOKING_SEAT + PERSON) | 3 | 11 h |
+| US-14 finalizar | Actualizar status: scheduled → departed → cancelled (solo piloto) | 3 | 11 h |
+| **Subtotal EP-06** | | **9 SP** | **33 horas** |
+
+---
+
+### EP-07 · In-Flight Service Management 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| US-15 finalizar | Mostrar pasajeros + asientos para vuelo asignado (solo flight attendant) | 3 | 11 h |
+| US-16 finalizar | Crear tabla INCIDENT, registrar incidentes solo en vuelos departed | 3 | 11 h |
+| **Subtotal EP-07** | | **6 SP** | **22 horas** |
+
+---
+
+### EP-08 · Trolleybus Route Management 
+
+| Tarea | Descripción | SP | Horas estimadas |
+|-------|-------------|----|-----------------|
+| US-17 finalizar | Mostrar trips del día para el driver logueado + pasajeros por trip | 3 | 11 h |
+| US-18 finalizar | Actualizar status: scheduled → in_progress → completed | 2 | 7 h |
+| **Subtotal EP-08** | | **5 SP** | **18 horas** |
+
+---
+
+### EP-09 · System Administration 
+
+| Tarea | Descripción | SP | Horas estimadas | Responsable |
+|-------|-------------|----|-----------------|-------------|
+| US-19 | CRUD de FLIGHT (crear, editar, eliminar con validaciones) | 5 | 18 h | Edson |
+| US-20 | CRUD de ROUTE, TROLLEY_ROUTE_SCHEDULE, TROLLEY_TRIP | 5 | 18 h | Edson |
+| US-21 | CRUD de EMPLOYEE + PERSON + USER + Supabase Auth | 5 | 18 h | Daniel |
+| US-22 | Reportes de reservas y pagos con filtros | 3 | 11 h | German |
+| US-23 | Cancelar o modificar reservas (cambiar status) | 3 | 11 h | German |
+| **Subtotal EP-09** | | **21 SP** | **76 horas** | |
+
+---
+
+## Resumen de horas por responsable
+
+| Responsable | EP | Horas totales |
+|-------------|-----|----------------|
+| Daniel | EP-01 + EP-09 (US-21) | 47 + 18 = **65 h** |
+| Michelle | EP-02 + EP-07 | 58 + 22 = **80 h** |
+| Johana | EP-03 + EP-08 | 36 + 18 = **54 h** |
+| Edson | EP-04 + EP-05 + EP-09 (US-19, US-20) | 25 + 29 + 36 = **90 h** |
+| German | EP-06 + EP-09 (US-22, US-23) | 33 + 22 = **55 h** |
+| **Total** | | **344 h** ⚠️ |
+
+---
+
+## Ajuste de horas (344h → 300h disponibles)
+
+> **Problema:** La suma excede en 44 horas la capacidad real (300h).  
+> **Solución:** Se redistribuye reduciendo horas en tareas no críticas y ajustando la base SP/hora a 3.6 (manteniendo SP originales).
+
+### Distribución final ajustada (300 horas totales)
+
+| EP | SP | Horas ajustadas | % del sprint |
+|----|----|----------------|--------------|
+| EP-01 | 13 | 47 h | 16% |
+| EP-02 | 16 | 58 h | 19% |
+| EP-03 | 10 | 36 h | 12% |
+| EP-04 | 5 | 18 h | 6% |
+| EP-05 | 8 | 29 h | 10% |
+| EP-06 | 9 | 32 h | 11% |
+| EP-07 | 6 | 22 h | 7% |
+| EP-08 | 5 | 18 h | 6% |
+| EP-09 | 21 | 40 h | 13% |
+| **Total** | **83** | **300 h** | **100%** |
+
+> **Nota:** EP-09 se redujo de 76h a 40h porque las tareas CRUD (US-19, US-20, US-21) comparten lógica y pueden reutilizar componentes. US-22 y US-23 se simplificaron a lo esencial.
+
+### Horas por responsable (versión ajustada)
+
+| Responsable | Horas totales | Distribución |
+|-------------|---------------|--------------|
+| Daniel | 50 h | EP-01 (47h) + soporte EP-09 (3h) |
+| Michelle | 80 h | EP-02 (58h) + EP-07 (22h) |
+| Johana | 54 h | EP-03 (36h) + EP-08 (18h) |
+| Edson | 65 h | EP-04 (18h) + EP-05 (29h) + EP-09 (18h) |
+| German | 51 h | EP-06 (32h) + EP-09 (19h) |
+| **Total** | **300 h** | ✅ Coherente con capacidad |
 
 ## 7. Impedimentos y Dependencias
 
