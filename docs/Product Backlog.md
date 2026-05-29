@@ -178,6 +178,20 @@ Feature: User Login
     When the user submits the form with one or more empty fields
     Then the system displays a validation message below each empty field
     And does not attempt authentication via Supabase Auth
+
+  Scenario: Login fails due to a disabled account
+  Given the user is on the login page
+  When the user enters valid credentials for a disabled or suspended account
+  And the user clicks the login button
+  Then the system displays a message indicating the account is not active
+  And the user is not granted access to the dashboard
+
+  Scenario: Login is temporarily blocked after multiple failed attempts
+  Given the user is on the login page
+  And the user has already failed to log in 5 consecutive times
+  When the user attempts to log in again
+  Then the system blocks further login attempts temporarily
+  And displays a message indicating the account is locked and when to retry
 ```
 
 ---
@@ -201,6 +215,20 @@ Feature: User Logout
     Then the system terminates the active Supabase Auth session
     And the user is redirected to the login page
     And the user cannot navigate to any protected page without re-authenticating
+
+  Scenario: Accessing a protected page after logout is denied
+  Given the user has successfully logged out
+  When the user tries to navigate to a protected page
+       (e.g. via browser back button or direct URL)
+  Then the system redirects the user to the login page
+  And no protected content is displayed
+
+  Scenario: Session expires due to inactivity
+  Given the user is logged in but has been inactive for the defined timeout period
+  When the user attempts to interact with the application
+  Then the system automatically terminates the session
+  And redirects the user to the login page
+  And displays a message indicating the session expired
 ```
 
 ---
@@ -243,6 +271,28 @@ Feature: Flight Search
     When the user submits the search form without filling in all required filters
     Then the system highlights the missing fields
     And does not execute any query against the database
+
+  Scenario: Search fails when origin and destination are the same
+  Given the user is on the flight search page
+  When the user selects the same city for both origin and destination
+  And the user clicks the search button
+  Then the system displays a validation message indicating
+       origin and destination cannot be the same
+  And does not execute any query against the database
+
+  Scenario: Search fails with a past travel date
+  Given the user is on the flight search page
+  When the user selects a travel date earlier than today's date
+  And the user clicks the search button
+  Then the system displays a validation message indicating
+       the travel date must be today or a future date
+  And does not execute any query against the database
+
+  Scenario: Search results only show flights with available seats
+  Given the user performs a valid search with matching flights
+  When some of those flights have no remaining available seats
+  Then the system excludes fully booked flights from the results
+  Or displays them as unavailable so the user is not misled
 ```
 
 ---
@@ -281,6 +331,29 @@ Feature: Flight Seat Selection
     When the user clicks on a red (occupied or reserved) seat
     Then the system does not allow the selection
     And displays a message indicating the seat is unavailable
+
+  Scenario: User changes seat selection before proceeding
+  Given the user has already selected a seat (shown in blue)
+  When the user clicks on a different available seat
+  Then the previously selected seat returns to green (available)
+  And the new seat is marked as selected (blue)
+  And the reservation summary updates to reflect the new seat label
+
+  Scenario: User attempts to proceed without selecting a seat
+  Given the user is viewing the seat map
+  When the user clicks the "Continue" or "Proceed to payment" button
+       without having selected any seat
+  Then the system displays a message indicating a seat must be selected
+       before proceeding
+  And the user remains on the seat selection screen
+
+  Scenario: A seat becomes occupied while the user is viewing the map
+  Given the user is viewing the seat map with a seat shown as available
+  When another user reserves that seat during the same session
+  And the current user attempts to select that seat
+  Then the system detects the conflict at the moment of selection or confirmation
+  And notifies the user that the seat is no longer available
+  And refreshes the seat map to reflect the current state
 ```
 
 ---
