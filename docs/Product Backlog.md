@@ -783,6 +783,28 @@ Feature: Assigned Flight Consultation
     When the pilot or co-pilot accesses "My Flights"
     Then the system excludes those records and only displays flights with
          status = "scheduled" or status = "departed"
+
+  Scenario: Pilot views full details of a specific assigned flight
+  Given the pilot is viewing their flight list
+  When they click on a specific flight
+  Then the system displays the full flight details including:
+       airplane registration and model (from AIRPLANE joined with AIRPLANE_MODEL),
+       origin and destination airport names (from AIRPORT),
+       co-pilot or pilot name (from PERSON),
+       and total confirmed passengers for that flight
+
+  Scenario: Regular user attempts to access the assigned flights section
+  Given a logged-in user with role = "passenger"
+  When they attempt to navigate to the "My Flights" section
+  Then the system denies access
+  And displays an unauthorized access message
+  And redirects the user to their dashboard
+
+  Scenario: Pilot filters flights by status
+  Given the pilot is viewing their assigned flight list
+  When they apply a filter for a specific status (e.g. "scheduled" or "departed")
+  Then the system displays only the FLIGHT records matching that status
+  And records with other statuses are hidden from the list
 ```
 
 ---
@@ -821,6 +843,29 @@ Feature: Flight Passenger Manifest
     When they review the displayed information
     Then the system shows no options to edit or delete records
          in FLIGHT_BOOKING or BOOKING_SEAT
+
+  Scenario: Manifest displays occupancy summary
+  Given the pilot or co-pilot opens a flight detail view
+  When the passenger manifest loads
+  Then the system displays a summary showing:
+       total confirmed passengers, total available seats
+       (from AIRPLANE_MODEL capacity), and percentage of occupancy
+  And this summary is visible above the passenger list
+
+  Scenario: Pilot searches for a specific passenger in the manifest
+  Given the pilot is viewing a manifest with multiple confirmed passengers
+  When they enter a passenger name in the search field
+  Then the system filters the displayed list to show only records
+       where the full name from PERSON matches the search input
+  And clears the filter when the search field is emptied
+
+  Scenario: Pilot attempts to access the manifest of a flight not assigned to them
+  Given a pilot is authenticated
+  When they attempt to access the manifest of a flight
+       that is not linked to their profile in the FLIGHT table
+  Then the system denies access
+  And displays a message indicating they are not assigned to that flight
+  And redirects them to their assigned flight list
 ```
 
 ---
@@ -861,6 +906,36 @@ Feature: Flight Status Update
     Then the system displays the FLIGHT information in read-only mode
     And the control to change the status is not visible or accessible
          to the co-pilot role
+
+  Scenario: Pilot cancels a scheduled or departed flight
+  Given the pilot accesses a flight with status = "scheduled" or "departed"
+  When they select the option "Cancel flight" and confirm
+  Then the system executes an UPDATE on FLIGHT setting status = "cancelled"
+  And all FLIGHT_BOOKING records linked to that id_flight
+       are updated to status = "cancelled"
+  And the affected passengers are notified of the cancellation
+
+  Scenario: Pilot attempts to change the status of a cancelled flight
+  Given the pilot accesses a flight with status = "cancelled"
+  When they attempt to update the status to any other value
+  Then the system displays a message indicating that a cancelled flight
+       cannot be modified
+  And no UPDATE is executed on the FLIGHT table
+
+  Scenario: System requires confirmation before applying a status change
+  Given the pilot selects a new status for an assigned flight
+  When they click the update button
+  Then the system displays a confirmation dialog describing
+       the transition that is about to be applied (e.g. "scheduled → departed")
+  And only executes the UPDATE on FLIGHT after the pilot confirms
+  And cancels the operation without changes if the pilot dismisses the dialog
+
+  Scenario: Non-pilot user attempts to update a flight status
+  Given a logged-in user with role = "passenger"
+  When they attempt to access the flight status update control
+  Then the system denies the action
+  And displays an unauthorized access message
+  And no UPDATE is executed on the FLIGHT table
 ```
 
 ---
@@ -906,6 +981,37 @@ Feature: Passenger and Seat Consultation
          not linked to their id_person in the EMPLOYEE table
     When they navigate to that flight
     Then the system denies access and displays an "unauthorized access" message
+
+  Scenario: Flight attendant searches for a passenger by name or seat number
+  Given the flight attendant is viewing the passenger list
+  When they enter a name or seat number in the search field
+  Then the system filters the list to show only matching records
+  And clears the filter when the search field is emptied
+
+  Scenario: Flight attendant views the seat map with confirmed occupancy
+  Given the flight attendant is viewing their assigned flight
+  When they switch to the seat map view
+  Then the system displays the airplane seat map
+       generated from AIRPLANE_MODEL capacity
+  And seats with a confirmed BOOKING_SEAT record are shown as occupied
+  And empty seats are shown as available
+  And the view is read-only with no selection interaction
+
+  Scenario: Flight attendant prints or exports the passenger list
+  Given the flight attendant is viewing the full confirmed passenger list
+  When they click the "Print" or "Export" button
+  Then the system generates a printable or downloadable version
+       of the list including full name and seat number for each passenger
+  And the exported list reflects only confirmed reservations
+       at the moment of export
+
+  Scenario: Flight details are displayed alongside the passenger list
+  Given the flight attendant opens the passengers section
+  When the list loads
+  Then the system also displays the flight summary including:
+       flight_number, origin_city, destination_city,
+       flight_date, departure_time, and current status
+  And this information is shown in read-only mode
 ```
 
 ---
