@@ -1056,6 +1056,36 @@ Feature: In-Flight Incident Recording
     Then the system displays a message indicating that incidents can only
          be recorded on flights with status = "departed"
     And the form is not available for submission
+
+  Scenario: Flight attendant views previously recorded incidents for the flight
+  Given the flight attendant is in the incident module for their active flight
+  When the module loads
+  Then the system displays a list of all existing INCIDENT records
+       linked to that id_flight, showing incident_type, description,
+       and recorded_at for each
+  And the list is sorted in descending order by recorded_at
+
+  Scenario: Incident type is selected from a predefined list
+  Given the flight attendant is filling out the incident form
+  When they interact with the incident_type field
+  Then the system displays a predefined list of incident types
+       (e.g. "medical issue", "disruptive passenger", "cabin damage", "other")
+  And free-text entry is not permitted for the incident_type field
+
+  Scenario: Multiple incidents can be recorded for the same flight
+  Given the flight attendant has already registered one incident for the flight
+  When a new incident occurs and they submit a second report
+  Then the system inserts a new independent record in INCIDENT
+       with the same id_flight but a new id_incident and recorded_at
+  And both records are visible in the incident list for that flight
+
+  Scenario: Flight attendant cannot record incidents on unassigned flights
+  Given the flight attendant attempts to access the incident module
+       for a flight not linked to their id_person in EMPLOYEE
+  When they navigate to that flight's incident form
+  Then the system denies access
+  And displays an unauthorized access message
+  And no record is inserted in INCIDENT
 ```
 
 ---
@@ -1107,6 +1137,35 @@ Feature: Daily Trip Consultation
     When they review the displayed information
     Then the system shows no controls to edit records in TROLLEY_TRIP
          or TROLLEY_BOOKING
+
+  Scenario: Passenger list is sorted by boarding stop order
+  Given the driver opens the passenger list for a specific trip
+  When the list loads
+  Then the system displays passengers grouped or sorted
+       by the stop_order of their boarding_stop_id in ROUTE_STOP
+  And passengers boarding at earlier stops appear first in the list
+
+  Scenario: Trip detail displays occupancy summary
+  Given the driver opens a specific trip detail
+  When the detail view loads
+  Then the system displays the total number of confirmed passengers
+       and the total capacity of the assigned trolleybus (from TROLLEY)
+  And shows the number of available spots remaining
+
+  Scenario: Driver cannot access trips not assigned to their trolleybus
+  Given the driver is authenticated
+  When they attempt to access the detail of a trip whose id_trolley
+       does not match the trolleybus assigned to that driver
+  Then the system denies access
+  And displays an unauthorized access message
+  And redirects the driver to their daily trip list
+
+  Scenario: Driver consults trips assigned for a different date
+  Given the driver is on the "My Trips Today" section
+  When they select a different date using a date picker
+  Then the system queries TROLLEY_TRIP filtered by the driver's id_trolley
+       and the selected trip_date
+  And displays the trips for that date or a message if none exist
 ```
 
 ---
@@ -1152,6 +1211,38 @@ Feature: Trolleybus Trip Status Update
     When the driver attempts to change the status to any other value
     Then the system displays an error message indicating the trip has
          already been completed and cannot be modified
+
+  Scenario: Driver cancels a scheduled or in-progress trip
+  Given the driver has a trip with status = "scheduled" or "in_progress"
+  When they press the "Cancel Trip" button and confirm
+  Then the system executes an UPDATE on TROLLEY_TRIP
+       setting status = "cancelled" for that id_trip
+  And all TROLLEY_BOOKING records linked to that id_trip
+       are updated to status = "cancelled"
+  And the affected passengers are notified of the cancellation
+
+  Scenario: Driver attempts to modify the status of a cancelled trip
+  Given the trip has status = "cancelled" in TROLLEY_TRIP
+  When the driver attempts to change the status to any other value
+  Then the system displays a message indicating a cancelled trip
+       cannot be modified
+  And no UPDATE is executed on TROLLEY_TRIP
+
+  Scenario: System requires confirmation before applying a status change
+  Given the driver selects a new status for their current trip
+  When they press the corresponding action button
+  Then the system displays a confirmation dialog describing
+       the transition about to be applied (e.g. "scheduled → in_progress")
+  And only executes the UPDATE on TROLLEY_TRIP after the driver confirms
+  And cancels the operation without changes if the driver dismisses the dialog
+
+  Scenario: Driver attempts to update the status of an unassigned trip
+  Given the driver is authenticated
+  When they attempt to change the status of a trip whose id_trolley
+       does not match their assigned trolleybus
+  Then the system denies the action
+  And displays an unauthorized access message
+  And no UPDATE is executed on TROLLEY_TRIP
 ```
 
 ---
@@ -1216,6 +1307,46 @@ Feature: Flight Management
     Then the system displays an error message indicating the flight
          cannot be deleted while active reservations exist
     And no record is removed from the FLIGHT table
+
+  Scenario: Flight creation fails when origin and destination airports are the same
+  Given the administrator is filling out the new flight form
+  When they select the same airport for both origin_airport_id
+       and dest_airport_id
+  And attempt to confirm the registration
+  Then the system displays a validation message indicating
+       origin and destination cannot be the same
+  And no record is inserted into the FLIGHT table
+
+  Scenario: Flight creation fails with a duplicate flight number
+  Given the administrator completes the new flight form
+  When they enter a flight_number that already exists in the FLIGHT table
+  And confirm the registration
+  Then the system displays an error indicating the flight number is already in use
+  And no new record is inserted into the FLIGHT table
+
+  Scenario: Administrator cannot edit a flight with status other than "scheduled"
+  Given the administrator selects a flight with status = "departed"
+       or status = "cancelled"
+  When they attempt to modify any field
+  Then the system displays the flight information in read-only mode
+  And displays a message indicating only scheduled flights can be edited
+  And no UPDATE is executed on the FLIGHT table
+
+  Scenario: Administrator views and filters the flight list
+  Given the administrator is on the flight management module
+  When the page loads
+  Then the system displays all records from the FLIGHT table
+       with flight_number, route, flight_date, status, and assigned airplane
+  And the administrator can filter by status, date range, or route
+  And can select any flight to view, edit, or delete it
+
+  Scenario: Flight creation fails when the selected airplane is already assigned
+  Given the administrator is creating a new flight
+  When they select an id_airplane that is already assigned to another flight
+       on the same flight_date and with overlapping departure and arrival times
+  Then the system displays a message indicating the airplane
+       is not available for the selected date and time
+  And no record is inserted into the FLIGHT table
 ```
 
 ---
@@ -1283,6 +1414,53 @@ Feature: Trolleybus Route and Trip Management
     Then the system displays an error message indicating the route
          cannot be deleted while active trips or reservations exist
     And no records are removed from any related table
+
+  Scenario: Route creation fails with a duplicate route name
+  Given the administrator is filling out the new route form
+  When they enter a route_name that already exists in the ROUTE table
+  And confirm the registration
+  Then the system displays an error indicating the route name is already in use
+  And no record is inserted into ROUTE or ROUTE_STOP
+
+  Scenario: Route creation fails when no stops are defined
+  Given the administrator is filling out the new route form
+  When they enter a route_name but do not add any stops in ROUTE_STOP
+  And attempt to confirm the registration
+  Then the system displays a validation message indicating
+       at least two stops must be defined for a route
+  And no record is inserted into ROUTE or ROUTE_STOP
+
+  Scenario: Administrator cannot edit a route that has active trips
+  Given the route has at least one TROLLEY_TRIP with status = "scheduled"
+       or status = "in_progress"
+  When the administrator attempts to modify the route name or its stops
+  Then the system displays a message indicating the route cannot be edited
+       while active trips exist
+  And no UPDATE is executed on ROUTE or ROUTE_STOP
+
+  Scenario: Trip creation fails when the trolleybus is already assigned on that date
+  Given the administrator is creating a new trip
+  When they select an id_trolley that is already assigned to another trip
+       on the same trip_date with overlapping departure and arrival times
+  Then the system displays a message indicating the trolleybus
+       is not available for the selected date and time
+  And no record is inserted into TROLLEY_TRIP
+
+  Scenario: Trip creation fails when the selected date does not match the schedule days
+  Given the administrator selects a route schedule with defined operating days
+       in SCHEDULE_DAY
+  When they set a trip_date whose day of the week is not included
+       in the schedule's SCHEDULE_DAY records
+  Then the system displays a warning indicating the selected date
+       does not correspond to an operating day for that schedule
+  And requests confirmation or blocks the creation depending on business rules
+
+  Scenario: Administrator deletes a specific trip with no active reservations
+  Given the administrator selects a TROLLEY_TRIP with status = "scheduled"
+       and no TROLLEY_BOOKING records with status = "pending" or "confirmed"
+  When they confirm the deletion of that trip
+  Then the system removes only that record from TROLLEY_TRIP
+  And the parent ROUTE and TROLLEY_ROUTE_SCHEDULE remain unaffected
 ```
 
 ---
