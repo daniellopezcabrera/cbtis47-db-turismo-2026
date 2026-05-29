@@ -396,6 +396,20 @@ Feature: Flight Reservation Creation
     Then the system displays a message indicating an active reservation
          already exists for that flight
     And does not insert a new record in FLIGHT_BOOKING or BOOKING_SEAT
+
+  Scenario: Reservation creation fails due to a database error
+  Given the user has selected a seat and confirms the reservation
+  When an error occurs during the insert into FLIGHT_BOOKING or BOOKING_SEAT
+  Then the system rolls back any partial inserts
+  And displays a generic error message inviting the user to try again
+  And no incomplete record remains in either table
+
+  Scenario: User is warned before reservation expires
+  Given the user has a pending reservation with the 10-minute timer active
+  When 2 minutes or less remain on the countdown
+  Then the system displays a prominent warning indicating
+       the reservation is about to expire
+  And encourages the user to complete the payment immediately
 ```
 
 ---
