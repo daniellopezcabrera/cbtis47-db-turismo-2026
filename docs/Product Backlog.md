@@ -443,6 +443,28 @@ Feature: Trolleybus Route Browsing
     When the ROUTE table returns no records
     Then the system displays a message informing the user that no routes
          are currently available
+
+  Scenario: User views the details of a specific route
+  Given the user is viewing the list of available routes
+  When the user clicks on a route
+  Then the system displays the full route details including
+       all stops in order (from ROUTE_STOP joined with BUS_STATION),
+       estimated duration, and price
+  And a "Reserve" button is visible to proceed with the reservation
+
+  Scenario: Route with missing stop data is handled gracefully
+  Given the ROUTE table has a record with no associated ROUTE_STOP entries
+  When the system attempts to display that route's departure location
+  Then the route is either excluded from the list
+       or displayed with a placeholder indicating information is unavailable
+  And no unhandled error is shown to the user
+
+  Scenario: User filters routes by departure station
+  Given the user is on the trolleybus section with multiple routes displayed
+  When the user selects a departure station from a filter
+  Then the system displays only routes whose first ROUTE_STOP
+       matches the selected station
+  And routes that do not match are hidden from the list
 ```
 
 ---
@@ -481,8 +503,37 @@ Feature: Trolleybus Reservation
     Then the system updates TROLLEY_BOOKING status to "expired"
     And the reserved slot is restored to available inventory in TROLLEY_TRIP
     And the user is notified immediately that the reservation has expired
-```
 
+  Scenario: Reservation fails when boarding stop is not selected
+  Given the user has selected a route and a trip date
+  When the user attempts to confirm the reservation without selecting a boarding stop
+  Then the system displays a validation message indicating
+       a boarding stop must be selected
+  And does not insert any record in TROLLEY_BOOKING
+
+  Scenario: Duplicate reservation attempt on the same trip
+  Given the user already has a TROLLEY_BOOKING with status = "pending"
+       or status = "confirmed" for the same id_trip
+  When the user attempts to create another reservation for that trip
+  Then the system displays a message indicating an active reservation
+       already exists for that trip
+  And does not insert a new record in TROLLEY_BOOKING
+
+  Scenario: Reservation fails when boarding stop is not part of the selected route
+  Given the user has selected a route and a trip date
+  When the user attempts to confirm a reservation with a boarding_stop_id
+       that is not associated with the selected route in ROUTE_STOP
+  Then the system displays a validation error indicating
+       the selected stop is not valid for this route
+  And does not insert any record in TROLLEY_BOOKING
+
+  Scenario: User is warned before reservation expires
+  Given the user has a pending reservation with the 10-minute timer active
+  When 2 minutes or less remain on the countdown
+  Then the system displays a prominent warning indicating
+       the reservation is about to expire
+  And encourages the user to complete the payment immediately
+```
 ---
 
 ## EP-04 · Payment Processing
@@ -528,6 +579,39 @@ Feature: Reservation Payment
          or TROLLEY_BOOKING
     And the countdown timer continues running
     And the system displays a clear error message to the user
+
+  Scenario: Payment fails when no payment method is selected
+  Given the user is on the payment screen with an active reservation
+  When the user attempts to submit payment without selecting a payment method
+  Then the system displays a validation message indicating
+       a payment method must be selected
+  And does not insert any record in PAYMENT
+  And the countdown timer continues running
+
+  Scenario: Successful cash payment with change calculation
+  Given the user selects "cash" as the payment method
+  When the user enters an amount_received greater than or equal to the total
+  Then the system calculates and displays the change_given
+       (amount_received - total amount)
+  And inserts a record in PAYMENT with payment_method = "cash",
+       amount_received, and change_given stored
+  And updates the reservation status to "confirmed"
+
+  Scenario: Cash payment fails when amount received is less than total
+  Given the user selects "cash" as the payment method
+  When the user enters an amount_received less than the total reservation amount
+  Then the system displays a message indicating the amount is insufficient
+  And does not insert any record in PAYMENT
+  And the countdown timer continues running
+
+  Scenario: User retries payment after a failed attempt
+  Given the user has a pending reservation and a previous PAYMENT record
+       with payment_status = "failed"
+  When the user submits payment again before the timer expires
+  And the payment simulation returns success
+  Then the system inserts a new PAYMENT record with payment_status = "completed"
+  And updates the reservation status to "confirmed"
+  And redirects the user to the ticket screen
 ```
 
 ---
@@ -562,6 +646,35 @@ Feature: Ticket Accumulation
     Then the system prevents the action
     And displays a message indicating that only confirmed reservations
          can be added to a ticket
+
+  Scenario: Adding the same reservation twice is prevented
+  Given the user has already added a confirmed reservation to the ticket
+  When the user attempts to add the same reservation again
+  Then the system displays a message indicating
+       that reservation is already included in the ticket
+  And does not add a duplicate entry to the ticket summary
+
+  Scenario: User attempts to download a ticket with no reservations added
+  Given the user is on the ticket screen with no reservations accumulated
+  When the user clicks the "Download" button
+  Then the system displays a message indicating
+       at least one reservation must be added before downloading
+  And does not trigger PDF generation
+
+  Scenario: User removes a reservation from the ticket before downloading
+  Given the user has added one or more reservations to the ticket
+  When the user clicks the "Remove" button on a specific reservation
+  Then that reservation is removed from the ticket summary
+  And the remaining reservations stay in the list
+  And if no reservations remain, the download button is disabled
+       or hidden accordingly
+
+  Scenario: User attempts to add more reservations than the allowed limit
+  Given the user has already accumulated the maximum number of
+       reservations allowed per ticket
+  When the user attempts to add another reservation
+  Then the system displays a message indicating the ticket limit has been reached
+  And does not add the new reservation to the ticket summary
 ```
 
 ---
