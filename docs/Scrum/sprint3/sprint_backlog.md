@@ -20,8 +20,9 @@ Se trabajaron las historias US-01 a US-11, pero **solo en su capa de datos**:
 - Tablas necesarias para cada historia fueron identificadas.
 - Se modelaron las relaciones y restricciones.
 - No se escribió código ni se conectó a Supabase.
+-**Se encuentran en el produc backlog correspondiente**
 
-## 4. Desglose de Tareas por Historia (Versión Realista)
+## 4. Desglose de Tareas por Historia 
 
 | Historia | Tareas de diseño realizadas |
 |----------|----------------------------|
