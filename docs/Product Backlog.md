@@ -717,7 +717,23 @@ Feature: PDF Ticket Download
     Then the system displays a validation message
     And does not generate or download any file
     And the "Download" button remains disabled (grayed out)
-```
+
+  Scenario: PDF generation fails due to a client-side error
+  Given the user has reservations added and clicks "Download"
+  When jsPDF encounters an error during file generation
+  Then the system displays a message indicating the download failed
+       and invites the user to try again
+  And does not insert a record in TICKET or marks it as not downloaded
+  And the "Download" button remains enabled for a retry
+
+  Scenario: PDF content includes all required fields per reservation type
+  Given the ticket contains both a flight reservation and a trolleybus reservation
+  When the PDF is generated
+  Then for the flight reservation the PDF includes:
+       flight name, seat number, travel date, departure and arrival time,
+       and passenger full name
+  And for the trolleybus reservation the PDF includes:
+       route name, boarding stop, trip date, and passenger full name
 
 ---
 
