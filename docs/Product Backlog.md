@@ -115,6 +115,24 @@ Feature: User Registration
     And the user submits the registration form
     Then the system highlights each empty field
     And displays a validation message directly below each missing field
+
+  Scenario: Registration fails with invalid field formats
+    Given the user is on the registration page
+    When the user enters a CURP that does not match the official format
+    Or the user enters an email without a valid format (e.g. "userexample.com")
+    Or the user enters a password shorter than the minimum required length
+    And the user submits the registration form
+    Then the system displays a format validation message for each invalid field
+    And no new record is created
+
+  Scenario: Registration fails with invalid field formats
+   Given the user is on the registration page
+   When the user enters a CURP that does not match the official format
+   Or the user enters an email without a valid format (e.g. "userexample.com")
+   Or the user enters a password shorter than the minimum required length
+   And the user submits the registration form
+   Then the system displays a format validation message for each invalid field
+   And no new record is created
 ```
 
 ---
