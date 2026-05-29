@@ -133,6 +133,14 @@ Feature: User Registration
    And the user submits the registration form
    Then the system displays a format validation message for each invalid field
    And no new record is created
+
+  Scenario: Registration fails due to an external service error
+  Given the user is on the registration page
+  And the Supabase Auth service is unavailable
+  When the user submits a valid registration form
+  Then the system displays a generic error message indicating a temporary issue
+  And the user is invited to try again later
+  And no partial record is created in PERSON or USER
 ```
 
 ---
