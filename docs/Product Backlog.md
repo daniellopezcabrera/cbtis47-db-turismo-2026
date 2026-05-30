@@ -1519,6 +1519,46 @@ Feature: Agency Staff Management
     And the employee can no longer log into the system
     And their name no longer appears in flight or trolleybus route
          assignment options
+
+  Scenario: Registration rejected due to duplicate RFC
+  Given the administrator attempts to register a new employee
+  When they enter an rfc that already exists in the EMPLOYEE table
+  Then the system displays an error message indicating a record with
+       that RFC already exists
+  And no records are inserted into PERSON, EMPLOYEE, or USER
+
+  Scenario: Registration rejected due to invalid field formats
+  Given the administrator is filling out the new employee form
+  When they enter a curp that does not match the official 18-character format
+  Or they enter an rfc that does not match the official format
+  And attempt to confirm the registration
+  Then the system displays a format validation message for each invalid field
+  And no records are inserted into PERSON, EMPLOYEE, or USER
+
+  Scenario: Deactivation warning when employee has active assignments
+  Given the administrator attempts to deactivate an employee
+  When that employee is assigned to one or more FLIGHT records
+       with status = "scheduled" or TROLLEY_TRIP records
+       with status = "scheduled" or "in_progress"
+  Then the system displays a warning indicating the employee
+       has active assignments that must be reassigned before deactivation
+  And requires explicit confirmation before proceeding
+  And the deactivation does not execute until confirmed
+
+  Scenario: Administrator reactivates a previously deactivated employee
+  Given the administrator views the staff directory filtered to show
+       inactive employees
+  When they select a deactivated employee and confirm reactivation
+  Then the system reactivates the account via Supabase Auth
+  And the employee can log into the system again
+  And their name reappears in assignment options for flights and routes
+
+  Scenario: Administrator filters the staff directory by occupation
+  Given the administrator is on the staff management module
+  When they select a role filter (e.g. "Pilot", "Driver", "Flight Attendant")
+  Then the system displays only EMPLOYEE records whose id_occupation
+       matches the selected role
+  And the count of results updates accordingly
 ```
 
 ---
@@ -1565,6 +1605,45 @@ Feature: Reservation and Payment Report Viewing
     When they select "Trolleybus"
     Then the system displays only TROLLEY_BOOKING records and the PAYMENT
          records where id_trolley_booking is not null
+
+  Scenario: Filter report by reservation status
+  Given the administrator is in the reports module
+  When they select a specific status filter (e.g. "confirmed", "cancelled")
+  Then the system filters FLIGHT_BOOKING and TROLLEY_BOOKING
+       by the selected status
+  And updates the displayed counts and payment totals accordingly
+
+  Scenario: Report returns no results for the selected filters
+  Given the administrator applies a date range or status filter
+  When no records in FLIGHT_BOOKING, TROLLEY_BOOKING, or PAYMENT
+       match the selected criteria
+  Then the system displays a message indicating no data was found
+       for the selected filters
+  And shows zero values for all counts and totals
+  And does not display an error or blank screen
+
+  Scenario: Report displays revenue breakdown by payment method
+  Given the administrator is viewing the payment totals section
+  When the report loads or a filter is applied
+  Then the system queries PAYMENT grouped by payment_method
+  And displays the total amount collected separately for:
+       cash, card, and bank transfer
+  And shows the overall total as the sum of all methods
+
+  Scenario: Administrator exports the current report
+  Given the administrator is viewing a report with or without filters applied
+  When they click the "Export" button
+  Then the system generates a downloadable file (CSV or PDF)
+       reflecting the currently displayed data and active filters
+  And the file includes all visible columns: reservation counts,
+       payment totals, and applied filter parameters
+
+  Scenario: Report highlights cancellation and expiration rates
+  Given the administrator is viewing the general reservation summary
+  When the counts by status are displayed
+  Then the system also calculates and displays the percentage of
+       expired and cancelled reservations over total reservations
+  And this metric is shown separately for flights and trolleybus services
 ```
 
 ---
@@ -1616,6 +1695,50 @@ Feature: Reservation Cancellation and Modification
          for that record
     And cascades the status update to the related BOOKING_SEAT records
          setting them to "confirmed" if the reservation is a flight booking
+
+  Scenario: Cancel a pending reservation
+  Given the administrator locates a record in FLIGHT_BOOKING
+       or TROLLEY_BOOKING with status = "pending"
+  When they select the "Cancel Reservation" option and confirm
+  Then the system executes an UPDATE setting status = "cancelled"
+  And for flight bookings, updates the related BOOKING_SEAT
+       records to status = "cancelled"
+  And the seat or slot is restored to available inventory
+
+  Scenario: Manual confirmation warns when no completed payment exists
+  Given the administrator attempts to manually confirm a pending reservation
+  When no PAYMENT record with payment_status = "completed" exists
+       linked to that id_booking
+  Then the system displays a warning indicating there is no completed
+       payment associated with this reservation
+  And requires explicit confirmation before proceeding with the status update
+  And records the manual override in the system
+
+  Scenario: Administrator changes the boarding stop of a trolleybus reservation
+  Given the administrator selects a TROLLEY_BOOKING record
+       with status = "confirmed" or "pending"
+  When they select a new boarding_stop_id that belongs to the
+       route associated with that id_trip in ROUTE_STOP
+  And confirm the change
+  Then the system executes an UPDATE on TROLLEY_BOOKING
+       setting the new boarding_stop_id
+  And displays a confirmation message reflecting the updated stop
+
+  Scenario: Administrator searches for a reservation by passenger or booking ID
+  Given the administrator is in the reservation management module
+  When they enter a passenger name, email, or id_booking in the search field
+  Then the system queries FLIGHT_BOOKING and TROLLEY_BOOKING joined with PERSON
+       and displays all matching records with their current status,
+       service type, and booking date
+  And the administrator can select any result to cancel or modify it
+
+  Scenario: Every cancellation or modification is logged for audit purposes
+  Given the administrator executes any cancellation or manual modification
+  When the UPDATE is applied successfully
+  Then the system records the action including: the id_booking affected,
+       the previous status, the new status, the administrator's id_person,
+       and the timestamp of the action
+  And this log is accessible in the reports module
 ```
 
 ---
