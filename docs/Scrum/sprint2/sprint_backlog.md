@@ -1,173 +1,204 @@
 # Sprint Backlog 2 — Flying With You
-**Período:** 31 de marzo – 8 de mayo de 2026 (5 semanas)
-**Institución:** CBTis 47
-**Sprint anterior:** Sprint 1 (Diseño del modelo de datos)
+**Period:** March 31 – May 8, 2026 (5 weeks)
+**Institution:** CBTis 47
+**Previous Sprint:** Sprint 1 (Data model design)
 
 ---
 
-## 1. Sprint Goal (Objetivo del Sprint)
+## 1. Sprint Goal
 
-**Construir la base de datos real en Supabase, crear el primer prototipo funcional de interfaces y conectar la base de datos con el frontend.**  
-Al final del sprint, el equipo debe tener: (1) la base de datos implementada en Supabase con todas las tablas del modelo ER, (2) un primer borrador de las interfaces HTML/CSS/JS, (3) datos de prueba insertados manualmente en las tablas, (4) la conexión funcional entre la base de datos y el frontend.  
-La generación de datos de prueba masivos no se completó.
-
----
-
-## 2. Datos del Sprint
-
-| Concepto | Valor |
-|----------|-------|
-| Duración | 5 semanas |
-| Días hábiles por semana | 4 días  |
-| Total de días | 20 días |
-| Horas efectivas por día | 3 horas |
-| **Capacidad total del sprint** | **300 horas** |
-| Story Points planeados | 34 puntos |
-| Story Points completados | 28 puntos (≈82% de cumplimiento) |
+**Build the real database in Supabase, create the first functional interface prototype, and connect the database to the frontend.**
+By the end of the sprint, the team must have: (1) the database implemented in Supabase with all tables from the ER model, (2) a first draft of HTML/CSS interfaces, (3) test data manually inserted into the tables, and (4) a functional connection between the database and the frontend.
 
 ---
 
-## 3. Product Backlog Actualizado (11 User Stories)
+## 2. Sprint Data
 
-Al cierre del Sprint 1, el Product Backlog se mantuvo en **11 historias de usuario**.  
-Para el Sprint 2 se seleccionaron todas las historias de alta prioridad relacionadas con base de datos + interfaces + conexión.
-
----
-
-## 4. Sprint Backlog — Historias Asignadas al Sprint 2
-
-| ID | Historia | Prioridad | SP | Responsable | Estado |
-|----|----------|-----------|----|--------------|--------|
-| **DB-01** | Crear proyecto en Supabase y configurar autenticación | High | 2 | German | ✅ Hecho |
-| **DB-02** | Crear tabla PERSON con todas las columnas definidas | High | 2 | Edson | ✅ Hecho |
-| **DB-03** | Crear tabla USER (vinculada a Supabase Auth) | High | 2 | Edson | ✅ Hecho |
-| **DB-04** | Crear tablas AIRPORT, AIRPLANE_MODEL, AIRPLANE, FLIGHT | High | 3 | German | ✅ Hecho |
-| **DB-05** | Crear tablas FLIGHT_BOOKING y BOOKING_SEAT | High | 2 | Michelle | ✅ Hecho |
-| **DB-06** | Crear tablas de trolebús (ROUTE, BUS_STATION, ROUTE_STOP) | High | 2 | Johana | ✅ Hecho |
-| **DB-07** | Crear tablas TROLLEY_MODEL, TROLLEY, TROLLEY_TRIP | Medium | 2 | Johana | ✅ Hecho |
-| **DB-08** | Crear tablas TROLLEY_BOOKING y TICKET | High | 2 | Michelle | ✅ Hecho |
-| **DB-09** | Crear tabla PAYMENT con FKs opcionales | High | 2 | German | ✅ Hecho |
-| **DB-10** | Definir políticas de seguridad RLS en Supabase | Medium | 3 | Edson | ❌ **Pendiente (S3)** |
-| **UI-01** | Maquetar página de registro de usuario (HTML/CSS) | High | 2 | Daniel | ✅ Hecho |
-| **UI-02** | Maquetar página de login | High | 1 | Daniel | ✅ Hecho |
-| **UI-03** | Maquetar dashboard principal | High | 2 | Daniel | ✅ Hecho |
-| **UI-04** | Maquetar buscador de vuelos | High | 2 | Michelle | ✅ Hecho |
-| **UI-05** | Maquetar mapa de asientos (visual, sin lógica) | High | 3 | Michelle | ✅ Hecho |
-| **UI-06** | Maquetar listado de rutas de trolebús | High | 2 | Johana | ✅ Hecho |
-| **UI-07** | Maquetar pantalla de pago simulado | High | 2 | Johana | ✅ Hecho |
-| **UI-08** | Maquetar pantalla de ticket y botón de PDF | Medium | 2 | Daniel | ✅ Hecho |
-| **DATA-01** | Insertar datos de prueba: aeropuertos | High | 1 | German | ✅ Hecho |
-| **DATA-02** | Insertar datos de prueba: modelos de avión y aviones | High | 1 | German | ✅ Hecho |
-| **DATA-03** | Insertar datos de prueba: vuelos | High | 2 | Michelle | ⚠️ Parcial |
-| **DATA-04** | Insertar datos de prueba: rutas de trolebús | High | 2 | Johana | ⚠️ Parcial |
-| **DATA-05** | Insertar datos de prueba: usuarios de prueba | Medium | 1 | Edson | ✅ Hecho |
-| **INT-01** | Conectar formulario de registro a Supabase Auth | High | 3 | Equipo | ❌ **Pendiente (S3)** |
-| **INT-02** | Conectar formulario de login a Supabase Auth | High | 2 | Equipo | ❌ **Pendiente (S3)** |
-| **INT-03** | Cargar vuelos desde BD al buscador | High | 3 | Equipo | ❌ **Pendiente (S3)** |
+| Concept | Value |
+|---------|-------|
+| Duration | 5 weeks |
+| Working days per week | 4 days |
+| Total working days | 20 days |
+| Effective hours per day | 3 hours |
+| **Total sprint capacity** | **300 hours** (20 days × 3 h × 5 members) |
+| Planned Story Points | 34 points |
 
 ---
 
-## 5. Tareas Realizadas (Desglose por historia cumplida)
+## 3. Updated Product Backlog (11 User Stories)
 
-| Historia | Tareas ejecutadas |
-|----------|-------------------|
-| **DB-01 a DB-09** | Creación de todas las tablas del modelo ER en Supabase SQL Editor. Definición de PK, FK, tipos ENUM, restricciones NOT NULL. |
-| **UI-01 a UI-08** | Diseño de interfaces en HTML5/CSS3 con layout responsivo (Flex/Grid). Implementación de maquetas sin lógica JS de backend. |
-| **DATA-01,02,05** | Inserción manual de registros mediante sentencias INSERT. |
-| **DATA-03 (parcial)** | Inserción parcial de vuelos. Causa: tiempo insuficiente por complejidad de FKs. |
-| **DATA-04 (parcial)** | Inserción parcial de rutas de trolebús. Pendiente para S3. |
+At the close of Sprint 1, the Product Backlog remained at **11 user stories**, all belonging to end-user epics:
 
----
+- EP-01 · User Authentication (US-01, US-02, US-03)
+- EP-02 · Flight Reservation (US-04, US-05, US-06)
+- EP-03 · Tourist Trolleybus Reservation (US-07, US-08)
+- EP-04 · Payment Processing (US-09)
+- EP-05 · PDF Ticket Generation (US-10, US-11)
 
-## 6. Tareas Pendientes (Pasan al Sprint 3)
-
-| ID | Tarea | Prioridad | Justificación |
-|----|-------|-----------|---------------|
-| DB-10 | Políticas RLS (Row Level Security) en Supabase | High | Requiere investigación adicional |
-| DATA-03 | Insertar vuelos restantes | High | No se completó por tiempo |
-| DATA-04 | Insertar rutas de trolebús restantes | High | No se completó por tiempo |
-| INT-01 | Conectar registro a Supabase Auth | High | El enlace BD-frontend no se completó |
-| INT-02 | Conectar login a Supabase Auth | High | El enlace BD-frontend no se completó |
-| INT-03 | Cargar vuelos dinámicamente desde BD | High | El enlace BD-frontend no se completó |
+For Sprint 2, all high-priority stories related to database, interfaces, and connection were selected. Work was organized into four categories: **DB** (database), **UI** (interfaces), **DATA** (test data), and **INT** (integration).
 
 ---
 
-## 7. Estimación vs. Realidad
+## 4. Sprint Backlog — Stories Assigned to Sprint 2
 
-| Concepto | Planeado | Realizado | Diferencia |
-|----------|----------|-----------|------------|
-| Story Points completados | 34 | 28 | -6 SP |
-| Tareas finalizadas | 25 | 19 | -6 tareas |
-| Horas invertidas | 300 h | 280 h | -20 h (baja asistencia un día) |
-| Velocidad real | — | 5.6 SP/semana | Menor a lo esperado |
-
-**Causas principales de desviación:**
-- Complejidad no prevista en el enlace de la BD-frontend.
-- Configuración de Supabase RLS resultó más compleja de lo estimado.
-
----
-
-## 8. Impedimentos y Dependencias
-
-| Tipo | Descripción | Impacto | Resolución |
-|------|-------------|---------|------------|
-| **Impedimento** | Dificultad para entender las políticas RLS de Supabase | DB-10 no se completó | Se investigará en S3 con tutoriales |
-| **Dependencia** | Las interfaces UI-04 y UI-05 dependían de tener datos de vuelos | Retraso en pruebas visuales | Se usaron datos mock (HTML estático) |
-| **Impedimento** | El equipo no sabía cómo enlazar JS con Supabase | INT-01,02,03 completamente pendientes | Se agendó capacitación para S3 |
-
----
-
-## 9. Entregables del Sprint 2
-
-| Entregable | Estado | Ubicación |
-|------------|--------|------------|
-| Base de datos en Supabase (tablas creadas) | ✅ Completado | Supabase Project |
-| Datos de prueba parciales | ⚠️ Parcial | Tablas correspondientes |
-| Primer borrador de interfaces (pantallas HTML/CSS) | ✅ Completado | Repositorio `/frontend` |
-| Conexión BD-Frontend | ❌ No completado | Pendiente S3 |
-| Documentación actualizada (este documento) | ✅ Completado | Repositorio `/docs` |
+| ID | Story | Category | Priority | SP | Owner |
+|----|-------|----------|----------|----|-------|
+| DB-01 | Create Supabase project and configure authentication | DB | High | 2 | German |
+| DB-02 | Create PERSON table with all defined columns | DB | High | 2 | Edson |
+| DB-03 | Create USER table (linked to Supabase Auth) | DB | High | 2 | Edson |
+| DB-04 | Create AIRPORT, AIRPLANE_MODEL, AIRPLANE, FLIGHT tables | DB | High | 3 | German |
+| DB-05 | Create FLIGHT_BOOKING and BOOKING_SEAT tables | DB | High | 2 | Michelle |
+| DB-06 | Create trolleybus tables (ROUTE, BUS_STATION, ROUTE_STOP) | DB | High | 2 | Johana |
+| DB-07 | Create TROLLEY_MODEL, TROLLEY, TROLLEY_TRIP tables | DB | Medium | 2 | Johana |
+| DB-08 | Create TROLLEY_BOOKING and TICKET tables | DB | High | 2 | Michelle |
+| DB-09 | Create PAYMENT table with optional FKs | DB | High | 2 | German |
+| DB-10 | Define RLS security policies in Supabase | DB | Medium | 3 | Edson |
+| UI-01 | Mockup user registration page (HTML/CSS) | UI | High | 2 | Daniel |
+| UI-02 | Mockup login page | UI | High | 1 | Daniel |
+| UI-03 | Mockup main dashboard | UI | High | 2 | Daniel |
+| UI-04 | Mockup flight search page | UI | High | 2 | Michelle |
+| UI-05 | Mockup seat map (visual only, no logic) | UI | High | 3 | Michelle |
+| UI-06 | Mockup trolleybus route listing | UI | High | 2 | Johana |
+| UI-07 | Mockup simulated payment screen | UI | High | 2 | Johana |
+| UI-08 | Mockup ticket screen with PDF download button | UI | Medium | 2 | Daniel |
+| DATA-01 | Insert test data: airports | DATA | High | 1 | German |
+| DATA-02 | Insert test data: airplane models and airplanes | DATA | High | 1 | German |
+| DATA-03 | Insert test data: flights | DATA | High | 2 | Michelle |
+| DATA-04 | Insert test data: trolleybus routes | DATA | High | 2 | Johana |
+| DATA-05 | Insert test data: test users | DATA | Medium | 1 | Edson |
+| INT-01 | Connect registration form to Supabase Auth | INT | High | 3 | Team |
+| INT-02 | Connect login form to Supabase Auth | INT | High | 2 | Team |
+| INT-03 | Load flights from database into the search page | INT | High | 3 | Team |
 
 ---
 
-## 10. Definition of Done (DoD) para Sprint 2
+## 5. Planned Tasks by Category
 
-Una historia se considera **TERMINADA** cuando:
+### DB · Database
 
-1. ✅ La tarea está implementada en el repositorio (rama `sprint-2`).
-2. ✅ Ha sido revisada por al menos otro miembro del equipo.
-3. ✅ En caso de ser base de datos: la tabla existe en Supabase y se puede ejecutar `SELECT * FROM tabla`.
-4. ✅ En caso de ser interfaz: la pantalla se ve correctamente en Chrome/Edge.
-5. ❌ **No se requiere** enlace BD-Frontend para considerar una UI como "terminada" en este sprint (eso es S3).
-
----
-
-## 11. Retrospectiva Rápida (Sprint 2)
-
-**Qué salió bien:**
-- Se completó la creación de todas las tablas según el modelo ER.
-- Las interfaces visuales están listas para recibir datos reales.
-- El equipo aprendió lo básico de Supabase.
-
-**Qué salió mal:**
-- Subestimación de RLS y enlace BD-Frontend.
-- Falta de datos de prueba suficientes.
-- Desconocimiento de conseptos que afectaron la productividad.
-
-**Qué mejorar para Sprint 3:**
-- Capacitación previa en Supabase JS Client.
-- Distribuir la carga de inserción de datos desde la semana 1.
-- Tener un "día de reserva" para imprevistos.
+| Task | Description | SP | Estimated Hours | Owner |
+|------|-------------|----|-----------------|-------|
+| DB-01 | Supabase project setup, authentication activation, and environment variable definition. | 2 | 6 h | German |
+| DB-02 | Creation of PERSON table with PK, attributes (CURP, name, email), and NOT NULL/UNIQUE constraints. | 2 | 6 h | Edson |
+| DB-03 | Creation of USER table linked to Supabase Auth with FK to PERSON and role field. | 2 | 6 h | Edson |
+| DB-04 | Creation of AIRPORT, AIRPLANE_MODEL, AIRPLANE, and FLIGHT tables with PKs, FKs, and ENUM types. | 3 | 7 h | German |
+| DB-05 | Creation of FLIGHT_BOOKING and BOOKING_SEAT tables with FK, expires_at, and status. | 2 | 6 h | Michelle |
+| DB-06 | Creation of ROUTE, BUS_STATION, and ROUTE_STOP tables with stop order definition. | 2 | 6 h | Johana |
+| DB-07 | Creation of TROLLEY_MODEL, TROLLEY, and TROLLEY_TRIP tables with their relationships. | 2 | 6 h | Johana |
+| DB-08 | Creation of TROLLEY_BOOKING and TICKET tables with their FKs and constraints. | 2 | 6 h | Michelle |
+| DB-09 | Creation of PAYMENT table with last_four_digits and optional FKs for flight and trolleybus. | 2 | 6 h | German |
+| DB-10 | Definition of RLS (Row Level Security) policies by role in Supabase. | 3 | 7 h | Edson |
+| **DB Subtotal** | | **22 SP** | **62 h** | |
 
 ---
 
-## 12. Compromiso para Sprint 3
+### UI · Interfaces
 
-El equipo se compromete a:
-1. Completar el enlace entre frontend y Supabase (INT-01,02,03).
-2. Insertar los datos de prueba faltantes.
-3. Implementar las políticas RLS básicas.
-4. Tener un flujo completo: registro → login → ver vuelos .
+| Task | Description | SP | Estimated Hours | Owner |
+|------|-------------|----|-----------------|-------|
+| UI-01 | Registration page mockup with HTML5/CSS3, responsive layout (Flex/Grid). | 2 | 6 h | Daniel |
+| UI-02 | Login page mockup with basic visual validation. | 1 | 4 h | Daniel |
+| UI-03 | Main dashboard mockup with navigation and sections. | 2 | 6 h | Daniel |
+| UI-04 | Flight search mockup with date, origin, and destination filters. | 2 | 6 h | Michelle |
+| UI-05 | Seat map mockup with color-coded visual representation (no JS logic). | 3 | 7 h | Michelle |
+| UI-06 | Trolleybus route listing mockup with stops. | 2 | 6 h | Johana |
+| UI-07 | Simulated payment screen mockup with card fields. | 2 | 6 h | Johana |
+| UI-08 | Ticket screen mockup with PDF download button. | 2 | 6 h | Daniel |
+| **UI Subtotal** | | **16 SP** | **47 h** | |
 
 ---
 
-*Flying With You — CBTis 47 · Sprint 2 (31 marzo – 8 mayo 2026)*
+### DATA · Test Data
+
+| Task | Description | SP | Estimated Hours | Owner |
+|------|-------------|----|-----------------|-------|
+| DATA-01 | Manual insertion of airports using INSERT statements. | 1 | 3 h | German |
+| DATA-02 | Manual insertion of airplane models and airplanes. | 1 | 3 h | German |
+| DATA-03 | Insertion of flights with all FKs correctly referenced. | 2 | 5 h | Michelle |
+| DATA-04 | Insertion of trolleybus routes and stops into ROUTE and ROUTE_STOP. | 2 | 5 h | Johana |
+| DATA-05 | Insertion of test users into Supabase Auth and USER table. | 1 | 3 h | Edson |
+| **DATA Subtotal** | | **7 SP** | **19 h** | |
+
+---
+
+### INT · Integration
+
+| Task | Description | SP | Estimated Hours | Owner |
+|------|-------------|----|-----------------|-------|
+| INT-01 | Connection of registration form to Supabase Auth + insertion into PERSON and USER. | 3 | 7 h | Team |
+| INT-02 | Connection of login form to Supabase Auth. | 2 | 6 h | Team |
+| INT-03 | Dynamic loading of flights from FLIGHT table into the HTML search page. | 3 | 7 h | Team |
+| **INT Subtotal** | | **8 SP** | **20 h** | |
+
+---
+
+## 6. Hours Summary by Team Member
+
+> **Individual capacity:** 3 hours/day × 20 working days = **60 hours per member**
+> **Total team capacity:** 60 h × 5 members = **300 hours**
+
+| Member | Direct Work | Research & Learning | Reviews & Corrections | Team Meetings | **Total** |
+|--------|-------------|---------------------|-----------------------|---------------|-----------|
+| Daniel | 22 h | 18 h | 12 h | 8 h | **60 h** |
+| Michelle | 24 h | 16 h | 12 h | 8 h | **60 h** |
+| Johana | 22 h | 18 h | 12 h | 8 h | **60 h** |
+| Edson | 22 h | 18 h | 12 h | 8 h | **60 h** |
+| German | 22 h | 18 h | 12 h | 8 h | **60 h** |
+| **Total** | **112 h** | **88 h** | **60 h** | **40 h** | **300 h** |
+
+> **Note:** Direct work hours include table implementation, interface mockups, and data insertion. Research and learning hours reflect the time spent understanding Supabase, RLS, and the JS client — knowledge that was new to the team in this sprint.
+
+---
+
+## 7. Weekly Workload Estimate
+
+| Week | Main Focus | Planned SP | Team Members |
+|------|------------|------------|--------------|
+| Week 1 (Mar 31 – Apr 3) | DB-01 to DB-05: Supabase setup and main tables | ~13 | German, Edson, Michelle |
+| Week 2 (Apr 7 – Apr 10) | DB-06 to DB-10: trolleybus tables, PAYMENT, and RLS | ~9 | Johana, German, Edson |
+| Week 3 (Apr 14 – Apr 17) | UI-01 to UI-05: main interface mockups | ~10 | Daniel, Michelle |
+| Week 4 (Apr 22 – Apr 24) | UI-06 to UI-08 + DATA-01 to DATA-05: remaining interfaces and data | ~9 | Johana, Daniel, German |
+| Week 5 (Apr 28 – May 8) | INT-01 to INT-03: DB-Frontend integration | ~8 | Full team |
+
+---
+
+## 8. Impediments and Dependencies
+
+| Type | Description | Expected Impact | Mitigation Plan |
+|------|-------------|-----------------|-----------------|
+| **Risk** | The team has no prior experience with the Supabase JS Client | Possible delay in INT-01, INT-02, INT-03 | Start JS client research in parallel from Week 1 |
+| **Risk** | RLS policies require advanced Supabase knowledge | DB-10 may not be completed within the sprint | Assign dedicated research time in Week 2 |
+| **Risk** | FK complexity in FLIGHT may hinder data insertion | DATA-03 may be left incomplete | Review the ER model before starting insertion in Week 4 |
+| **Dependency** | UI-04 and UI-05 depend on having flight data available (DATA-03) | Visual testing may be delayed | Use static mock data in HTML if DATA-03 is not ready in time |
+| **Dependency** | INT-02 and INT-03 depend on INT-01 being completed | Chain blocking if INT-01 fails or is delayed | Prioritize INT-01 at the start of Week 5 without exceptions |
+
+---
+
+## 9. Definition of Done (DoD) for Sprint 2
+
+A story is considered **DONE** when:
+
+1. ✅ The task is implemented and committed to the `sprint-2` branch.
+2. ✅ It has been reviewed by at least one other team member (peer review).
+3. ✅ For database tasks: the table exists in Supabase and `SELECT * FROM table` runs without errors.
+4. ✅ For interface tasks: the screen renders correctly in Chrome/Edge without console errors.
+5. ✅ For data tasks: records exist in the corresponding table and are queryable.
+6. ✅ The story has been demonstrated to the Product Owner (Daniel López Cabrera).
+
+> **Note:** The DB-Frontend connection is not a requirement for an UI task to be considered done in this sprint — that responsibility belongs to Sprint 3.
+
+---
+
+## 10. Expected Sprint 2 Deliverables
+
+| Deliverable | Expected Location |
+|-------------|-------------------|
+| Database in Supabase (all tables created) | Supabase Project |
+| Complete test data (airports, airplanes, flights, routes, users) | Corresponding tables in Supabase |
+| First draft of HTML/CSS interfaces (8 screens) | Repository `/frontend` |
+| Functional DB-Frontend connection (registration, login, flight loading) | Repository `/frontend/js` |
+| Sprint documentation | Repository `/docs/sprints` |
+
+---
+
+*Flying With You — CBTis 47 · Sprint Backlog 2 (March 31 – May 8, 2026)*
