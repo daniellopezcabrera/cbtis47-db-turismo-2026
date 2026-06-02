@@ -23,7 +23,6 @@ No code or real database is built in this sprint.
 | Effective hours per day | 3 hours |
 | **Total sprint capacity** | **405 hours** (27 days × 3 h × 5 members) |
 | Planned Story Points | 21 points |
-| Completed Story Points | 21 points (100% completion) |
 
 ---
 
@@ -37,25 +36,25 @@ At the start of Sprint 1, the Product Backlog contained **11 user stories**, all
 - EP-04 · Payment Processing (US-09)
 - EP-05 · PDF Ticket Generation (US-10, US-11)
 
-In this sprint **only the data layer** of each story was worked on: required tables, relationships, and constraints. No code was written and no connection to Supabase was made.
+In this sprint **only the data layer** of each story will be worked on: required tables, relationships, and constraints. No code will be written and no connection to Supabase will be made.
 
 ---
 
 ## 4. Sprint Backlog — Stories Assigned to Sprint 1
 
-| ID | Story | Epic | Priority | SP | Owner | Status |
-|----|-------|------|----------|----|-------|--------|
-| US-01 | User Registration | EP-01 | High | 2 | Edson | ✅ Done |
-| US-02 | User Login | EP-01 | High | 1 | Edson | ✅ Done |
-| US-03 | User Logout | EP-01 | Medium | 0 | — | N/A (no data impact) |
-| US-04 | Flight Search | EP-02 | High | 3 | German | ✅ Done |
-| US-05 | Seat Selection | EP-02 | High | 3 | Michelle | ✅ Done |
-| US-06 | Confirm Reservation | EP-02 | High | 2 | Michelle | ✅ Done |
-| US-07 | Browse Trolleybus Routes | EP-03 | High | 2 | Johana | ✅ Done |
-| US-08 | Trolleybus Reservation | EP-03 | High | 2 | Johana | ✅ Done |
-| US-09 | Payment | EP-04 | High | 2 | German | ✅ Done |
-| US-10 | Add to Ticket | EP-05 | Medium | 2 | Daniel | ✅ Done |
-| US-11 | Download PDF | EP-05 | Medium | 2 | Daniel | ✅ Done |
+| ID | Story | Epic | Priority | SP | Owner |
+|----|-------|------|----------|----|-------|
+| US-01 | User Registration | EP-01 | High | 2 | Edson |
+| US-02 | User Login | EP-01 | High | 1 | Edson |
+| US-03 | User Logout | EP-01 | Medium | 0 | — |
+| US-04 | Flight Search | EP-02 | High | 3 | German |
+| US-05 | Seat Selection | EP-02 | High | 3 | Michelle |
+| US-06 | Confirm Reservation | EP-02 | High | 2 | Michelle |
+| US-07 | Browse Trolleybus Routes | EP-03 | High | 2 | Johana |
+| US-08 | Trolleybus Reservation | EP-03 | High | 2 | Johana |
+| US-09 | Payment | EP-04 | High | 2 | German |
+| US-10 | Add to Ticket | EP-05 | Medium | 2 | Daniel |
+| US-11 | Download PDF | EP-05 | Medium | 2 | Daniel |
 
 ---
 
@@ -132,22 +131,11 @@ In this sprint **only the data layer** of each story was worked on: required tab
 | German | 13 h | 29 h | 25 h | 14 h | **81 h** |
 | **Total** | **60 h** | **147 h** | **128 h** | **70 h** | **405 h** |
 
-> **Note:** The 60 hours of direct modeling represent the work documented task by task. The remaining 345 hours reflect the actual time spent on normalization research (3NF, conventions), peer reviews, ER diagram corrections, and team meetings — activities typical of a design sprint that are not broken down per task but are part of the consumed capacity.
+> **Note:** The 60 hours of direct modeling represent the work documented task by task. The remaining 345 hours reflect time allocated for normalization research (3NF, conventions), peer reviews, ER diagram corrections, and team meetings — activities typical of a design sprint that are not broken down per task but are part of the total capacity.
 
 ---
 
-## 7. Planned vs. Actual
-
-| Concept | Planned | Actual | Difference |
-|---------|---------|--------|------------|
-| Story Points completed | 21 | 21 | 0 SP |
-| Tasks completed | 10 | 10 | 0 tasks |
-| Days used | 27 | ~11 effective days | Sprint completed ahead of schedule |
-| Actual velocity | — | ~2 SP/week (design) | Consistent with sprint scope |
-
----
-
-## 8. Weekly Workload Estimate
+## 7. Weekly Workload Estimate
 
 | Week | Main Focus | Planned SP | Team Members |
 |------|------------|------------|--------------|
@@ -160,18 +148,17 @@ In this sprint **only the data layer** of each story was worked on: required tab
 
 ---
 
-## 9. Impediments and Dependencies
+## 8. Impediments and Dependencies
 
-| Type | Description | Impact | Resolution |
-|------|-------------|--------|------------|
-| **Impediment** | Initial uncertainty about whether to include a separate SEAT table or just a seat_number field in BOOKING_SEAT | Delay in US-05 modeling | Resolved in team meeting: seat_number field chosen for simplicity (deferred to Sprint 2) |
-| **Impediment** | Confusion with double FKs in FLIGHT (origin and destination both point to AIRPORT) | Inconsistency in ER diagram | Documented in naming conventions and validated with examples |
-| **Dependency** | Professor/Product Owner approval of the 3NF model | Cannot advance to Sprint 2 without validation | Submitted for review at the end of Week 2 |
-| **Non-impediment** | Tools used: preferred AI / pen and paper | No blockers | — |
+| Type | Description | Expected Impact | Mitigation Plan |
+|------|-------------|-----------------|-----------------|
+| **Risk** | Uncertainty about whether to include a separate SEAT table or a seat_number field in BOOKING_SEAT | May delay US-05 modeling | Resolve in a team meeting before starting US-05 |
+| **Risk** | Potential confusion with double FKs in FLIGHT (origin and destination both pointing to AIRPORT) | Inconsistency in ER diagram | Document clearly in naming conventions and validate with examples |
+| **Dependency** | Professor/Product Owner approval of the 3NF model | Cannot advance to Sprint 2 without validation | Submit for review by the end of Week 2 |
 
 ---
 
-## 10. Definition of Done (DoD) for Sprint 1
+## 9. Definition of Done (DoD) for Sprint 1
 
 A story is considered **DONE** when:
 
@@ -187,44 +174,16 @@ The data model is complete, consistent, and ready to move directly into the impl
 
 ---
 
-## 11. Sprint 1 Deliverables
+## 10. Expected Sprint 1 Deliverables
 
-| Deliverable | Status | Location |
-|-------------|--------|----------|
-| Complete ER diagram (all tables, PKs, FKs) | ✅ Completed | Repository `/docs/er-diagram` |
-| Normalized model in 3NF | ✅ Completed | Repository `/docs` |
-| Data dictionary (tables and columns) | ✅ Completed | Repository `/docs/dictionary` |
-| Defined naming conventions | ✅ Completed | Repository `/docs` |
-| Sprint documentation (this document) | ✅ Completed | Repository `/docs/sprints` |
-
----
-
-## 12. Retrospective (Sprint 1)
-
-**What went well:**
-- The data model was completed within the estimated time.
-- The team resolved design uncertainties (double FKs, SEAT table) through internal meetings.
-- The ER diagram was approved by the Product Owner without major corrections.
-
-**What went wrong:**
-- The uncertainty about the SEAT table caused an initial delay in US-05.
-- Not all team members had the same level of knowledge in normalization at the start.
-
-**What to improve for Sprint 2:**
-- Hold a technical leveling session at the start of the sprint.
-- Define design questions before starting modeling, not during.
-- Assign clear owners from day one.
+| Deliverable | Expected Location |
+|-------------|-------------------|
+| Complete ER diagram (all tables, PKs, FKs) | Repository `/docs/er-diagram` |
+| Normalized model in 3NF | Repository `/docs` |
+| Data dictionary (tables and columns) | Repository `/docs/dictionary` |
+| Defined naming conventions | Repository `/docs` |
+| Sprint documentation | Repository `/docs/sprints` |
 
 ---
 
-## 13. Commitment for Sprint 2
-
-The team commits to:
-1. Implementing the approved data model in Supabase (creating all tables with their constraints).
-2. Designing the first interfaces in HTML/CSS for stories US-01 to US-11.
-3. Manually inserting test data into the main tables.
-4. Starting the connection between the frontend and Supabase.
-
----
-
-*Flying With You — CBTis 47 · Sprint 1 (February – March 2026)*
+*Flying With You — CBTis 47 · Sprint Backlog 1 (February – March 2026)*
