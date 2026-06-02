@@ -266,6 +266,7 @@ This document describes the relational database structure with integrity constra
 |-------|--------|------|------------|
 | Payment | id_payment | INT (PK) | Unique identifier for each payment transaction. |
 | Payment | id_user | INT (FK) NOT NULL | User who performed the payment. |
+| Payment | booking_type | ENUM | Indicates the type of reservation associated with the payment (flight or trolley booking). |
 | Payment | id_flight_booking | INT (FK) | Associated flight booking if applicable. |
 | Payment | id_trolley_booking | INT (FK) | Associated trolley booking if applicable. |
 | Payment | payment_method | ENUM | Method used (cash, card, transfer). |
