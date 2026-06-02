@@ -62,7 +62,7 @@ AIRPLANE {
     int id_airplane_model FK
     enum status
 }
-
+%% status (scheduled, boarding, departed, cancelled)
 FLIGHT {
     int id_flight PK
     varchar flight_number
@@ -98,7 +98,7 @@ FLIGHT ||--o{ FLIGHT_INCIDENT : "has"
 AIRPLANE ||--o{ FLIGHT : "assigned to"
 
 BOOKING_SEAT }o--||FLIGHT:seats_in
-%% status (confirmed, pending, expired, cancelled)
+%% status (confirmed, selected, expired, cancelled)
 BOOKING_SEAT{
      int id_booking_seat PK
      int id_booking FK
@@ -111,9 +111,8 @@ BOOKING_SEAT{
 
 
     FLIGHT ||--o{ FLIGHT_BOOKING : booked_in
-
     FLIGHT_BOOKING {
-        int id_booking PK
+        int id_flight_booking PK
         int id_user FK
         int id_flight FK
         int number_of_seats
@@ -213,7 +212,7 @@ BOOKING_SEAT{
     TROLLEY_BOOKING ||--|{ TICKET : generates
 
     TROLLEY_BOOKING {
-        int id_booking PK
+        int id_trolley_booking PK
         int id_user FK
         int id_trip FK
         int boarding_stop_id FK
@@ -232,6 +231,7 @@ BOOKING_SEAT{
         int id_user FK
         int id_flight_booking FK
         int id_trolley_booking FK
+        enum booking_type
         enum payment_method
         decimal amount
         decimal amount_received
