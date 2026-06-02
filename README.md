@@ -520,6 +520,7 @@ FLIGHT ||--o{ FLIGHT_INCIDENT : "has"
         int id_user FK
         int id_flight_booking FK "NULL if trolleybus payment"
         int id_trolley_booking FK "NULL if flight payment"
+        enum booking_type
         enum payment_method "cash | card | transfer"
         decimal amount
         enum payment_status "pending | completed | failed | refunded"
