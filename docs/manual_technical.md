@@ -84,7 +84,8 @@ The following diagram represents the complete database schema for the
 **Flying With You** system. The schema is organized into six logical sections, 
 each corresponding to a functional domain of the application.
 
-```             erDiagram
+```mermaid
+erDiagram
     PERSON ||--|| USER : register
 
     PERSON {
