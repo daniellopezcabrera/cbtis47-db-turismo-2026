@@ -1,6 +1,6 @@
-# Technical Manual — Hybrid Transportation System
-**Project:** cbtis47-db-project-2026  
+# Technical Manual — Flying with You
+**Project:**  Hybrid Transportation System
 **Institution:** CBTis 47  
-**Course:** Databases  
+**Course:** Relational Database  
 **Version:** 1.0  
-**Date:** June 2026
+**Date:** 2026
