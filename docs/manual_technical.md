@@ -84,7 +84,252 @@ The following diagram represents the complete database schema for the
 **Flying With You** system. The schema is organized into six logical sections, 
 each corresponding to a functional domain of the application.
 
-```
+```             erDiagram
+    PERSON ||--|| USER : register
+
+    PERSON {
+        int id_person PK
+        varchar name
+        varchar last_names
+        varchar curp
+        date birth_date
+        varchar email
+    }
+
+USER ||--o{ FLIGHT_BOOKING : makes
+    USER ||--o{ TROLLEY_BOOKING : makes
+
+    USER {
+        int id_person PK, FK
+        varchar user_name
+        varchar password
+    }
+
+EMPLOYEE {
+    int id_person PK, FK
+    varchar rfc
+    int id_occupation FK
+}
+
+OCCUPATION {
+    int id_occupation PK
+    varchar name
+}
+
+%% Relation: A person "is" an employee
+PERSON ||--|| EMPLOYEE : is
+
+%% Relation: An occupation is "filled" by many employees
+OCCUPATION ||--o{ EMPLOYEE : fills
+
+    %% -------- AIRPORT / FLIGHTS --------
+
+    AIRPORT ||--o{ FLIGHT : origin
+    AIRPORT ||--o{ FLIGHT : destination
+
+    AIRPORT {
+        int id_airport PK
+        varchar city_name
+        varchar airport_name
+        varchar airport_code
+    }
+
+    AIRPLANE_MODEL {
+    int id_airplane_model PK
+    int capacity
+    varchar model_name
+}
+
+AIRPLANE_MODEL ||--o{ AIRPLANE : "specifies"
+
+AIRPLANE {
+    int id_airplane PK
+    varchar registration_number
+    int id_airplane_model FK
+    enum status
+}
+%% status (scheduled, boarding, departed, completed, canceled)
+FLIGHT {
+    int id_flight PK
+    varchar flight_number
+    varchar flight_name
+    int origin_airport_id FK
+    int dest_airport_id FK
+    varchar origin_city
+    varchar destination_city
+    int id_airplane FK
+    date flight_date
+    time departure_time
+    time arrival_time
+    decimal base_price
+    enum status
+}
+
+FLIGHT ||--o{ FLIGHT_INCIDENT : "has"
+    EMPLOYEE ||--o{ FLIGHT_INCIDENT : "reports"
+    
+    FLIGHT_INCIDENT {
+        int id_incident PK
+        int id_flight FK
+        int id_employee FK
+        enum incident_type
+        enum severity
+        text description
+        enum status
+        text resolution_notes
+        datetime recorded_at
+        datetime resolved_at
+    }
+
+AIRPLANE ||--o{ FLIGHT : "assigned to"
+
+BOOKING_SEAT }o--||FLIGHT:seats_in
+%% status (confirmed, selected, expired, canceled)
+BOOKING_SEAT{
+     int id_booking_seat PK
+     int id_booking FK
+     int id_flight FK
+     varchar seat_number
+     datetime selected_at
+     datetime expires_at
+     enum status 
+}
+
+
+    FLIGHT ||--o{ FLIGHT_BOOKING : booked_in
+    %% status (confirmed, pending, expired, canceled)
+    FLIGHT_BOOKING {
+        int id_booking PK
+        int id_user FK
+        int id_flight FK
+        int number_of_seats
+        datetime booking_date
+        enum status
+    }
+
+    FLIGHT_BOOKING ||--|{ TICKET : generates
+
+    TICKET {
+        int id_ticket PK
+        int id_flight_booking FK
+        int id_trolley_booking FK
+        datetime booking_date
+        varchar passenger_full_name
+        decimal ticket_price
+    }
+
+    %% -------- TROLLEY SYSTEM --------
+
+    TROLLEY_MODEL ||--o{ TROLLEY: specifies
+
+    TROLLEY_MODEL{
+        int id_model PK
+        int capacity
+        varchar model_name
+    }
+
+    TROLLEY ||--o{ TROLLEY_TRIP : assigned_to
+
+    TROLLEY {
+        int id_trolley PK
+        varchar plate_number
+        int id_model FK
+    }
+
+    ROUTE ||--|{ ROUTE_STOP : contains
+    ROUTE ||--o{ TROLLEY_ROUTE_SCHEDULE : has
+
+    ROUTE {
+        int id_route PK
+        varchar route_name
+    }
+
+    %% BUS_STATION replaces TROLLEY_STOP
+    BUS_STATION ||--o{ ROUTE_STOP : is_stop_in
+
+    BUS_STATION {
+        int id_station PK
+        varchar city_name
+        varchar station_name
+        varchar station_code
+        varchar adress
+    }
+
+    ROUTE_STOP {
+        int id_route_stop PK
+        int id_route FK
+        int id_station FK
+        int stop_order
+    }
+
+    %% -------- SCHEDULE --------
+
+    TROLLEY_ROUTE_SCHEDULE ||--o{ SCHEDULE_DAY : occurs_on
+    TROLLEY_ROUTE_SCHEDULE ||--o{ TROLLEY_TRIP : generates
+
+    TROLLEY_ROUTE_SCHEDULE {
+        int id_route_schedule PK
+        int id_route FK
+        time departure_time
+        time arrival_time
+    }
+
+    SCHEDULE_DAY {
+        int id_schedule_day PK
+        int id_route_schedule FK
+        enum day_of_week
+    }
+
+    %% -------- TRIPS & BOOKINGS --------
+
+    TROLLEY_TRIP ||--o{ TROLLEY_BOOKING : reserved_in
+
+    TROLLEY_TRIP {
+        int id_trip PK
+        int id_route_schedule FK
+        int id_trolley FK
+        int origin_station_id FK
+        int dest_station_id FK
+        date trip_date
+        time departure_time
+        time arrival_time
+        decimal base_price
+        enum status
+    }
+
+    TROLLEY_BOOKING ||--|{ TICKET : generates
+
+    TROLLEY_BOOKING {
+        int id_booking PK
+        int id_user FK
+        int id_trip FK
+        int boarding_stop_id FK
+        int alighting_stop_id FK
+        int number_of_seats
+        datetime booking_date
+        enum status
+    }
+
+    USER ||--o{ PAYMENT : "makes"
+    FLIGHT_BOOKING ||--o| PAYMENT : "paid with"
+    TROLLEY_BOOKING ||--o| PAYMENT : "paid with"
+    
+    PAYMENT {
+        int id_payment PK
+        int id_user FK
+        int id_flight_booking FK
+        int id_trolley_booking FK
+        enum booking_type
+        enum payment_method
+        decimal amount
+        decimal amount_received
+        decimal change_given
+        enum payment_status
+        datetime payment_date
+        varchar reference_number
+        varchar card_last_four
+        text notes
+    }
 ```
 
 ---
