@@ -521,3 +521,169 @@ to support physical payment reconciliation.
 | `db_app_web` with SELECT only | Limits blast radius if the frontend connection is compromised |
 | RLS on reservation tables | Passengers cannot access other users' records even with table-level SELECT |
 | No ALL PRIVILEGES for the web application | Minimizes potential damage from an application-layer attack |
+
+## 5. Backup and Restore
+
+The **Flying With You** database is hosted on Supabase (PostgreSQL). The
+backup strategy operates at two levels: automatic physical backups managed
+by the platform, and manual logical backups executed via `pg_dump` by the DBA.
+
+> Full implementation details and scheduled scripts are available in
+> `admin/backup_strategy.md`, authored by the project DBA.
+
+---
+
+### 5.1 Backup Types
+
+| Type | Tool | What it saves | Best for |
+|---|---|---|---|
+| Logical | `pg_dump` | SQL statements (`CREATE TABLE`, `INSERT`) | Selective restores, migrations |
+| Physical | Supabase (automatic) | Binary server snapshot | Full project recovery |
+
+Logical backups are the primary method used in this project because Supabase
+does not expose direct disk access, and `.sql` files can be inspected and
+verified before being applied.
+
+---
+
+### 5.2 Backup Commands
+
+All commands connect to the Supabase project host. Replace `[YOUR-PASSWORD]`
+with the credential from **Supabase Dashboard → Project Settings → Database**.
+
+**Full database backup (schema + data):**
+```bash
+pg_dump \
+  --host=db.glowanhhntkudzsncfmt.supabase.co \
+  --port=5432 \
+  --username=postgres \
+  --dbname=postgres \
+  --format=plain \
+  --file=backups/flygth_full_YYYY-MM-DD.sql
+```
+
+**Schema only (no data):**
+```bash
+pg_dump \
+  --host=db.glowanhhntkudzsncfmt.supabase.co \
+  --port=5432 \
+  --username=postgres \
+  --dbname=postgres \
+  --schema-only \
+  --file=backups/flying_schema_YYYY-MM-DD.sql
+```
+
+**Single table backup:**
+```bash
+pg_dump \
+  --host=db.glowanhhntkudzsncfmt.supabase.co \
+  --port=5432 \
+  --username=postgres \
+  --dbname=postgres \
+  --table=flight_booking \
+  --format=plain \
+  --file=backups/flying_flight_booking_YYYY-MM-DD.sql
+```
+
+### Recommended frequency
+
+| Backup type | Frequency | Trigger |
+|---|---|---|
+| Full | Weekly | Every Sunday before a new sprint |
+| Schema only | Per migration | After any change to `01_schema.sql` |
+| Single table | On demand | Before any bulk `DELETE` or `UPDATE` |
+
+> ⚠️ The `backups/` folder must be listed in `.gitignore`. Backup files
+> contain sensitive data and must never be pushed to GitHub.
+
+---
+
+### 5.3 Restore Procedure
+
+Follow these steps in order when recovering from a data incident.
+
+**Step 1 — Identify the correct backup file**
+
+Choose the most recent full backup taken *before* the incident occurred.
+
+**Step 2 — Drop existing tables**
+
+> Only perform this step if restoring over current data. Execute inside `psql`
+> in dependency order to avoid foreign key conflicts:
+
+```sql
+DROP TABLE IF EXISTS ticket CASCADE;
+DROP TABLE IF EXISTS payment CASCADE;
+DROP TABLE IF EXISTS booking_seat CASCADE;
+DROP TABLE IF EXISTS flight_booking CASCADE;
+DROP TABLE IF EXISTS trolley_booking CASCADE;
+DROP TABLE IF EXISTS flight_incident CASCADE;
+DROP TABLE IF EXISTS trolley_trip CASCADE;
+DROP TABLE IF EXISTS schedule_day CASCADE;
+DROP TABLE IF EXISTS trolley_route_schedule CASCADE;
+DROP TABLE IF EXISTS route_stop CASCADE;
+DROP TABLE IF EXISTS flight CASCADE;
+DROP TABLE IF EXISTS airplane CASCADE;
+DROP TABLE IF EXISTS airplane_model CASCADE;
+DROP TABLE IF EXISTS airport CASCADE;
+DROP TABLE IF EXISTS route CASCADE;
+DROP TABLE IF EXISTS bus_station CASCADE;
+DROP TABLE IF EXISTS trolley CASCADE;
+DROP TABLE IF EXISTS trolley_model CASCADE;
+DROP TABLE IF EXISTS employee CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS person CASCADE;
+DROP TABLE IF EXISTS occupation CASCADE;
+```
+
+**Step 3 — Restore from the backup file**
+
+```bash
+psql \
+  --host=db.glowanhhntkudzsncfmt.supabase.co \
+  --port=5432 \
+  --username=postgres \
+  --dbname=postgres \
+  --file=backups/flying_full_YYYY-MM-DD.sql
+```
+
+**Step 4 — Verify row counts**
+
+```sql
+SELECT 'person'         AS table_name, COUNT(*) AS rows FROM person
+UNION ALL
+SELECT 'flight',                        COUNT(*) FROM flight
+UNION ALL
+SELECT 'flight_booking',                COUNT(*) FROM flight_booking
+UNION ALL
+SELECT 'trolley_trip',                  COUNT(*) FROM trolley_trip
+UNION ALL
+SELECT 'payment',                       COUNT(*) FROM payment;
+```
+
+**Step 5 — Re-apply security settings**
+
+A restore overwrites roles and RLS policies. Always re-run the security
+script as the final step:
+
+```bash
+psql \
+  --host=db.glowanhhntkudzsncfmt.supabase.co \
+  --port=5432 \
+  --username=postgres \
+  --dbname=postgres \
+  --file=src/03_users_security.sql
+```
+
+---
+
+### 5.4 Backup Verification
+
+A backup that cannot be restored provides no protection. After every backup,
+confirm the following before considering it valid:
+
+- [ ] File exists in `backups/` and size is greater than 0 bytes
+- [ ] File contains `CREATE TABLE` and `INSERT INTO` statements when opened
+- [ ] Test restore completed without errors on a separate schema
+- [ ] Row counts in the restored schema match the source
+- [ ] Test schema dropped after verification (`DROP SCHEMA backup_test CASCADE`)
