@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flygth With You — Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="flygth-demo.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 1: LOGIN
+═══════════════════════════════════════════ -->
+<div id="page-login" class="page active">
+  <div class="auth-layout">
+    <div class="auth-left">
+      <div class="brand-logo">Flygth<span>With You</span></div>
+      <div class="brand-tag">Agencia de viajes turísticos · CBTis 47</div>
+      <ul class="brand-feats">
+        <li><span class="feat-dot"></span> Reserva vuelos con selección de asiento</li>
+        <li><span class="feat-dot"></span> Recorridos en trolebús turístico</li>
+        <li><span class="feat-dot"></span> Pago seguro con confirmación inmediata</li>
+        <li><span class="feat-dot"></span> Descarga tu boleto en PDF</li>
+      </ul>
+    </div>
+    <div class="auth-right">
+      <div class="auth-box">
+        <h1 class="auth-title">Bienvenido</h1>
+        <p class="auth-sub">Ingresa con tu usuario y contraseña</p>
+
+        <div id="login-alert" class="alert alert-error">Usuario o contraseña incorrectos</div>
+        <div id="login-ok" class="alert alert-success">¡Bienvenido! Redirigiendo al dashboard...</div>
+
+        <!-- US-02: login con nombre de usuario, no correo -->
+        <div class="fg">
+          <label for="l-user">Nombre de usuario <span>*</span></label>
+          <input id="l-user" type="text" placeholder="tu_usuario" autocomplete="username">
+          <div id="l-user-err" class="field-err">El nombre de usuario es obligatorio</div>
+        </div>
+        <div class="fg">
+          <label for="l-pass">Contraseña <span>*</span></label>
+          <div class="pw-wrap">
+            <input id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+            <button class="pw-toggle" onclick="togglePw('l-pass',this)">Mostrar</button>
+          </div>
+          <div id="l-pass-err" class="field-err">La contraseña es obligatoria</div>
+        </div>
+
+        <button class="btn btn-primary btn-full btn-lg" style="margin-top:6px" onclick="doLogin()">Iniciar sesión</button>
+
+        <div class="auth-or">o</div>
+        <div class="auth-link">¿No tienes cuenta? <a onclick="go('page-register')">Regístrate gratis</a></div>
+
+        <div style="margin-top:20px;padding:10px 14px;background:rgba(201,168,76,.07);border-radius:8px;font-size:.74rem;color:var(--muted);text-align:center;line-height:1.7">
+          <span class="badge-demo">DEMO</span> &nbsp;Regístrate primero y usa ese usuario para entrar.<br>
+          O prueba: usuario <strong style="color:var(--gold)">demo</strong> · contraseña <strong style="color:var(--gold)">demo123</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 2: REGISTRO
+═══════════════════════════════════════════ -->
+<div id="page-register" class="page">
+  <div class="auth-layout">
+    <div class="auth-left">
+      <div class="brand-logo">Flygth<span>With You</span></div>
+      <div class="brand-tag">Crea tu cuenta en segundos</div>
+      <ul class="brand-feats">
+        <li><span class="feat-dot"></span> Registro seguro con Supabase Auth</li>
+        <li><span class="feat-dot"></span> Tu contraseña nunca se guarda en texto plano</li>
+        <li><span class="feat-dot"></span> Accede desde cualquier navegador moderno</li>
+        <li><span class="feat-dot"></span> Sistema exclusivo para CBTis 47</li>
+      </ul>
+    </div>
+    <div class="auth-right" style="padding:32px 48px;overflow-y:auto">
+      <div class="auth-box" style="max-width:480px">
+        <h1 class="auth-title">Crear cuenta</h1>
+        <p class="auth-sub">Completa todos tus datos personales y credenciales</p>
+
+        <div id="reg-ok" class="alert alert-success">¡Cuenta creada con éxito! Redirigiendo al inicio de sesión...</div>
+        <div id="reg-dup-email" class="alert alert-error">Este correo electrónico ya está registrado</div>
+        <div id="reg-dup-user"  class="alert alert-error">Este nombre de usuario ya está en uso</div>
+        <div id="reg-dup-curp"  class="alert alert-error">Esta CURP ya está registrada en el sistema</div>
+
+        <!-- Datos personales (tabla PERSON) -->
+        <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.2)">
+          Datos personales
+        </div>
+
+        <div class="form-row">
+          <div class="fg">
+            <label for="r-name">Nombre(s) <span>*</span></label>
+            <input id="r-name" type="text" placeholder="Ej: Ana Sofía">
+            <div id="r-name-err" class="field-err">El nombre es obligatorio</div>
+          </div>
+          <div class="fg">
+            <label for="r-lastnames">Apellidos <span>*</span></label>
+            <input id="r-lastnames" type="text" placeholder="Ej: García López">
+            <div id="r-lastnames-err" class="field-err">Los apellidos son obligatorios</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="fg">
+            <label for="r-curp">CURP <span>*</span></label>
+            <input id="r-curp" type="text" placeholder="18 caracteres" maxlength="18"
+                   style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+            <div id="r-curp-err" class="field-err">La CURP es obligatoria (18 caracteres)</div>
+          </div>
+          <div class="fg">
+            <label for="r-birth">Fecha de nacimiento <span>*</span></label>
+            <input id="r-birth" type="date">
+            <div id="r-birth-err" class="field-err">La fecha de nacimiento es obligatoria</div>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label for="r-email">Correo electrónico <span>*</span></label>
+          <input id="r-email" type="email" placeholder="tu@correo.com">
+          <div id="r-email-err" class="field-err">El correo es obligatorio</div>
+        </div>
+
+        <!-- Credenciales de acceso (tabla USER) -->
+        <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin:18px 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.2)">
+          Credenciales de acceso
+        </div>
+
+        <div class="fg">
+          <label for="r-username">Nombre de usuario <span>*</span></label>
+          <input id="r-username" type="text" placeholder="Ej: ana_garcia_2026" autocomplete="username">
+          <div id="r-username-err" class="field-err">El nombre de usuario es obligatorio</div>
+        </div>
+
+        <div class="form-row">
+          <div class="fg">
+            <label for="r-pass">Contraseña <span>*</span></label>
+            <div class="pw-wrap">
+              <input id="r-pass" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password">
+              <button class="pw-toggle" onclick="togglePw('r-pass',this)">Mostrar</button>
+            </div>
+            <div id="r-pass-err" class="field-err">La contraseña es obligatoria</div>
+          </div>
+          <div class="fg">
+            <label for="r-conf">Confirmar contraseña <span>*</span></label>
+            <div class="pw-wrap">
+              <input id="r-conf" type="password" placeholder="Repite la contraseña" autocomplete="new-password">
+              <button class="pw-toggle" onclick="togglePw('r-conf',this)">Mostrar</button>
+            </div>
+            <div id="r-conf-err" class="field-err">Confirma tu contraseña</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full btn-lg" style="margin-top:8px" onclick="doRegister()">Crear cuenta</button>
+
+        <div class="auth-or">o</div>
+        <div class="auth-link">¿Ya tienes cuenta? <a onclick="go('page-login')">Inicia sesión</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR (compartido desde dashboard)
+═══════════════════════════════════════════ -->
+<template id="nav-tpl">
+  <nav>
+    <div class="nav-logo">Flygth <em>With You</em></div>
+    <ul class="nav-links">
+      <li><button id="nb-dash"    onclick="go('page-dashboard')">Inicio</button></li>
+      <li><button id="nb-flights" onclick="go('page-flights')">Vuelos</button></li>
+      <li><button id="nb-trolley" onclick="go('page-trolleybus')">Trolebús</button></li>
+      <li><button id="nb-ticket"  onclick="go('page-ticket')">Mis Boletos</button></li>
+    </ul>
+    <div class="nav-user">
+      <strong id="nav-fullname">Usuario</strong>
+      <span class="badge-demo">DEMO</span>
+      <button class="btn btn-ghost btn-sm" onclick="doLogout()">Cerrar sesión</button>
+    </div>
+  </nav>
+</template>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 3: DASHBOARD
+═══════════════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="wrap">
+    <div class="hero">
+      <h1>Tu próxima <em>aventura</em><br>comienza aquí</h1>
+      <p>Reserva vuelos, elige un recorrido en trolebús y descarga tu boleto — todo en un solo lugar.</p>
+    </div>
+
+    <div class="dash-grid">
+      <div class="dash-card" onclick="go('page-flights')">
+        <div class="dash-icon">✈</div>
+        <h3>Vuelos</h3>
+        <p>Busca y reserva vuelos nacionales con selección de asiento en tiempo real.</p>
+        <button class="btn btn-outline btn-sm">Buscar vuelo</button>
+      </div>
+      <div class="dash-card" onclick="go('page-trolleybus')">
+        <div class="dash-icon">🚌</div>
+        <h3>Trolebús turístico</h3>
+        <p>Explora rutas turísticas en trolebús y asegura tu lugar en el recorrido.</p>
+        <button class="btn btn-outline btn-sm">Ver rutas</button>
+      </div>
+      <div class="dash-card" onclick="go('page-ticket')">
+        <div class="dash-icon">🎫</div>
+        <h3>Mis boletos</h3>
+        <p>Consulta tus reservaciones confirmadas y descarga tu boleto en PDF.</p>
+        <button class="btn btn-outline btn-sm">Ver boletos</button>
+      </div>
+    </div>
+
+    <div class="steps-card">
+      <h2>¿Cómo funciona?</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">①</div><p>Busca tu vuelo o elige una ruta de trolebús</p></div>
+        <div class="step"><div class="step-num">②</div><p>Selecciona asiento y confirma la reservación</p></div>
+        <div class="step"><div class="step-num">③</div><p>Paga en 10 minutos para no perder tu lugar</p></div>
+        <div class="step"><div class="step-num">④</div><p>Descarga tu boleto PDF una sola vez</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 4: VUELOS
+═══════════════════════════════════════════ -->
+<div id="page-flights" class="page">
+  <div class="wrap">
+    <div class="ph">
+      <h1>✈ Buscar vuelos</h1>
+      <p>Selecciona origen, destino y fecha para ver los vuelos disponibles.</p>
+    </div>
+
+    <div class="search-box">
+      <div class="search-row">
+        <div class="fg">
+          <label for="f-ori">Ciudad de origen</label>
+          <select id="f-ori">
+            <option value="">— Cualquier origen —</option>
+          </select>
+          <div id="f-ori-err" class="field-err">Selecciona al menos un filtro</div>
+        </div>
+        <div class="fg">
+          <label for="f-dest">Destino</label>
+          <select id="f-dest">
+            <option value="">— Cualquier destino —</option>
+          </select>
+          <div id="f-dest-err" class="field-err">Selecciona al menos un filtro</div>
+        </div>
+        <div class="fg">
+          <label for="f-date">Fecha de viaje</label>
+          <input id="f-date" type="date">
+          <div id="f-date-err" class="field-err">Campo obligatorio</div>
+        </div>
+        <button class="btn btn-primary" style="height:44px" onclick="searchFlights()">🔍 Buscar</button>
+      </div>
+    </div>
+
+    <div id="flight-results">
+      <div style="text-align:center;padding:60px 20px;color:var(--muted)">
+        <div style="font-size:3rem;margin-bottom:14px;opacity:.35">✈</div>
+        <div style="font-size:1.1rem;margin-bottom:6px;color:var(--white)">Busca tu vuelo</div>
+        <div style="font-size:.84rem">Ingresa origen, destino y fecha para ver disponibilidad</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 5: MAPA DE ASIENTOS
+═══════════════════════════════════════════ -->
+<div id="page-seatmap" class="page">
+  <div class="wrap">
+    <div class="ph">
+      <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+        <h1 id="sm-flight-title">VER 101 · Veracruz → CDMX</h1>
+        <span id="sm-flight-date" style="color:var(--muted);font-size:.9rem"></span>
+      </div>
+      <p>Haz clic en un asiento verde para seleccionarlo.</p>
+    </div>
+
+    <div class="seat-layout">
+      <div class="seat-panel">
+        <div class="seat-legend">
+          <div class="leg-item"><div class="leg-dot av"></div> Disponible</div>
+          <div class="leg-item"><div class="leg-dot oc"></div> Ocupado</div>
+          <div class="leg-item"><div class="leg-dot sl"></div> Seleccionado</div>
+        </div>
+        <div class="seat-nose">▲ Parte delantera del avión ▲</div>
+        <div id="seat-grid-container" style="overflow-x:auto"></div>
+      </div>
+
+      <div class="side-panel">
+        <div class="panel-card">
+          <div class="panel-title">Tu selección</div>
+          <div id="seat-display" class="seat-display">Ningún asiento seleccionado</div>
+          <div class="divider"></div>
+          <div class="info-tip">⏱ Tendrás <strong>10 minutos</strong> para completar el pago una vez que confirmes el asiento.</div>
+          <button id="btn-confirm-seat" class="btn btn-primary btn-full" disabled onclick="confirmSeat()">Confirmar asiento</button>
+          <button class="btn btn-ghost btn-full" style="margin-top:8px" onclick="go('page-flights')">← Volver a resultados</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 6: TROLEBÚS
+═══════════════════════════════════════════ -->
+<div id="page-trolleybus" class="page">
+  <div class="wrap">
+    <div class="ph">
+      <h1>🚌 Rutas de trolebús turístico</h1>
+      <p>Elige un recorrido y reserva tu lugar. Cada ruta visita los puntos más emblemáticos.</p>
+    </div>
+
+    <div id="routes-list"></div>
+  </div>
+</div>
+
+<!-- Modal reservación trolebús -->
+<div id="modal-trolley" class="modal-bg">
+  <div class="modal">
+    <button class="modal-close-btn" onclick="closeModal('modal-trolley')">✕</button>
+    <h3 id="modal-route-title">Ruta Centro Histórico</h3>
+    <p class="modal-sub">Selecciona fecha y parada de abordaje</p>
+
+    <div class="modal-timer-note">⏱ Tendrás <strong>10 minutos</strong> para pagar después de confirmar. Si el tiempo expira, el lugar se libera.</div>
+
+    <div class="fg">
+      <label for="t-date">Fecha del recorrido <span>*</span></label>
+      <input id="t-date" type="date">
+    </div>
+    <div class="fg">
+      <label for="t-stop">Parada de abordaje <span>*</span></label>
+      <select id="t-stop">
+        <option>Zócalo Central</option>
+        <option>Parque Juárez</option>
+        <option>Catedral Metropolitana</option>
+        <option>Mercado Hidalgo</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" style="flex:1" onclick="confirmTrolley()">Confirmar reservación</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-trolley')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 7: PAGO
+═══════════════════════════════════════════ -->
+<div id="page-payment" class="page">
+  <div class="wrap" style="padding-top:36px">
+
+    <div class="timer-bar" id="timer-bar">
+      <div>
+        <div class="timer-label">Tiempo restante para pagar</div>
+        <div class="timer-sub">El asiento quedará liberado si el tiempo expira</div>
+      </div>
+      <div id="timer-clock" class="timer-clock">10:00</div>
+    </div>
+
+    <div id="expired-msg" class="alert alert-error">
+      ⏰ Tu reservación expiró. El asiento fue liberado. <a onclick="go('page-flights')" style="color:var(--red);cursor:pointer;text-decoration:underline">Haz una nueva reservación</a>.
+    </div>
+
+    <div class="payment-layout">
+      <div class="pay-card">
+        <div class="pay-title">Datos de pago</div>
+        <div class="pay-sub">Simulación — ningún cargo real será realizado</div>
+
+        <!-- Visualización tarjeta -->
+        <div class="card-visual">
+          <div class="card-chip"></div>
+          <div class="card-num" id="card-num-display">•••• •••• •••• ••••</div>
+          <div class="card-bottom">
+            <div>
+              <div style="font-size:.6rem;color:rgba(240,234,216,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Titular</div>
+              <div id="card-name-display" style="font-size:.85rem;color:rgba(240,234,216,.7)">Nombre del titular</div>
+            </div>
+            <div class="card-brand">VISA</div>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label>Nombre en la tarjeta <span>*</span></label>
+          <input id="p-name" type="text" placeholder="Como aparece en tu tarjeta" oninput="document.getElementById('card-name-display').textContent=this.value||'Nombre del titular'">
+        </div>
+        <div class="fg">
+          <label>Número de tarjeta <span>*</span></label>
+          <input id="p-num" type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Vencimiento <span>*</span></label>
+            <input id="p-exp" type="text" placeholder="MM/AA" maxlength="5" oninput="fmtExp(this)">
+          </div>
+          <div class="fg">
+            <label>CVV <span>*</span></label>
+            <input id="p-cvv" type="text" placeholder="•••" maxlength="3" oninput="this.value=this.value.replace(/\D/g,'')">
+          </div>
+        </div>
+
+        <div class="sec-note">🔒 Solo se guardarán los últimos 4 dígitos de tu tarjeta para el recibo</div>
+
+        <button class="btn btn-primary btn-full btn-lg" id="btn-pay" onclick="doPay()">
+          Pagar y confirmar reservación
+        </button>
+      </div>
+
+      <div>
+        <div class="summary-card">
+          <div class="panel-title" id="sum-title">Resumen de reservación</div>
+          <div style="margin-top:12px">
+            <div class="summary-row"><span class="s-key">Servicio</span><span class="s-val" id="sum-service">—</span></div>
+            <div class="summary-row"><span class="s-key">Ruta</span><span class="s-val" id="sum-route">—</span></div>
+            <div class="summary-row"><span class="s-key">Fecha</span><span class="s-val" id="sum-date">—</span></div>
+            <div class="summary-row"><span class="s-key">Asiento</span><span class="s-val" id="sum-seat">—</span></div>
+            <div class="summary-row"><span class="s-key">Pasajero</span><span class="s-val" id="sum-passenger">—</span></div>
+            <div class="summary-row">
+              <span class="s-key">Estado</span>
+              <span class="status-badge sb-pending">pending</span>
+            </div>
+            <div class="summary-row" style="margin-top:6px">
+              <span class="s-key">Total</span>
+              <span class="s-total" id="sum-total">$0 MXN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 8: TICKET
+═══════════════════════════════════════════ -->
+<div id="page-ticket" class="page">
+  <div class="wrap">
+    <div class="ph">
+      <h1>🎫 Mis boletos</h1>
+      <p>Agrega reservaciones confirmadas al boleto y descárgalo en PDF.</p>
+    </div>
+
+    <div class="ticket-layout">
+      <div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);margin-bottom:18px">Mis reservaciones</h2>
+        <div id="res-list"></div>
+      </div>
+
+      <div>
+        <div class="ticket-panel">
+          <div class="panel-title">Boleto actual</div>
+          <p style="font-size:.76rem;color:var(--muted);margin-bottom:14px">Vista previa antes de descargar</p>
+
+          <div id="ticket-preview" style="min-height:50px;margin-bottom:14px">
+            <div style="text-align:center;color:var(--muted);font-size:.8rem;padding:16px">
+              Ninguna reservación agregada aún
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <p style="font-size:.72rem;color:var(--muted);margin-bottom:14px;line-height:1.6">⚠ Cada boleto puede descargarse <strong style="color:var(--gold)">una sola vez</strong>.</p>
+
+          <button id="btn-download" class="btn btn-primary btn-full btn-lg" disabled onclick="downloadTicket()">
+            ⬇ Descargar boleto PDF
+          </button>
+          <div class="dl-note">El PDF incluirá todos los servicios agregados · Precios en MXN</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SUCCESS OVERLAY (pago exitoso)
+═══════════════════════════════════════════ -->
+<div id="success-overlay" class="success-overlay">
+  <div class="success-icon">✅</div>
+  <h2>¡Pago exitoso!</h2>
+  <p>Tu reservación fue confirmada. Ahora puedes ver tu boleto y descargarlo en PDF.</p>
+  <button class="btn btn-primary btn-lg" onclick="goToTicket()">Ver mis boletos</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT DEMO
+═══════════════════════════════════════════ -->
+<script src="flygth-demo.js"></script>`r`n</body>
+</html>
