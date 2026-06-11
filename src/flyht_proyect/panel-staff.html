@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flygth With You — Panel Staff</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="flygth-demo.css">
+</head>
+<body>
+
+<!-- ══════════════════════
+     LOGIN
+══════════════════════ -->
+<div id="page-login" class="page active">
+  <div class="auth-layout">
+    <div class="auth-left">
+      <div class="brand-logo">Flygth<span>With You</span></div>
+      <div class="brand-tag">Portal de Personal · CBTis 47</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:18px">
+        <li style="display:flex;align-items:center;gap:14px;font-size:.88rem;color:rgba(240,234,216,.7)">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">✈</span>Pilotos y copilotos
+        </li>
+        <li style="display:flex;align-items:center;gap:14px;font-size:.88rem;color:rgba(240,234,216,.7)">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">🧑‍✈️</span>Asistentes de vuelo
+        </li>
+        <li style="display:flex;align-items:center;gap:14px;font-size:.88rem;color:rgba(240,234,216,.7)">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">🚎</span>Choferes de trolebús
+        </li>
+      </ul>
+    </div>
+    <div class="auth-right">
+      <div class="auth-box">
+        <div class="badge-staff">👤 Acceso Personal</div>
+        <div class="auth-title">Bienvenido</div>
+        <div class="auth-sub">Ingresa con tus credenciales de empleado</div>
+        <div id="login-alert"    class="alert alert-err">Usuario o contraseña incorrectos.</div>
+        <div id="login-role-err" class="alert alert-warn">Esta cuenta no tiene acceso al portal de staff.</div>
+        <div id="login-ok"       class="alert alert-ok">✓ Acceso concedido. Cargando panel...</div>
+        <div class="form-group">
+          <label>Usuario</label>
+          <input id="l-user" class="form-input" type="text" placeholder="tu_usuario" autocomplete="username">
+          <div id="l-user-err" class="field-err">El usuario es obligatorio</div>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <div class="pw-wrap">
+            <input id="l-pass" class="form-input" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+            <button class="pw-toggle" type="button" onclick="togglePw('l-pass',this)">Mostrar</button>
+          </div>
+          <div id="l-pass-err" class="field-err">La contraseña es obligatoria</div>
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Ingresar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     DASHBOARD
+══════════════════════ -->
+<div id="page-dashboard" class="page">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="s-brand">Flygth <em>With You</em></div>
+      <div class="s-role" id="sb-role-label">Portal Staff</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="su-name"  id="sb-name">—</div>
+      <div class="su-role"  id="sb-role">—</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <!-- Se inyecta según el rol -->
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="doLogout()"><span>⏻</span> Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ── VUELOS ASIGNADOS (piloto/copiloto) ── -->
+    <div id="s-flights" class="section">
+      <div class="section-title">Mis Vuelos Asignados</div>
+      <div class="section-sub">Vuelos programados y en curso · US-12</div>
+      <div class="toolbar">
+        <input class="search-input" id="fl-search" placeholder="🔍 Buscar vuelo..." oninput="filterFlights()">
+        <select class="filter-select" id="fl-filter" onchange="filterFlights()">
+          <option value="">Todos los estados</option>
+          <option value="scheduled">Programado</option>
+          <option value="departed">Partido</option>
+          <option value="canceled">Cancelado</option>
+        </select>
+      </div>
+      <div id="flights-list" class="loading-msg"><span class="spinner"></span> Cargando vuelos...</div>
+    </div>
+
+    <!-- ── DETALLE VUELO + MANIFIESTO (piloto/copiloto) ── -->
+    <div id="s-manifest" class="section">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+        <button onclick="showSection('s-flights')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem">←</button>
+        <div class="section-title" id="manifest-title">Manifiesto de Pasajeros</div>
+      </div>
+      <div class="section-sub" id="manifest-sub">US-13</div>
+
+      <!-- Info del vuelo -->
+      <div class="card" id="flight-detail-card"></div>
+
+      <!-- Ocupación -->
+      <div class="stats-row" id="manifest-stats"></div>
+
+      <!-- Status (solo piloto) -->
+      <div id="status-controls" class="card" style="display:none">
+        <div class="card-title">Actualizar estado del vuelo</div>
+        <div class="card-sub">US-14 · Solo disponible para piloto</div>
+        <div id="status-buttons" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+      </div>
+
+      <!-- Lista pasajeros -->
+      <div class="card" style="padding:0">
+        <div style="padding:18px 20px 0">
+          <div class="card-title">Pasajeros confirmados</div>
+          <div style="margin:10px 0">
+            <input class="search-input" id="manifest-search" placeholder="🔍 Buscar pasajero o asiento..." oninput="filterManifest()" style="width:100%">
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Pasajero</th><th>Asiento</th><th>Estado reserva</th></tr></thead>
+            <tbody id="manifest-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PASAJEROS Y ASIENTOS (asistente de vuelo) ── -->
+    <div id="s-passengers" class="section">
+      <div class="section-title">Pasajeros y Asientos</div>
+      <div class="section-sub">Lista de pasajeros de mi vuelo asignado · US-15</div>
+
+      <!-- Selector de vuelo asignado -->
+      <div class="card" id="attendant-flight-card">
+        <div class="loading-msg"><span class="spinner"></span> Cargando vuelo asignado...</div>
+      </div>
+
+      <!-- Mapa de asientos (solo lectura) -->
+      <div class="card" id="seat-map-card" style="display:none">
+        <div class="card-title">Mapa de asientos</div>
+        <div class="card-sub">Solo lectura · Rojo = ocupado · Verde = disponible</div>
+        <div id="seat-map-container"></div>
+      </div>
+
+      <!-- Lista pasajeros -->
+      <div class="card" style="padding:0;display:none" id="passengers-table-card">
+        <div style="padding:18px 20px 0">
+          <div class="card-title">Lista de pasajeros</div>
+          <div style="margin:10px 0">
+            <input class="search-input" id="pax-search" placeholder="🔍 Buscar nombre o asiento..." oninput="filterPassengers()" style="width:100%">
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Pasajero</th><th>Asiento</th></tr></thead>
+            <tbody id="passengers-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INCIDENTES (asistente de vuelo) ── -->
+    <div id="s-incidents" class="section">
+      <div class="section-title">Registrar Incidente</div>
+      <div class="section-sub">Documenta cualquier eventualidad durante el vuelo · US-16</div>
+
+      <div id="incident-flight-info" class="card" style="margin-bottom:20px"></div>
+
+      <div class="incident-form">
+        <div class="card-title" style="margin-bottom:16px">Nuevo incidente</div>
+        <div style="margin-bottom:14px">
+          <label>Tipo de incidente</label>
+          <select id="inc-type">
+            <option value="">— Selecciona tipo —</option>
+            <option value="medical_issue">Problema médico</option>
+            <option value="disruptive_passenger">Pasajero disruptivo</option>
+            <option value="cabin_damage">Daño en cabina</option>
+            <option value="other">Otro</option>
+          </select>
+          <div id="inc-type-err" class="field-err">Requerido</div>
+        </div>
+        <div style="margin-bottom:16px">
+          <label>Descripción</label>
+          <textarea id="inc-desc" rows="4" placeholder="Describe el incidente con detalle..."></textarea>
+          <div id="inc-desc-err" class="field-err">Requerido</div>
+        </div>
+        <button class="btn-sm" onclick="saveIncident()">Registrar incidente</button>
+      </div>
+
+      <!-- Incidentes anteriores -->
+      <div class="card" style="padding:0">
+        <div style="padding:18px 20px 0"><div class="card-title">Incidentes registrados en este vuelo</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Tipo</th><th>Descripción</th><th>Registrado</th></tr></thead>
+            <tbody id="incidents-tbody"><tr><td colspan="3" class="loading-msg"><span class="spinner"></span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VIAJES DEL DÍA (chofer) ── -->
+    <div id="s-trips" class="section">
+      <div class="section-title">Mis Viajes del Día</div>
+      <div class="section-sub">Viajes asignados a tu trolebús · US-17</div>
+      <div class="toolbar">
+        <input type="date" class="filter-select" id="trip-date-filter" onchange="loadDriverTrips()">
+      </div>
+      <div id="trips-list" class="loading-msg"><span class="spinner"></span> Cargando viajes...</div>
+    </div>
+
+    <!-- ── DETALLE VIAJE (chofer) ── -->
+    <div id="s-trip-detail" class="section">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+        <button onclick="showSection('s-trips')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem">←</button>
+        <div class="section-title" id="trip-detail-title">Detalle del Viaje</div>
+      </div>
+      <div class="section-sub">US-17 · US-18</div>
+
+      <div class="card" id="trip-detail-card"></div>
+
+      <!-- Status chofer US-18 -->
+      <div class="card" id="trip-status-card">
+        <div class="card-title">Actualizar estado del viaje</div>
+        <div class="card-sub">US-18</div>
+        <div id="trip-status-buttons" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+      </div>
+
+      <!-- Pasajeros por parada -->
+      <div class="card" style="padding:0">
+        <div style="padding:18px 20px 0">
+          <div class="card-title">Pasajeros por parada</div>
+          <div class="card-sub" style="margin-bottom:0">Ordenados por orden de abordaje</div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Pasajero</th><th>Parada de abordaje</th><th>Orden</th></tr></thead>
+            <tbody id="trip-pax-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal confirmación -->
+<div id="modal-confirm" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-title" id="mc-title">¿Confirmar acción?</div>
+    <div class="confirm-msg"    id="mc-msg"></div>
+    <div class="confirm-detail" id="mc-detail"></div>
+    <div id="mc-warn" class="alert alert-warn" style="margin-top:14px"></div>
+    <div class="modal-footer">
+      <button class="btn-sm" style="background:rgba(122,144,170,.1);border-color:rgba(122,144,170,.2);color:var(--muted)" onclick="closeModal('modal-confirm')">Cancelar</button>
+      <button class="btn-sm" id="mc-confirm-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ══════════════════════
+     JAVASCRIPT
+══════════════════════ -->
+<script src="flygth-demo.js"></script>
+</body>
+</html>
