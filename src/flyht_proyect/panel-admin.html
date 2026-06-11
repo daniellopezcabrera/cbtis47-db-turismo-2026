@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flygth With You — Panel Administrador</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="flygth-demo.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: LOGIN
+═══════════════════════════════════════════════ -->
+<div id="page-login" class="page active">
+  <div class="auth-layout">
+    <div class="auth-left">
+      <div class="brand-logo">Flygth<span>With You</span></div>
+      <div class="brand-tag">Panel de Administración · CBTis 47</div>
+      <ul class="brand-feats" style="list-style:none;display:flex;flex-direction:column;gap:18px;">
+        <li style="display:flex;align-items:center;gap:14px;font-size:.88rem;color:rgba(240,234,216,.7)">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0">✈</span>
+          Gestión completa de vuelos y rutas
+        </li>
+        <li style="display:flex;align-items:center;gap:14px;font-size:.88rem;color:rgba(240,234,216,.7)">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0">👥</span>
+          Administración de personal de la agencia
+        </li>
+        <li style="display:flex;align-items:center;gap:14px;font-size:.88rem;color:rgba(240,234,216,.7)">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0">📊</span>
+          Reportes de reservaciones y pagos
+        </li>
+      </ul>
+    </div>
+    <div class="auth-right">
+      <div class="auth-box">
+        <div class="badge-admin">🔐 Acceso Administrativo</div>
+        <div class="auth-title">Bienvenido</div>
+        <div class="auth-sub">Ingresa tus credenciales de administrador</div>
+        <div id="login-alert" class="alert alert-err">Usuario o contraseña incorrectos.</div>
+        <div id="login-role-err" class="alert alert-warn">Esta cuenta no tiene permisos de administrador.</div>
+        <div id="login-ok" class="alert alert-ok">✓ Acceso concedido. Cargando panel...</div>
+        <div class="form-group">
+          <label>Usuario</label>
+          <input id="l-user" class="form-input" type="text" placeholder="tu_usuario" autocomplete="username">
+          <div id="l-user-err" class="field-err">El usuario es obligatorio</div>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <div class="pw-wrap">
+            <input id="l-pass" class="form-input" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+            <button class="pw-toggle" type="button" onclick="togglePw('l-pass',this)">Mostrar</button>
+          </div>
+          <div id="l-pass-err" class="field-err">La contraseña es obligatoria</div>
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Ingresar al panel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: DASHBOARD ADMIN
+═══════════════════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="s-brand">Flygth <em>With You</em></div>
+      <div class="s-role">Panel Administrador</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="su-name" id="sb-name">—</div>
+      <div class="su-email" id="sb-email">—</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Gestión</div>
+      <button class="sidebar-btn active" onclick="showSection('s-flights')" id="sb-flights">
+        <span class="sb-icon">✈</span> Vuelos
+      </button>
+      <button class="sidebar-btn" onclick="showSection('s-routes')" id="sb-routes">
+        <span class="sb-icon">🚎</span> Rutas y Viajes
+      </button>
+      <button class="sidebar-btn" onclick="showSection('s-staff')" id="sb-staff">
+        <span class="sb-icon">👥</span> Empleados
+      </button>
+      <div class="nav-section">Operaciones</div>
+      <button class="sidebar-btn" onclick="showSection('s-bookings')" id="sb-bookings">
+        <span class="sb-icon">🔧</span> Reservaciones
+      </button>
+      <button class="sidebar-btn" onclick="showSection('s-reports')" id="sb-reports">
+        <span class="sb-icon">📊</span> Reportes
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="doLogout()">
+        <span>⏻</span> Cerrar sesión
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- ── SECCIÓN: VUELOS (US-19) ───────────────────── -->
+    <div id="s-flights" class="section active">
+      <div class="section-header">
+        <div class="section-title">Gestión de Vuelos</div>
+        <div class="section-sub">Crear, editar y eliminar vuelos del catálogo · US-19</div>
+      </div>
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <input class="search-input" id="flights-search" placeholder="🔍 Buscar por número o ruta..." oninput="filterFlightsTable()">
+          <select class="filter-select" id="flights-filter-status" onchange="filterFlightsTable()">
+            <option value="">Todos los estados</option>
+            <option value="scheduled">Programado</option>
+            <option value="boarding">Abordando</option>
+            <option value="completed">Completado</option>
+            <option value="canceled">Cancelado</option>
+          </select>
+        </div>
+        <button class="btn-sm" onclick="openFlightModal()">+ Nuevo vuelo</button>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>N° Vuelo</th>
+                <th>Nombre</th>
+                <th>Ruta</th>
+                <th>Fecha</th>
+                <th>Salida</th>
+                <th>Llegada</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="flights-tbody">
+              <tr><td colspan="9" class="loading-row"><span class="spinner"></span> Cargando vuelos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECCIÓN: RUTAS Y VIAJES (US-20) ──────────── -->
+    <div id="s-routes" class="section">
+      <div class="section-header">
+        <div class="section-title">Rutas y Viajes de Trolebús</div>
+        <div class="section-sub">Administrar rutas, horarios y viajes concretos · US-20</div>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('routes','tab-routes')">Rutas</button>
+        <button class="tab-btn" onclick="switchTab('routes','tab-trips')">Viajes</button>
+      </div>
+
+      <!-- TAB: Rutas -->
+      <div id="tab-routes" class="tab-panel active">
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input class="search-input" id="routes-search" placeholder="🔍 Buscar ruta..." oninput="filterRoutesTable()">
+          </div>
+          <button class="btn-sm" onclick="openRouteModal()">+ Nueva ruta</button>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Nombre de ruta</th><th>Paradas</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="routes-tbody">
+                <tr><td colspan="4" class="loading-row"><span class="spinner"></span> Cargando rutas...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Viajes -->
+      <div id="tab-trips" class="tab-panel">
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input type="date" class="filter-select" id="trips-filter-date" onchange="loadTrips()">
+            <select class="filter-select" id="trips-filter-status" onchange="loadTrips()">
+              <option value="">Todos los estados</option>
+              <option value="scheduled">Programado</option>
+              <option value="in_progress">En progreso</option>
+              <option value="completed">Completado</option>
+              <option value="cancelled">Cancelado</option>
+            </select>
+          </div>
+          <button class="btn-sm" onclick="openTripModal()">+ Nuevo viaje</button>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Ruta</th><th>Trolebús</th><th>Fecha</th><th>Salida</th><th>Llegada</th><th>Precio</th><th>Estado</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="trips-tbody">
+                <tr><td colspan="9" class="empty-row">Selecciona una fecha para ver viajes</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECCIÓN: EMPLEADOS (US-21) ───────────────── -->
+    <div id="s-staff" class="section">
+      <div class="section-header">
+        <div class="section-title">Gestión de Empleados</div>
+        <div class="section-sub">Registrar, editar y desactivar personal de la agencia · US-21</div>
+      </div>
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <input class="search-input" id="staff-search" placeholder="🔍 Buscar empleado..." oninput="filterStaffTable()">
+          <select class="filter-select" id="staff-filter-occ" onchange="filterStaffTable()">
+            <option value="">Todas las ocupaciones</option>
+          </select>
+          <select class="filter-select" id="staff-filter-active" onchange="filterStaffTable()">
+            <option value="all">Activos e inactivos</option>
+            <option value="active">Solo activos</option>
+            <option value="inactive">Solo inactivos</option>
+          </select>
+        </div>
+        <button class="btn-sm" onclick="openStaffModal()">+ Nuevo empleado</button>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th><th>RFC</th><th>Ocupación</th><th>Usuario</th><th>Email</th><th>Estado</th><th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="staff-tbody">
+              <tr><td colspan="7" class="loading-row"><span class="spinner"></span> Cargando empleados...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECCIÓN: RESERVACIONES (US-23) ───────────── -->
+    <div id="s-bookings" class="section">
+      <div class="section-header">
+        <div class="section-title">Gestión de Reservaciones</div>
+        <div class="section-sub">Cancelar, confirmar o modificar reservaciones · US-23</div>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('bookings','tab-fbookings')">Vuelos</button>
+        <button class="tab-btn" onclick="switchTab('bookings','tab-tbookings')">Trolebús</button>
+      </div>
+
+      <!-- TAB: Reservaciones Vuelo -->
+      <div id="tab-fbookings" class="tab-panel active">
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input class="search-input" id="fb-search" placeholder="🔍 Buscar por pasajero o ID..." oninput="filterFBookings()">
+            <select class="filter-select" id="fb-filter-status" onchange="filterFBookings()">
+              <option value="">Todos los estados</option>
+              <option value="pending">Pendiente</option>
+              <option value="confirmed">Confirmado</option>
+              <option value="cancelled">Cancelado</option>
+            </select>
+          </div>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Pasajero</th><th>Vuelo</th><th>Asiento</th><th>Fecha reserva</th><th>Estado</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="fb-tbody">
+                <tr><td colspan="7" class="loading-row"><span class="spinner"></span> Cargando reservaciones...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Reservaciones Trolebús -->
+      <div id="tab-tbookings" class="tab-panel">
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input class="search-input" id="tb-search" placeholder="🔍 Buscar por pasajero o ID..." oninput="filterTBookings()">
+            <select class="filter-select" id="tb-filter-status" onchange="filterTBookings()">
+              <option value="">Todos los estados</option>
+              <option value="pending">Pendiente</option>
+              <option value="confirmed">Confirmado</option>
+              <option value="cancelled">Cancelado</option>
+            </select>
+          </div>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Pasajero</th><th>Ruta</th><th>Parada abordaje</th><th>Fecha reserva</th><th>Estado</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tb-tbody">
+                <tr><td colspan="7" class="loading-row"><span class="spinner"></span> Cargando reservaciones...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECCIÓN: REPORTES (US-22) ────────────────── -->
+    <div id="s-reports" class="section">
+      <div class="section-header">
+        <div class="section-title">Reportes</div>
+        <div class="section-sub">Reservaciones y pagos · US-22</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Filtros</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+          <div>
+            <label style="display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px">Desde</label>
+            <input type="date" class="filter-select" id="rep-from">
+          </div>
+          <div>
+            <label style="display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px">Hasta</label>
+            <input type="date" class="filter-select" id="rep-to">
+          </div>
+          <div>
+            <label style="display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px">Servicio</label>
+            <select class="filter-select" id="rep-service">
+              <option value="">Todos</option>
+              <option value="flight">Vuelos</option>
+              <option value="trolley">Trolebús</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px">Estado reserva</label>
+            <select class="filter-select" id="rep-status">
+              <option value="">Todos</option>
+              <option value="confirmed">Confirmado</option>
+              <option value="cancelled">Cancelado</option>
+              <option value="pending">Pendiente</option>
+              <option value="expired">Expirado</option>
+            </select>
+          </div>
+          <button class="btn-sm" onclick="loadReports()">Aplicar filtros</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row" id="rep-stats">
+        <div class="stat-card">
+          <div class="stat-label">Total reservaciones</div>
+          <div class="stat-val" id="rep-total">—</div>
+          <div class="stat-desc">Vuelos + Trolebús</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Confirmadas</div>
+          <div class="stat-val" id="rep-confirmed" style="color:var(--green)">—</div>
+          <div class="stat-desc">Estado confirmed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Canceladas / Expiradas</div>
+          <div class="stat-val" id="rep-cancelled" style="color:var(--red)">—</div>
+          <div class="stat-desc">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Ingresos totales (MXN)</div>
+          <div class="stat-val" id="rep-revenue" style="font-size:1.5rem">—</div>
+          <div class="stat-desc">Pagos completados</div>
+        </div>
+      </div>
+
+      <!-- Desglose por método de pago -->
+      <div class="card">
+        <div class="card-title">Ingresos por método de pago</div>
+        <div class="card-sub">Solo pagos con payment_status = completed</div>
+        <div id="rep-payment-breakdown" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+          <div class="report-stat"><div class="rs-num" id="rep-cash">$0</div><div class="rs-label">Efectivo</div></div>
+          <div class="report-stat"><div class="rs-num" id="rep-card">$0</div><div class="rs-label">Tarjeta</div></div>
+          <div class="report-stat"><div class="rs-num" id="rep-transfer">$0</div><div class="rs-label">Transferencia</div></div>
+        </div>
+      </div>
+
+      <!-- Tabla de pagos recientes -->
+      <div class="card" style="padding:0">
+        <div style="padding:18px 20px 0"><div class="card-title">Pagos recientes</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID Pago</th><th>Usuario</th><th>Tipo</th><th>Método</th><th>Monto</th><th>Estado</th><th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="rep-payments-tbody">
+              <tr><td colspan="7" class="empty-row">Aplica filtros para ver pagos</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main><!-- /main-content -->
+</div><!-- /page-dashboard -->
+
+<!-- ══════════════════════════════════════════════
+     MODALES
+═══════════════════════════════════════════════ -->
+
+<!-- Modal: Vuelo (crear/editar) -->
+<div id="modal-flight" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-title" id="mf-title">Nuevo vuelo</div>
+    <div class="modal-sub">Completa todos los campos requeridos</div>
+    <div id="mf-alert" class="alert alert-err" style="margin-bottom:14px"></div>
+    <div class="modal-grid">
+      <div class="form-group">
+        <label>Número de vuelo</label>
+        <input id="mf-number" class="form-input" placeholder="AB123">
+        <div id="mf-number-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Nombre del vuelo</label>
+        <input id="mf-name" class="form-input" placeholder="Vuelo Veracruz-CDMX">
+        <div id="mf-name-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group full">
+        <label>Avión</label>
+        <select id="mf-airplane" class="form-input">
+          <option value="">— Selecciona avión —</option>
+        </select>
+        <div id="mf-airplane-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Aeropuerto origen</label>
+        <select id="mf-origin-airport" class="form-input">
+          <option value="">— Selecciona aeropuerto —</option>
+        </select>
+        <div id="mf-origin-airport-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Aeropuerto destino</label>
+        <select id="mf-dest-airport" class="form-input">
+          <option value="">— Selecciona aeropuerto —</option>
+        </select>
+        <div id="mf-dest-airport-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Ciudad origen</label>
+        <input id="mf-origin-city" class="form-input" placeholder="Veracruz">
+        <div id="mf-origin-city-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Ciudad destino</label>
+        <input id="mf-dest-city" class="form-input" placeholder="Ciudad de México">
+        <div id="mf-dest-city-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Fecha</label>
+        <input id="mf-date" class="form-input" type="date">
+        <div id="mf-date-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Precio base (MXN)</label>
+        <input id="mf-price" class="form-input" type="number" min="1" placeholder="1500">
+        <div id="mf-price-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Hora salida</label>
+        <input id="mf-dep" class="form-input" type="time">
+        <div id="mf-dep-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Hora llegada</label>
+        <input id="mf-arr" class="form-input" type="time">
+        <div id="mf-arr-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group full" style="border-top:1px solid rgba(201,168,76,.1);padding-top:14px;margin-top:4px">
+        <label style="color:var(--gold)">Asignación de tripulación <span style="color:var(--muted);font-size:.7rem;text-transform:none;letter-spacing:0">(opcional)</span></label>
+      </div>
+      <div class="form-group">
+        <label>Piloto</label>
+        <select id="mf-pilot" class="form-input">
+          <option value="">— Sin asignar —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Copiloto</label>
+        <select id="mf-copilot" class="form-input">
+          <option value="">— Sin asignar —</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Sobrecargo / Asistente de vuelo</label>
+        <select id="mf-attendant" class="form-input">
+          <option value="">— Sin asignar —</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm danger" onclick="closeModal('modal-flight')">Cancelar</button>
+      <button class="btn-sm" onclick="saveFlight()">Guardar vuelo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ruta (crear) -->
+<div id="modal-route" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-title" id="mr-title">Nueva ruta</div>
+    <div class="modal-sub">Nombre y paradas de la ruta de trolebús</div>
+    <div id="mr-alert" class="alert alert-err" style="margin-bottom:14px"></div>
+    <div class="form-group">
+      <label>Nombre de la ruta <span style="color:var(--muted);font-size:.7rem">(máx. 30 chars)</span></label>
+      <input id="mr-name" class="form-input" maxlength="30" placeholder="Ruta Centro Histórico">
+      <div id="mr-name-err" class="field-err">Requerido</div>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="display:block;font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Paradas <span style="color:var(--muted);font-size:.7rem">(mín. 2)</span></label>
+      <div id="mr-stops-list"></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <select id="mr-stop-select" class="form-input" style="flex:1">
+          <option value="">— Selecciona estación —</option>
+        </select>
+        <button class="btn-sm" onclick="addRouteStop()">+ Agregar</button>
+      </div>
+      <div id="mr-stops-err" class="field-err">Agrega al menos 2 paradas</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm danger" onclick="closeModal('modal-route')">Cancelar</button>
+      <button class="btn-sm" onclick="saveRoute()">Guardar ruta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Viaje (crear) -->
+<div id="modal-trip" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-title">Nuevo viaje de trolebús</div>
+    <div class="modal-sub">Asigna un trolebús y fecha a una ruta existente</div>
+    <div id="mt-alert" class="alert alert-err" style="margin-bottom:14px"></div>
+    <div class="modal-grid">
+      <div class="form-group full">
+        <label>Ruta</label>
+        <select id="mt-route" class="form-input" onchange="loadRouteSchedules()">
+          <option value="">— Selecciona ruta —</option>
+        </select>
+        <div id="mt-route-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group full">
+        <label>Horario de ruta</label>
+        <select id="mt-schedule" class="form-input">
+          <option value="">— Primero selecciona una ruta —</option>
+        </select>
+        <div id="mt-schedule-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group full">
+        <label>Trolebús</label>
+        <select id="mt-trolley" class="form-input">
+          <option value="">— Selecciona trolebús —</option>
+        </select>
+        <div id="mt-trolley-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group full">
+        <label>Chofer <span style="color:var(--muted);font-size:.7rem;text-transform:none;letter-spacing:0">(opcional)</span></label>
+        <select id="mt-driver" class="form-input">
+          <option value="">— Sin asignar —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fecha del viaje</label>
+        <input id="mt-date" class="form-input" type="date">
+        <div id="mt-date-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Precio base (MXN)</label>
+        <input id="mt-price" class="form-input" type="number" min="1" placeholder="250">
+        <div id="mt-price-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Hora salida</label>
+        <input id="mt-dep" class="form-input" type="time">
+        <div id="mt-dep-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Hora llegada</label>
+        <input id="mt-arr" class="form-input" type="time">
+        <div id="mt-arr-err" class="field-err">Requerido</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm danger" onclick="closeModal('modal-trip')">Cancelar</button>
+      <button class="btn-sm" onclick="saveTrip()">Guardar viaje</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Empleado (crear/editar) -->
+<div id="modal-staff" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-title" id="ms-title">Nuevo empleado</div>
+    <div class="modal-sub" id="ms-sub">Registra los datos personales y credenciales</div>
+    <div id="ms-alert" class="alert alert-err" style="margin-bottom:14px"></div>
+    <div class="modal-grid">
+      <div class="form-group">
+        <label>Nombre(s)</label>
+        <input id="ms-name" class="form-input" placeholder="Ana">
+        <div id="ms-name-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Apellidos</label>
+        <input id="ms-lastnames" class="form-input" placeholder="García López">
+        <div id="ms-lastnames-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>CURP</label>
+        <input id="ms-curp" class="form-input" maxlength="18" placeholder="GAAA010101HVERRR08" style="text-transform:uppercase">
+        <div id="ms-curp-err" class="field-err">CURP de 18 caracteres requerida</div>
+      </div>
+      <div class="form-group">
+        <label>RFC</label>
+        <input id="ms-rfc" class="form-input" maxlength="13" placeholder="GAAA010101AB1" style="text-transform:uppercase">
+        <div id="ms-rfc-err" class="field-err">RFC requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Fecha de nacimiento</label>
+        <input id="ms-birth" class="form-input" type="date">
+        <div id="ms-birth-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input id="ms-email" class="form-input" type="email" placeholder="ana@example.com">
+        <div id="ms-email-err" class="field-err">Email válido requerido</div>
+      </div>
+      <div class="form-group">
+        <label>Ocupación</label>
+        <select id="ms-occupation" class="form-input">
+          <option value="">— Selecciona —</option>
+        </select>
+        <div id="ms-occupation-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group" id="ms-user-group">
+        <label>Usuario de acceso</label>
+        <input id="ms-username" class="form-input" placeholder="ana_garcia">
+        <div id="ms-username-err" class="field-err">Requerido</div>
+      </div>
+      <div class="form-group full" id="ms-pass-group">
+        <label>Contraseña inicial</label>
+        <div class="pw-wrap">
+          <input id="ms-pass" class="form-input" type="password" placeholder="••••••••">
+          <button class="pw-toggle" type="button" onclick="togglePw('ms-pass',this)">Mostrar</button>
+        </div>
+        <div id="ms-pass-err" class="field-err">Mínimo 6 caracteres</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm danger" onclick="closeModal('modal-staff')">Cancelar</button>
+      <button class="btn-sm" id="ms-save-btn" onclick="saveStaff()">Registrar empleado</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmación genérica -->
+<div id="modal-confirm" class="modal-overlay">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-title" id="mc-title">¿Confirmar acción?</div>
+    <div style="margin-top:16px">
+      <div class="confirm-msg" id="mc-msg"></div>
+      <div class="confirm-detail" id="mc-detail"></div>
+    </div>
+    <div id="mc-warn" class="alert alert-warn" style="margin-top:14px"></div>
+    <div class="modal-footer">
+      <button class="btn-sm" onclick="closeModal('modal-confirm')">Cancelar</button>
+      <button class="btn-sm danger" id="mc-confirm-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
+<script src="flygth-demo.js"></script></body>
+</html>
+
+
+
