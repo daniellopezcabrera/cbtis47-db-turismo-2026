@@ -1,4 +1,4 @@
-##Codigo para el video d la funcionalidad del proyecto "Flyht whit you"
+##Codigo para el video de la funcionalidad del proyecto "Flying with you"
 
 
 https://youtu.be/9xW2NcCRZLs
